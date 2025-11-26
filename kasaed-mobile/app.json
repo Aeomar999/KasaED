@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "KasaEd",
+    "slug": "kasaed-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#6366f1"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kasaed.mobile",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "KasaEd needs microphone access for voice chat features.",
+        "NSSpeechRecognitionUsageDescription": "KasaEd uses speech recognition for voice conversations.",
+        "NSLocationWhenInUseUsageDescription": "KasaEd needs your location to find nearby health clinics."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#6366f1"
+      },
+      "package": "com.kasaed.mobile",
+      "permissions": [
+        "RECORD_AUDIO",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

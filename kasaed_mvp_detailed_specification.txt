@@ -1,0 +1,1155 @@
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+                        KASAED SRH CHATBOT - MVP DETAILED SPECIFICATION
+                     A Youth-Friendly Sexual and Reproductive Health Digital Companion
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+PROJECT NAME: KasaEd
+TAGLINE: "Your Safe Space for Real Talk"
+TARGET USERS: Youth aged 13-25 in Ghana
+PLATFORM: Mobile App (iOS 14.0+, Android 8.0+) + Web Browser
+PROJECT COMPLETION: December 15, 2025
+PRIZE: ₵50,000 Development Contract
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+PART 1: PROJECT OVERVIEW & OBJECTIVES
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+1.1 PROJECT MISSION
+────────────────────────────────────────────────────────────────────────────────────────────────
+KasaEd is an AI-powered mobile chatbot designed to provide confidential, medically accurate, and 
+youth-friendly sexual and reproductive health (SRH) information to Ghanaian adolescents and young 
+adults. By bridging the gap between stigma, misinformation, and lack of accessible services, KasaEd 
+empowers young people to make informed decisions about their sexual and reproductive health while 
+addressing the interconnected mental health challenges they face.
+
+1.2 CORE VALUES
+────────────────────────────────────────────────────────────────────────────────────────────────
+• PRIVACY: Complete anonymity; zero personal data collection
+• SAFETY: Crisis detection and immediate emergency hotline access
+• ACCURACY: Medical content verified by healthcare professionals
+• INCLUSIVITY: Multi-language support, gender-neutral interface, accessibility compliance
+• EMPOWERMENT: Youth-centered, non-judgmental, empowering messaging
+• ACCESSIBILITY: Optimized for low-bandwidth, low-cost devices across Ghana
+
+1.3 KEY OBJECTIVES
+────────────────────────────────────────────────────────────────────────────────────────────────
+1. Increase youth access to non-judgmental, accurate SRH information 24/7
+2. Reduce stigma and misconceptions around sexual and reproductive health
+3. Promote healthy decision-making and safe practices among young people
+4. Integrate mental health support with SRH education
+5. Facilitate rapid connection to local health services and emergency support
+6. Generate evidence on AI-driven health interventions in low-resource settings
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+PART 2: TOP 20 MVP FEATURES, FUNCTIONALITIES & USER FLOWS
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+FEATURE 1: ANONYMOUS USER SESSION CREATION
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Users can access KasaEd without registration or personal data collection.
+
+User Flow:
+  1. User launches app
+  2. System generates unique anonymous UUID (no email, phone, name required)
+  3. Session established with end-to-end encryption
+  4. No login credentials saved
+  5. User proceeds to language & age selection
+
+Functionality:
+  • Device-based session identification
+  • No server-side user identification
+  • Session data encrypted immediately upon creation
+  • Auto-logout after 15 minutes of inactivity
+  • Optional: Users can create a nickname for personalization (not linked to identity)
+
+Technical Implementation:
+  • Frontend: Generate UUID using device's secure random generator
+  • Backend: Session stored in encrypted database with no PII
+  • Privacy: No cookies tracking user activity across sites
+
+Judging Criteria Impact: Youth Friendliness, Technical Feasibility, Accessibility
+
+
+FEATURE 2: MULTI-LANGUAGE SUPPORT (English, Twi, Ewe, Hausa)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Interface and all chatbot responses available in 4 languages to reach diverse 
+Ghanaian youth.
+
+User Flow:
+  1. First-time users presented with language selection screen
+  2. User selects preferred language (English, Twi, Ewe, Hausa)
+  3. All subsequent screens and chatbot responses in selected language
+  4. Users can switch language anytime via Settings
+
+Functionality:
+  • Language-specific UI text (buttons, labels, help text)
+  • Real-time translation of chatbot responses
+  • Cultural adaptation of content (e.g., local health facility names, local idioms)
+  • RTL support for future Arabic/Hausa variants
+  • Local resource links (clinics, hotlines specific to Ghana)
+
+Technical Implementation:
+  • i18n (Internationalization) framework for static text
+  • NLP model trained on multilingual data (English + local languages)
+  • Translation API for dynamic content (with fallback to English if needed)
+  • Language preference stored in encrypted session
+
+Judging Criteria Impact: Accessibility, Youth Friendliness, Scalability
+
+
+FEATURE 3: AGE-APPROPRIATE CONTENT FILTERING
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Chatbot responses adapt based on user age group to ensure developmentally 
+appropriate information.
+
+User Flow:
+  1. During onboarding, user selects age group: 13-17 (Teen) or 18-25 (Young Adult)
+  2. System applies content filters based on age
+  3. All chatbot responses tailored to selected age group
+
+Functionality:
+  For Teens (13-17):
+  • Simplified, accessible language
+  • Emphasis on consent, safety, healthy relationships
+  • Parental guidance resources
+  • Educational framing (school-appropriate)
+  • Peer support emphasis
+
+  For Young Adults (18-25):
+  • More detailed medical/clinical information
+  • Autonomy-focused advice
+  • Career/education integration
+  • Adult-specific resources (university clinics, workplace benefits)
+  • Independent decision-making support
+
+Technical Implementation:
+  • Content database tagged with age_group metadata
+  • Response filtering applied at query time
+  • Tone adjustment (vocabulary, examples, resources)
+  • Fallback to age-neutral content if age-specific unavailable
+
+Judging Criteria Impact: Accuracy, Youth Friendliness, Technical Feasibility
+
+
+FEATURE 4: AI-POWERED CONVERSATIONAL CHATBOT (NLP)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Natural Language Processing engine enabling human-like conversations about SRH 
+topics.
+
+User Flow:
+  1. User enters question or selects quick reply button
+  2. NLP engine processes input (intent recognition, entity extraction, context understanding)
+  3. Content database queried for relevant information
+  4. Response generated and delivered within 2 seconds
+  5. User can ask follow-up questions
+
+Functionality:
+  • Intent Recognition: Understands what user is asking (contraception, STI, consent, etc.)
+  • Context Awareness: Remembers conversation history for follow-ups
+  • Entity Extraction: Identifies key terms (method names, symptoms, emotions)
+  • Multi-turn Dialogue: Supports back-and-forth conversation, not one-off answers
+  • Synonym Handling: Understands different ways of asking same question
+  • Sentiment Analysis: Detects emotional tone (worried, curious, distressed)
+
+Technical Implementation:
+  • NLP Framework: BERT-based model or similar transformer model
+  • Training: Fine-tuned on SRH-specific conversations
+  • APIs: Integration with healthcare NLP services (optional)
+  • Fallback: Provides FAQ results if confidence threshold not met
+
+Judging Criteria Impact: Innovation, Technical Feasibility, Accuracy
+
+
+FEATURE 5: MEDICALLY-VALIDATED CONTENT DATABASE
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Centralized repository of accurate, verified sexual and reproductive health 
+information curated with medical professionals.
+
+User Flow:
+  1. Chatbot receives user query
+  2. Searches content database for relevant information
+  3. Retrieves verified medical facts with citations
+  4. Delivers information with source attribution
+
+Functionality:
+  • Content Categories:
+    - Contraception methods (pros/cons, side effects, effectiveness)
+    - STI prevention, symptoms, treatment options
+    - Pregnancy and prenatal care information
+    - Relationship and consent guidance
+    - Mental health and wellbeing tips
+    - Gender identity and sexual orientation resources
+    - Menstrual health and cycle tracking
+    - Sexual dysfunction and concerns
+    - Female genital mutilation (FGM) resources
+    - Gender-based violence (GBV) support
+
+  • Quality Assurance:
+    - Content validated by Ghana Health Service (GHS) or UNFPA Ghana
+    - Medical accuracy reviewed by licensed healthcare providers
+    - Updated quarterly or when guidelines change
+    - Clear citations to WHO, CDC, Ghana MOH resources
+    - Conflict-of-interest declarations
+
+Technical Implementation:
+  • Database: Structured (SQL) or semi-structured (NoSQL) database
+  • Search: Full-text search with medical terminology indexing
+  • Versioning: Track content changes for audit trail
+  • API: Content retrieval service for chatbot engine
+
+Judging Criteria Impact: Accuracy, Technical Feasibility, Sustainability
+
+
+FEATURE 6: CRISIS DETECTION & EMERGENCY REFERRAL SYSTEM
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: ML-powered system detecting crisis language and immediately providing emergency 
+hotline access.
+
+User Flow:
+  1. User enters message containing crisis keywords
+  2. ML model detects distress/emergency signal in real-time
+  3. If crisis detected: Emergency hotline screen displayed immediately
+  4. User shown one-tap calling buttons for local crisis lines
+  5. Support resources and coping strategies provided
+  6. Option to continue chat or close app
+
+Functionality:
+  • Crisis Keywords Detected:
+    Tier 1 (Immediate Action): "suicide", "kill myself", "harm", "rape", "abuse"
+    Tier 2 (Check-in): "hopeless", "alone", "can't take it", "give up"
+
+  • Immediate Actions:
+    - Display crisis support hotlines (suicide prevention, GBV, emergency services)
+    - Show supportive message from bot
+    - Provide one-tap calling/WhatsApp links
+    - Offer coping resources (breathing exercises, grounding techniques)
+    - Log crisis event for follow-up (anonymously)
+
+Technical Implementation:
+  • ML Model: Trained on crisis language datasets
+  • Real-time Processing: Detects keywords within 500ms
+  • Hotline Database: Regularly updated list of Ghana-specific crisis lines
+  • Fallback: Manual review queue for unclear cases
+  • Privacy: Crisis logs encrypted; can be auto-deleted
+
+Judging Criteria Impact: Accuracy, Safety, Sustainability
+
+
+FEATURE 7: EMERGENCY HOTLINE DIRECTORY
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Easily accessible list of Ghana-specific crisis and support hotlines with 
+one-tap calling/messaging.
+
+User Flow:
+  1. User taps "Emergency Help" or Panic Button
+  2. Emergency Hotline Directory displayed with:
+     - Crisis Support Numbers
+     - Sexual Assault Hotlines
+     - Mental Health Crisis Lines
+     - Domestic Violence Support
+     - Emergency Services (Police, Ambulance)
+  3. User taps number or "Call Now" button
+  4. App initiates call or WhatsApp message
+  5. Or user can manually note down numbers
+
+Hotlines Included:
+  • Suicide Prevention: 055 123 4567 (24/7)
+  • Sexual Assault Support (DOVVSU): 0800 701 701 (24/7)
+  • Domestic Violence Hotline: 055 234 5678 (24/7)
+  • Mental Health Crisis: 055 345 6789 (Mon-Fri 8am-5pm)
+  • Emergency Services: 112 (24/7)
+  • Planned Parenthood Association Ghana (PPAG): 055 456 7890
+  • UNFPA Ghana Health Hotline: 055 567 8901
+
+Technical Implementation:
+  • Database: Hotline numbers with service hours, availability
+  • Links: tel:// for phone calls, api.whatsapp.com/ for WhatsApp
+  • Caching: Hotlines cached locally for offline access
+  • Updates: Synced quarterly or when database changes
+
+Judging Criteria Impact: Sustainability, Safety, Accuracy
+
+
+FEATURE 8: QUICK REPLY BUTTONS (SUGGESTED TOPICS)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Pre-populated quick-reply options allowing users to tap rather than type, 
+reducing friction for shy users.
+
+User Flow:
+  1. User opens chat interface
+  2. 5 quick-reply buttons displayed below chat input:
+     - "Contraception" 
+     - "Relationships & Consent"
+     - "Mental Health"
+     - "STI Prevention"
+     - "General SRH Questions"
+  3. User taps a button instead of typing
+  4. Query sent to chatbot
+  5. After bot responds, new quick-reply options shown for follow-ups
+
+Functionality:
+  • Pre-written, tested topic buttons
+  • Contextual follow-up suggestions after each response
+  • Ability to type custom question still available
+  • Quick replies change based on conversation context
+  • Accessibility: Touch-friendly button size (min 48px)
+
+Technical Implementation:
+  • UI: Button component with tap listeners
+  • Backend: Context engine determines relevant follow-ups
+  • Logging: Track which quick replies most used for optimization
+  • Personalization: Order buttons by user's past queries
+
+Judging Criteria Impact: UX, Accessibility, Youth Friendliness
+
+
+FEATURE 9: VOICE-TO-TEXT INPUT
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Users can ask questions by speaking rather than typing, with automatic 
+transcription.
+
+User Flow:
+  1. User taps microphone button next to text input
+  2. Recording begins with visual indicator
+  3. User speaks their question (e.g., "What are signs of pregnancy?")
+  4. Recording stops automatically after silence or user taps stop
+  5. Audio transcribed to text using speech-to-text API
+  6. Transcribed text sent to chatbot as normal query
+
+Functionality:
+  • Recording UI: Visible waveform, stop button, cancel option
+  • Transcription: Automatic speech recognition (ASR) via cloud API
+  • Language: Supports English, Twi, Ewe, Hausa
+  • Accuracy: Shows transcribed text before sending (user can edit)
+  • Accessibility: Supports users who prefer voice over typing
+  • Privacy: Audio deleted immediately after transcription
+
+Technical Implementation:
+  • Frontend: Web Audio API for recording
+  • Backend: Cloud STT API (Google Cloud Speech-to-Text, AWS Transcribe, Azure Speech)
+  • Fallback: Manual text input if microphone unavailable
+  • Caching: Transcriptions cached briefly for redundancy checks
+
+Judging Criteria Impact: Accessibility, UX, Youth Friendliness
+
+
+FEATURE 10: END-TO-END ENCRYPTION (AES-256)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: All user data, conversations, and personal information encrypted using 
+industry-standard AES-256 encryption.
+
+User Flow:
+  1. User types message
+  2. Message encrypted locally on device using AES-256 key
+  3. Encrypted message transmitted to server over HTTPS
+  4. Server stores encrypted data (cannot read content)
+  5. Only user's device can decrypt messages
+  6. User views decrypted message on their screen
+
+Functionality:
+  • Encryption: AES-256 for all data at rest
+  • Transport Security: TLS 1.3+ for all data in transit
+  • Key Management: Encryption keys generated per device, never leave device
+  • Session Data: Encrypted conversation logs
+  • Profile Data: Encrypted (age, language preferences)
+  • Hotline History: Encrypted emergency contact records
+
+Technical Implementation:
+  • Library: TweetNaCl.js or libsodium for encryption
+  • Key Generation: ECDH for key exchange between devices/server
+  • Storage: Encrypted SQLite on mobile, encrypted database on server
+  • Verification: Message authentication codes (MAC) to prevent tampering
+  • Rotation: Periodic key rotation (optional for long-term users)
+
+Judging Criteria Impact: Technical Feasibility, Youth Friendliness, Sustainability
+
+
+FEATURE 11: PANIC BUTTON (QUICK EXIT)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: One-tap button to instantly close the app and clear visible traces, allowing 
+users to hide from others (e.g., parents, abusers).
+
+User Flow:
+  1. User is in chat conversation
+  2. User taps red PANIC BUTTON visible on every screen
+  3. App closes instantly (< 100ms)
+  4. No confirmation dialog
+  5. Conversation cleared from RAM
+  6. No notification badges on home screen
+  7. App appears unopened to casual observer
+
+Functionality:
+  • Visibility: Red, always-visible button on all screens
+  • Response Time: Instant exit < 100ms
+  • Data Clearing:
+    - Temporary chat content removed from RAM
+    - Typing buffer cleared
+    - Recent search history cleared from session
+    - Conversation logs remain encrypted on disk
+  • Safety Measures:
+    - No app notifications visible
+    - App returns to normal home screen on next launch
+    - No recent conversations shown
+    - Auto-logout triggered
+
+Technical Implementation:
+  • Frontend: Direct app.close() call with cleanup
+  • Cleanup: Memory clearing, session termination
+  • No Server Call: Everything happens client-side
+  • Testing: Verify traces cleared (use memory debuggers)
+
+Judging Criteria Impact: Youth Friendliness, Safety, Accessibility
+
+
+FEATURE 12: OFFLINE MODE (FAQ & RESOURCES)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Core SRH information and emergency resources accessible without internet 
+connection.
+
+User Flow:
+  1. User has no internet connection (2G/3G/WiFi down)
+  2. App detects offline status
+  3. Local cache of FAQ and resources displayed instead of live chat
+  4. User can:
+     - Read frequently asked questions (10-20 pre-loaded)
+     - Access emergency hotline numbers
+     - View consent guides, contraception overview
+     - Browse mental health tips
+  5. When internet returns, sync happens automatically
+
+Offline Content Included:
+  • FAQ (25-30 most common questions)
+  • Emergency Hotline Numbers (always available - critical)
+  • Contraception Methods Overview
+  • STI Symptoms & Prevention
+  • Menstrual Health Basics
+  • Consent & Healthy Relationships Guide
+  • Mental Health Coping Strategies
+  • Pregnancy Resources & Options
+
+Technical Implementation:
+  • Local Storage: SQLite database with offline content
+  • Sync: Background sync of updated content when online
+  • Data Size: <5MB to fit low-storage phones
+  • Update Frequency: Weekly or on demand
+  • Versioning: Track content version to prevent duplicates
+
+Judging Criteria Impact: Accessibility, Sustainability, Technical Feasibility
+
+
+FEATURE 13: PRIVACY CONSENT & SETTINGS
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Clear, user-friendly privacy policy and data settings allowing users to control 
+what data is collected.
+
+User Flow:
+  1. First-time users see Privacy Consent screen
+  2. Plain-language explanation of:
+     - What data is collected (minimal: session ID, age, language)
+     - How data is used (improving responses, analytics)
+     - How data is protected (encryption, anonymity)
+     - Data retention (90 days then auto-delete)
+  3. User accepts or declines (can still use app if declines, limited analytics)
+  4. Users can revisit settings anytime to view/modify preferences
+
+Functionality:
+  • Privacy Policy: Simple, non-legal-jargon version for youth
+  • Data Controls:
+    - Option to disable analytics
+    - Option to enable/disable notifications
+    - Ability to delete session data on demand
+    - Download conversation history (if enabled)
+  • Transparency: Clear explanation of encryption benefits
+  • Compliance: GDPR, CCPA, Ghana Data Protection Act adherence
+
+Technical Implementation:
+  • Modal Dialog: Privacy screen appears once at app launch
+  • Settings UI: Privacy preferences saved in encrypted storage
+  • Audit Log: Record when user accepts/modifies preferences
+  • No Tracking: Default tracking disabled; requires explicit opt-in
+
+Judging Criteria Impact: Youth Friendliness, Technical Feasibility, Sustainability
+
+
+FEATURE 14: MENTAL HEALTH SELF-ASSESSMENT TOOLS
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Simple questionnaires detecting anxiety, depression, and distress, with 
+recommendations and hotline referrals.
+
+User Flow:
+  1. User selects "Check-in" or "Mental Health Assessment" option
+  2. Presented with 10-question assessment (e.g., PHQ-9 or GAD-7 adapted for youth)
+  3. User answers questions (5-point scale)
+  4. Score calculated and interpreted
+  5. Results displayed with:
+     - "You seem stressed" / "You may have anxiety symptoms" / "You seem OK"
+     - Tailored coping strategies
+     - Professional resources & hotlines
+  6. Option to continue chat about mental health
+
+Functionality:
+  • Assessment Tools:
+    - Generalized Anxiety Disorder (GAD-7) - 7 items
+    - Patient Health Questionnaire (PHQ-9) - 9 items for depression
+    - Self-harm risk assessment - 5 items
+  • Scoring: Automatic score calculation with interpretation
+  • Confidentiality: Results not shared, only suggestions provided
+  • Referral: If high-risk score, crisis hotlines highlighted
+  • Privacy: Assessment results encrypted and stored locally
+
+Technical Implementation:
+  • UI: Question/answer form with radio buttons or slider
+  • Scoring Algorithm: Based on published assessment scales
+  • Interpretation: Clinical cutoffs mapped to messaging
+  • Database: Optional server storage of anonymized scores (aggregated analytics)
+
+Judging Criteria Impact: Accuracy, Innovation, Sustainability
+
+
+FEATURE 15: GEOLOCATION-BASED HEALTH FACILITY FINDER
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Users can find nearby SRH clinics, pharmacies, and health centers with contact 
+info and directions.
+
+User Flow:
+  1. User taps "Find a Clinic" or asks "Where can I get contraception?"
+  2. App requests location permission (if not already granted)
+  3. User's location detected (or user enters address/area)
+  4. Nearby clinics/hospitals displayed on map with:
+     - Distance
+     - Address
+     - Phone number
+     - Opening hours
+     - Services offered (contraception, STI testing, counseling, etc.)
+  5. User can tap to call or get directions
+  6. Option to view reviews/ratings (if available)
+
+Facilities Database:
+  • Government Health Centers (CHPS compounds, District Hospitals)
+  • NGO Clinics (PPAG centers, Ark Foundation, etc.)
+  • Private Clinics & Pharmacies
+  • Youth-Friendly Service Providers (identified via partner networks)
+
+Technical Implementation:
+  • Geolocation: Device GPS or IP-based location
+  • Database: Facility locations with metadata (coordinates, phone, hours)
+  • Mapping: Google Maps API or OpenStreetMap integration
+  • Search: Filtering by service type, distance, hours
+  • Privacy: Location not logged or tracked across sessions
+
+Judging Criteria Impact: Sustainability, UX, Accessibility
+
+
+FEATURE 16: APPOINTMENT REMINDERS & NOTIFICATIONS
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Users can set health reminders (contraceptive refills, health check-ups, mental 
+health follow-ups).
+
+User Flow:
+  1. User asks "Remind me to get my contraceptive refill"
+  2. Chatbot guides user to set reminder:
+     - When? (date and time)
+     - What? (type of reminder)
+  3. User confirms reminder
+  4. Notification sent at specified time
+  5. Notification includes helpful info or clinic location
+
+Reminder Types:
+  • Contraceptive Refill Reminders (pills, implants, injections)
+  • Menstrual Cycle Tracking (next period, ovulation)
+  • Health Check-up Reminders (STI screening, wellness visits)
+  • Mental Health Follow-ups (therapy appointments, self-care check-ins)
+  • Medication Adherence (if relevant)
+
+Technical Implementation:
+  • Local Notifications: Using device's notification system
+  • Scheduling: Background job scheduler (WorkManager on Android, UNUserNotificationCenter on iOS)
+  • Content: Sensitive information not shown in notification (e.g., "Health Reminder" not "STI test")
+  • Privacy: Reminders stored locally; not synced to cloud
+  • Privacy Setting: Users can disable notifications entirely
+
+Judging Criteria Impact: UX, Sustainability, Youth Friendliness
+
+
+FEATURE 17: CONVERSATION HISTORY & AUTO-DELETE
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Users can view past conversations and control data retention, with automatic 
+deletion of old data.
+
+User Flow:
+  1. User opens "Chat History" section
+  2. All past conversations displayed (most recent first)
+  3. User can:
+     - Review past Q&A
+     - Continue previous conversations
+     - Delete specific conversations
+     - Delete all history (clear entire chat)
+  4. System auto-deletes conversations older than 90 days (user configurable)
+
+Functionality:
+  • History Display: Chronological list of past chats
+  • Search: Find past questions by keywords
+  • Auto-Delete: Configurable retention (30/60/90 days, then auto-delete)
+  • Manual Delete: User can delete individual conversations
+  • Privacy: Conversation history encrypted; only accessible to user
+
+Technical Implementation:
+  • Storage: Encrypted database with conversation metadata
+  • Indexing: Full-text search on conversation content
+  • Scheduling: Background job for auto-deletion based on timestamp
+  • UI: Simple list view with swipe-to-delete gesture
+
+Judging Criteria Impact: Privacy, UX, Youth Friendliness
+
+
+FEATURE 18: ACCESSIBILITY FEATURES (WCAG 2.1 LEVEL AA)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: App fully compliant with Web Content Accessibility Guidelines, serving users with 
+disabilities.
+
+Accessibility Features Included:
+  • Screen Reader Support:
+    - All buttons, text, images have alt-text descriptions
+    - Voice-over compatible (iOS) and TalkBack (Android)
+  • Font Adjustability:
+    - Minimum 16px default font size
+    - User can increase font size (18px, 20px, 24px)
+    - Sans-serif fonts for dyslexia support
+  • Color Contrast:
+    - All text meets WCAG AA standards (min 4.5:1 contrast)
+    - No color-only information (icons also use text labels)
+    - Dark mode support for light sensitivity
+  • Motor Accessibility:
+    - Large touch targets (48px minimum)
+    - Reduced motion option for animations
+    - Voice control support (speak to interact)
+  • Audio Accessibility:
+    - Text-to-speech for all content
+    - Captions for any videos
+    - Transcripts for audio content
+
+Technical Implementation:
+  • Mobile: Native accessibility APIs (UIAccessibility iOS, Android Accessibility)
+  • Testing: WAVE, Axe, NVDA screen reader testing
+  • Compliance: Regular audits by accessibility specialists
+  • Documentation: Accessibility statement published
+
+Judging Criteria Impact: UX, Accessibility, Youth Friendliness
+
+
+FEATURE 19: MULTI-PLATFORM SUPPORT (Android, iOS, Web)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: KasaEd available on mobile (native apps) and web browser, ensuring maximum reach.
+
+Platform Details:
+
+Android App:
+  • Min SDK: Android 8.0 (API 26)
+  • Optimized for:
+    - Low-RAM devices (< 1GB RAM)
+    - Low-bandwidth networks (2G/3G)
+    - Various screen sizes (4" to 6.5")
+    - Offline functionality
+
+iOS App:
+  • Min iOS: 14.0
+  • Optimized for:
+    - All iPhone models (iPhone X and newer)
+    - iPad support with responsive layouts
+    - Safe area handling (notches, Dynamic Island)
+
+Web Browser:
+  • Desktop & Mobile browsers (Chrome, Safari, Firefox, Edge)
+  • Responsive design: Mobile-first, adaptable to tablets/desktops
+  • Progressive Web App (PWA) features:
+    - Installable on home screen
+    - Offline browsing with service workers
+    - Push notifications
+
+Technical Implementation:
+  • Architecture: Shared backend API, platform-specific frontend
+  • Android: Native (Kotlin) or React Native/Flutter
+  • iOS: Native (Swift) or React Native/Flutter
+  • Web: React, Vue.js, or Angular with PWA support
+  • Deployment: App Stores (Google Play, Apple App Store), web hosting
+
+Judging Criteria Impact: Scalability, Accessibility, Technical Feasibility
+
+
+FEATURE 20: ANALYTICS & MONITORING (PRIVACY-PRESERVING)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Description: Anonymous usage analytics to track app performance, popular topics, and user 
+engagement without compromising privacy.
+
+Analytics Tracked:
+  • App Metrics:
+    - Daily/Monthly active users (aggregate)
+    - Session duration
+    - App crashes and errors
+  • Feature Usage:
+    - Most common questions asked
+    - Most-used quick reply buttons
+    - Crisis hotline access frequency
+    • User Demographics (Aggregate):
+    - Age group distribution (13-17 vs 18-25)
+    - Language preferences
+    - Top regions/districts using app
+  • Health Outcomes:
+    - Trending SRH topics
+    - Emergency hotline referral frequency
+    - User satisfaction ratings (optional)
+
+Privacy Protections:
+  • NO Personal Data: Individual conversations never logged
+  • NO Identification: Users remain completely anonymous
+  • NO IP Tracking: Regional data based on aggregated geolocation
+  • Consent-Based: Users can opt-out of analytics entirely
+  • Encryption: All analytics encrypted in transit and at rest
+  • Retention: Analytics data deleted after 90 days
+
+Technical Implementation:
+  • Analytics Platform: Google Analytics 4 (with privacy controls), Mixpanel, or custom solution
+  • Event Tracking: Anonymized events (button clicks, topics, crashes)
+  • Dashboards: Real-time monitoring of app health and usage
+  • Reporting: Monthly reports on app performance and impact
+
+Judging Criteria Impact: Sustainability, Technical Feasibility, Data Privacy
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+PART 3: USER JOURNEY & SCREEN FLOWS
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+3.1 ONBOARDING FLOW (First-Time Users)
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Screen 1: Splash Screen (2 seconds)
+  - App logo animation
+  - Tagline: "Your Safe Space for Real Talk"
+  - Visual: Welcoming, colorful, diverse imagery
+
+Screen 2: Welcome Screen
+  - Title: "Start Your Journey with KasaEd! 🚀"
+  - Subtext: "Your trusted companion for real talk about sexual and reproductive health. 
+             Ask questions, get answers, and find support anytime, anywhere — all in your 
+             language and privacy guaranteed."
+  - Button: [Get Started]
+
+Screen 3: Language Selection
+  - Title: "Choose Your Language"
+  - Options: English, Twi, Ewe, Hausa
+  - Buttons: Radio buttons or tiles
+  - Button: [Continue]
+
+Screen 4: Privacy & Consent
+  - Title: "Your Privacy Matters"
+  - Content: 
+    - "Everything you ask is confidential."
+    - "We don't collect your name, email, or phone number."
+    - "All conversations are encrypted."
+    - "You can delete your chat history anytime."
+  - Checkbox: "I understand and accept"
+  - Button: [Accept] (disabled until checked)
+
+Screen 5: Age Group Selection
+  - Title: "How Old Are You?"
+  - Subtext: "This helps us give you the right information for your age."
+  - Options: 
+    - 13-17 (Teen)
+    - 18-25 (Young Adult)
+    - 26+ (Other)
+  - Button: [Continue]
+
+Screen 6: Accessibility Preferences (Optional)
+  - Title: "Make It Comfortable For You"
+  - Options:
+    - Larger Text (toggle)
+    - Dark Mode (toggle)
+    - Voice Assistant (toggle)
+    - High Contrast (toggle)
+  - Button: [Done]
+
+Screen 7: Quick Tour (Optional)
+  - Title: "How to Use KasaEd"
+  - Steps: 
+    1. "Ask me anything about SRH or mental health"
+    2. "Use quick-reply buttons or type your own question"
+    3. "Need emergency help? Tap the panic button anytime"
+    4. "All your conversations are private and encrypted"
+  - Button: [Start Chatting!]
+
+Onboarding Complete → HOME SCREEN
+
+
+3.2 HOME SCREEN LAYOUT
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Header (Top):
+  - Panic Button: Red 🔴 [QUICK EXIT] button (top-right)
+  - App Logo/Name: KasaEd (left)
+  - Settings: ⚙️ (top-right)
+
+Welcome Message:
+  - "Hi there! 👋"
+  - "Ask me anything about sexual health, mental health, or relationships."
+  - "I'm here to help, no judgment!"
+
+Quick Reply Buttons:
+  - [🟦 Contraception]
+  - [🟦 Relationships & Consent]
+  - [🟦 Mental Health]
+  - [🟦 STI Prevention]
+  - [🟦 General SRH]
+
+Chat Interface:
+  - Message history (scrollable)
+  - Input box: "Type your question here..."
+  - Microphone icon 🎤 (voice input)
+  - Send button ➤
+
+Footer (Bottom):
+  - [ℹ️ FAQ]
+  - [📞 Emergency Help]
+  - [⚙️ Settings]
+
+
+3.3 MAIN CHAT FLOW (Ongoing Users)
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Step 1: User Input
+  - User taps Quick Reply Button OR types question OR uses voice input
+  - Input displayed in chat bubble (left side - user message)
+
+Step 2: NLP Processing (Background)
+  - Chatbot analyzes input (intent, keywords, context)
+  - Content database searched
+  - Age and language filters applied
+
+Step 3: Response Generation
+  - Medically accurate answer retrieved
+  - Formatted for age group
+  - Translated to selected language
+  - Encrypted before transmission
+
+Step 4: Response Display
+  - Bot message appears in chat bubble (right side - bot message)
+  - Message includes:
+    - Clear, simple explanation
+    - Bullet points for easy reading
+    - Relevant emojis 😊
+    - Links to resources
+  - "Load More" button if long response
+
+Step 5: Follow-Up Options
+  - Related quick-reply buttons appear
+  - User can:
+    - Ask follow-up question
+    - Change topic (quick replies)
+    - Type custom question
+    - Access emergency hotlines
+    - Exit (pause chat)
+
+Step 6: Loop
+  - Repeat Steps 1-5 for continuous conversation
+  - Conversation history maintained and encrypted
+
+
+3.4 CRISIS DETECTION FLOW
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Scenario: User mentions crisis keywords
+
+Step 1: User enters "I want to kill myself"
+
+Step 2: Crisis Detection Engine (running in background)
+  - Detects keywords: "kill", "myself" → CRISIS_TIER_1
+  - Confidence score: 95%
+  - Triggers emergency response
+
+Step 3: Immediate Screen Change
+  - Current chat screen replaced with Emergency Support Screen
+  - No delay, no confirmation dialog
+
+Step 4: Emergency Support Screen Displayed
+  - Bold Header: "🚨 IMMEDIATE SUPPORT AVAILABLE"
+  - Emergency Hotlines:
+    [Suicide Prevention Hotline]
+    ☎️ 055 123 4567
+    [📞 CALL NOW] [💬 MESSAGE]
+
+    [Crisis Counseling]
+    ☎️ 055 234 5678
+    [📞 CALL NOW] [💬 MESSAGE]
+
+    [Emergency Services]
+    ☎️ 112
+    [📞 CALL NOW]
+
+Step 5: Supportive Message
+  - "I hear you. You're not alone. Please reach out to one of these numbers right now.
+     They are trained to help. You matter. Help is available."
+
+Step 6: Resource Links
+  - [📖 Coping Strategies]
+  - [🎧 Calming Audio]
+  - [📝 Emergency Plan]
+
+Step 7: User Options
+  - [Continue Chatting]
+  - [Close App]
+
+Step 8: If User Calls Hotline
+  - App recognizes call/message sent
+  - Logs event (anonymously) for follow-up
+  - Provides resources when user returns
+
+
+3.5 OFFLINE MODE FLOW
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Trigger: User has no internet connection
+
+Step 1: App Detects Offline Status
+  - Network check fails
+  - Offline banner appears: "📵 You're Offline - Limited Mode"
+
+Step 2: Offline Content Menu
+  - [❓ Frequently Asked Questions]
+  - [📞 Emergency Hotlines]
+  - [💊 Contraception Guide]
+  - [⚠️ STI Info]
+  - [🧠 Mental Health Tips]
+  - [💑 Consent & Relationships]
+
+Step 3: User Selects Category (e.g., FAQ)
+  - List of 25-30 common questions displayed
+  - User taps question
+  - Pre-written answer displayed
+  - Can read through multiple questions
+
+Step 4: Offline Features
+  - Emergency hotlines always accessible
+  - Offline content fully searchable
+  - Cannot chat with live chatbot (greyed out with message: "Chat offline. Will sync when online.")
+
+Step 5: When Internet Returns
+  - Automatic sync triggered
+  - Offline banner disappears
+  - Live chat available again
+  - Any queued messages sent
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+PART 4: TECHNICAL SPECIFICATIONS
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+4.1 SYSTEM ARCHITECTURE
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Frontend (Mobile & Web):
+  - Mobile: Native (Kotlin/Swift) or React Native/Flutter
+  - Web: React/Vue.js + PWA
+
+Backend Services:
+  - API Gateway (Node.js, Python Flask, or Java Spring)
+  - NLP Engine (Python with BERT/Hugging Face)
+  - Content Database (PostgreSQL or MongoDB)
+  - Session/Cache (Redis)
+  - Encryption Service (TweetNaCl.js or libsodium)
+
+Infrastructure:
+  - Cloud Platform: AWS, Google Cloud, or Azure
+  - Deployment: Docker containers + Kubernetes
+  - CI/CD: GitHub Actions or GitLab CI
+  - Monitoring: Prometheus, ELK Stack, or DataDog
+
+
+4.2 API ENDPOINTS (REST)
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+POST /api/sessions/create
+  - Create anonymous session
+  - Returns: Session ID, encryption key
+
+POST /api/chat/message
+  - Send user message
+  - Returns: Bot response, follow-up suggestions
+
+GET /api/content/{topic}
+  - Retrieve content by topic
+  - Returns: Medical information, resources
+
+POST /api/assessment/submit
+  - Submit mental health assessment
+  - Returns: Score, interpretation, resources
+
+GET /api/hotlines
+  - Get crisis hotline list
+  - Returns: All hotlines with metadata
+
+POST /api/reminder/set
+  - Set health reminder
+  - Returns: Confirmation
+
+GET /api/offline-content
+  - Get content for offline mode
+  - Returns: FAQ, hotlines, guides
+
+
+4.3 DATA MODELS
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+User Session (Encrypted)
+{
+  session_id: "uuid-string",
+  age_group: "13-17" | "18-25" | "26+",
+  language: "en" | "tw" | "ee" | "ha",
+  created_at: timestamp,
+  last_activity: timestamp,
+  encryption_key: "encrypted-key-blob"
+}
+
+Message (Encrypted)
+{
+  id: "uuid",
+  session_id: "uuid",
+  content: "encrypted-message-content",
+  sender: "user" | "bot",
+  timestamp: timestamp,
+  topic: "contraception" | "mental-health" | etc,
+  intent: "ask-question" | "crisis" | "request-resource"
+}
+
+Content
+{
+  id: "uuid",
+  category: "contraception" | "sti" | "mental-health" | etc,
+  topic: "string",
+  age_group: "13-17" | "18-25" | "all",
+  language: "en" | "tw" | "ee" | "ha",
+  content: "text-with-formatting",
+  sources: ["WHO", "Ghana MOH"],
+  last_updated: timestamp
+}
+
+
+4.4 SECURITY & PRIVACY SPECIFICATIONS
+────────────────────────────────────────────────────────────────────────────────────────────────
+
+Encryption:
+  - Algorithm: AES-256-GCM
+  - Transport: TLS 1.3+
+  - Storage: Encrypted at rest on server
+  - Keys: Generated per device, never transmitted in plaintext
+
+Authentication:
+  - No user login (anonymous)
+  - Session tokens valid for 24 hours
+  - Auto-logout after 15 minutes inactivity
+
+Data Retention:
+  - Session data: Kept for 24 hours
+  - Conversation logs: 90 days (encrypted), then auto-deleted
+  - Hotline access logs: 30 days for emergency response
+  - Analytics: Aggregated, anonymized, 90-day retention
+
+Compliance:
+  - GDPR: Limited PII collection ensures compliance
+  - CCPA: No selling of data; users can request deletion
+  - Ghana Data Protection Act: Adherence to local regulations
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+PART 5: SUCCESS METRICS & KPIs
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+Launch Metrics (First 3 Months):
+  • 5,000+ downloads/installations
+  • 2,000+ monthly active users (MAU)
+  • 10,000+ conversations initiated
+  • 95%+ user satisfaction (app store rating)
+
+Performance Metrics:
+  • Response time: < 2 seconds for 95% of queries
+  • App uptime: 99.9%
+  • Crash rate: < 0.1%
+  • Offline functionality: 90%+ feature availability offline
+
+Engagement Metrics:
+  • Average session length: 5+ minutes
+  • Questions per user: 3+ per session
+  • Return user rate: 40%+ (second session within 30 days)
+  • Crisis hotline referrals: Track frequency
+
+Health Impact Metrics:
+  • User knowledge improvement: +25% on SRH quizzes
+  • Clinic attendance: Increase in youth visiting SRH clinics
+  • Mental health resources accessed: Track referral effectiveness
+  • Reported behavior change: Qualitative feedback
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+PART 6: IMPLEMENTATION TIMELINE
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+Phase 1: Planning & Research (Oct 16 - Nov 4, 2025)
+  Week 1-2: Requirements gathering, user research, technical architecture
+  Week 2-3: Content strategy, medical validation, partnerships
+  Deliverables: Tech spec, content outline, partnership agreements
+
+Phase 2: Design (Nov 5 - Nov 19, 2025)
+  Week 3-4: UI/UX wireframes and prototypes
+  Week 4-5: Visual design, branding, multi-language interface
+  Week 5: Accessibility compliance design
+  Deliverables: Design system, interactive prototypes
+
+Phase 3: Development (Nov 20 - Dec 11, 2025)
+  Week 6: Backend API development
+  Week 7: NLP/AI chatbot integration
+  Week 7-8: Mobile app development (Android/iOS)
+  Week 8: Database & security implementation
+  Deliverables: Alpha build, API endpoints, NLP model
+
+Phase 4: Content & Testing (Dec 10 - Dec 22, 2025)
+  Week 8-9: SRH content creation & validation
+  Week 9: Crisis detection model training
+  Week 10: User acceptance testing
+  Week 10: Security & privacy audits
+  Deliverables: Complete content database, test reports
+
+Phase 5: Integration & QA (Dec 21 - Dec 30, 2025)
+  Week 10: Platform integration (WhatsApp, SMS)
+  Week 11: Performance optimization
+  Week 11: Bug fixes & final QA
+  Deliverables: Production-ready build
+
+Phase 6: Deployment & Launch (Dec 31, 2025 - Jan 6, 2026)
+  Week 11-12: App store submission
+  Week 12: Production deployment
+  Week 12: Documentation & team training
+  Deliverables: Live app, documentation, training materials
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+CONCLUSION
+═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+KasaEd represents a comprehensive, youth-centered solution to Ghana's SRH information gap. By 
+combining AI-powered conversational support, medically accurate content, mental health integration, 
+and robust privacy protections, KasaEd empowers young people to make informed, healthy decisions 
+about their sexual and reproductive health.
+
+The 20 MVP features outlined above form a complete, production-ready platform that addresses all 
+five competition judging criteria:
+  ✓ Innovation: AI-powered NLP, crisis detection, multi-language support
+  ✓ Technical Feasibility: Solid architecture, proven technologies, clear implementation plan
+  ✓ Accuracy & Youth Friendliness: Medically validated, age-appropriate, culturally sensitive
+  ✓ UX & Accessibility: WCAG 2.1 compliance, intuitive design, multi-platform
+  ✓ Sustainability & Scalability: Encryption, offline support, cloud infrastructure
+
+KasaEd is positioned to save lives, reduce health disparities, and create lasting impact on 
+Ghana's youth health landscape.
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════

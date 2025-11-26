@@ -1,0 +1,6 @@
+"Judging Criterion","Key NFRs","How They Align"
+"Technical Feasibility","Response time, scalability, database performance, version control","Proves robust architecture"
+"Youth Friendliness","Privacy compliance, data anonymization, auto-logout, accessibility","Builds trust and inclusivity"
+"Accessibility","WCAG compliance, offline mode, battery efficiency, network optimization","Reaches all users"
+"Sustainability","99.9% uptime, disaster recovery, backup strategy, compliance audit","Platform stays alive long-term"
+"Innovation","Analytics, A/B testing, performance monitoring","Continuous improvement capability"

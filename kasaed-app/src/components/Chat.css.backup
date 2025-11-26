@@ -1,0 +1,41 @@
+  }
+
+  .hotline-card {
+    padding: 1.5rem;
+  }
+
+  .hotline-actions {
+    flex-direction: column;
+  }
+
+  .btn-call,
+  .btn-whatsapp {
+    min-width: 100%;
+  }
+
+  .emergency-footer {
+    flex-direction: column;
+  }
+
+  .btn-secondary,
+  .btn-danger {
+    min-width: 100%;
+  }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+
+    .message,
+    .dropdown-menu,
+    .hotline-card,
+    .emergency-screen {
+      animation: none;
+    }
+
+    .send-btn:hover::before,
+    .quick-reply-btn::before,
+    .icon-btn::before {
+      transition: none;
+    }
+  }

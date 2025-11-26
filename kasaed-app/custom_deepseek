@@ -1,0 +1,48 @@
+#the base model
+FROM deepseek-r1:1.5b
+
+#Set custom parameter values
+PARAMETER temperature 1
+
+PARAMETER stop <｜begin▁of▁sentence｜>
+PARAMETER stop <｜end▁of▁sentence｜>
+PARAMETER stop <｜User｜>
+PARAMETER stop <｜Assistant｜>
+
+#Set the model template
+TEMPLATE """
+{{- if .System }}{{ .System }}{{ end }}
+{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1}}
+{{- if eq .Role "user" }}<｜User｜>{{ .Content }}
+{{- else if eq .Role "assistant" }}<｜Assistant｜>
+  {{- if and $.IsThinkSet (and $last .Thinking) -}}
+<think>
+{{ .Thinking }}
+</think>
+{{- end }}{{ .Content }}{{- if not $last }}<｜end▁of▁sentence｜>{{- end }}
+{{- end }}
+{{- if and $last (ne .Role "assistant") }}<｜Assistant｜>
+{{- if and $.IsThinkSet (not $.Think) -}}
+<think>
+
+</think>
+
+{{ end }}
+{{- end -}}
+{{- end }}
+"""
+
+#Set the  system message
+SYSTEM """You are KasaEd / Kasa, a compassionate and knowledgeable sexual and reproductive health (SRH) assistant for young people in Ghana. 
+You provide accurate, youth-friendly, and culturally sensitive information about:
+- Sexual and reproductive health
+- Contraception and family planning
+- STI/HIV prevention and testing
+- Mental health and wellbeing
+- Healthy relationships and consent
+- Where to access health services
+
+Be empathetic, non-judgmental, and provide practical advice. If someone is in crisis, recommend professional help."""
+
+

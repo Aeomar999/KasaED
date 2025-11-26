@@ -1,0 +1,31 @@
+Priority_Rank,Requirement_ID,Non_Functional_Requirement,Priority_Level,Category,Measurement_Metric,Target_Specification,Judging_Criteria_Alignment,Implementation_Phase
+1,NFR-001,Response time: Chatbot responses within 2 seconds for 95% of queries,Critical,Performance,Response latency (seconds),≤ 2 seconds,"UX, Technical Feasibility",MVP (Phase 1)
+2,NFR-002,Data security: End-to-end encryption (AES-256) for all user data at rest and in transit,Critical,Security,Encryption standard (AES-256),AES-256 bit,"Technical Feasibility, Youth Friendliness",MVP (Phase 1)
+3,NFR-003,"Privacy compliance: GDPR, CCPA, and Ghana data protection act compliance",Critical,Compliance,Certification status,Full compliance,"Technical Feasibility, Sustainability",MVP (Phase 1)
+4,NFR-004,Availability: 99.9% uptime (minimum 43 seconds downtime per month),Critical,Reliability,Uptime percentage (%),99.90%,"Sustainability, Technical Feasibility",MVP (Phase 1)
+5,NFR-005,"Mobile compatibility: Support Android 8.0+, iOS 14.0+, responsive web browser",Critical,Compatibility,OS version compatibility,"Android 8.0+, iOS 14.0+","UX, Technical Feasibility",MVP (Phase 1)
+6,NFR-006,Accessibility compliance: WCAG 2.1 Level AA standards for all interfaces,Critical,Usability,WCAG compliance score,Level AA,"UX, Accessibility",MVP (Phase 1)
+7,NFR-007,App size: Mobile app ≤ 100MB for easy download on limited data plans,Critical,Performance,Application size (MB),≤ 100 MB,"Technical Feasibility, Accessibility",MVP (Phase 1)
+8,NFR-008,Offline functionality: 90% of core features work without internet connection,Critical,Reliability,Feature availability (%),≥ 90%,"Sustainability, Technical Feasibility",MVP (Phase 1)
+9,NFR-009,"Scalability: Handle 10,000+ concurrent users without performance degradation",High,Scalability,Concurrent user capacity,"10,000+","Scalability, Technical Feasibility",MVP (Phase 1)
+10,NFR-010,Load time: App launch within 3 seconds on 4G networks,High,Performance,Startup time (seconds),≤ 3 seconds,"UX, Technical Feasibility",MVP (Phase 1)
+11,NFR-011,Memory usage: App uses ≤ 150MB RAM during normal operation,High,Performance,RAM usage (MB),≤ 150 MB,"UX, Technical Feasibility",MVP (Phase 1)
+12,NFR-012,Data anonymization: User identities masked after 90 days of inactivity,High,Privacy,Data retention policy (days),90 days,"Youth Friendliness, Privacy",Phase 2
+13,NFR-013,Localization: Support for 4+ local languages with cultural adaptation,High,Localization,Language count,4+ languages,"Youth Friendliness, Accessibility",MVP (Phase 1)
+14,NFR-014,Battery efficiency: App consumes ≤ 5% battery per hour of use,High,Performance,Battery drain (% per hour),≤ 5%,"Sustainability, UX",MVP (Phase 1)
+15,NFR-015,Network optimization: Works on 2G/3G networks with reduced feature set,High,Performance,Minimum network speed (Mbps),2G/3G compatible,"Accessibility, Technical Feasibility",MVP (Phase 1)
+16,NFR-016,Database performance: Query response time ≤ 500ms for 99% of requests,High,Performance,Query latency (ms),≤ 500 ms,"Technical Feasibility, Performance",MVP (Phase 1)
+17,NFR-017,Disaster recovery: Recovery Time Objective (RTO) ≤ 1 hour,Medium,Reliability,Recovery time (hours),≤ 1 hour,"Sustainability, Technical Feasibility",Phase 2
+18,NFR-018,Backup frequency: Daily automated backups with geo-redundancy,Medium,Reliability,Backup frequency,Daily,"Sustainability, Technical Feasibility",Phase 2
+19,NFR-019,User session management: Auto-logout after 15 minutes of inactivity,Medium,Security,Session timeout (minutes),15 minutes,"Youth Friendliness, Technical Feasibility",MVP (Phase 1)
+20,NFR-020,Content update: Deploy content updates within 2 hours of approval,Medium,Operational,Update deployment time (hours),≤ 2 hours,"Sustainability, Operational Excellence",Phase 1+
+21,NFR-021,API rate limiting: Prevent abuse with intelligent rate limiting,Medium,Security,Requests per user per day,Configurable,"Technical Feasibility, Security",MVP (Phase 1)
+22,NFR-022,Error logging: Comprehensive logging with automatic error reporting,Medium,Operational,Log completeness (%),100%,"Operational Excellence, Compliance",Phase 1+
+23,NFR-023,Version control: Maintain backward compatibility for 2 previous app versions,Medium,Compatibility,Version compatibility range,Current + 2 previous,"Technical Feasibility, Sustainability",MVP (Phase 1)
+24,NFR-024,"User documentation: In-app help, FAQs, and tutorial videos",Medium,Usability,Help resource availability (%),≥ 90%,"UX, Accessibility",Phase 1+
+25,NFR-025,Analytics: Real-time usage analytics dashboard with user insights,Low,Analytics,Dashboard availability (%),24/7 availability,"Analytics, Data-Driven",Phase 2
+26,NFR-026,A/B testing: Support for feature flag testing and experimentation,Low,Testing,Feature flag support (%),≥ 80%,"Innovation, Testing",Phase 2
+27,NFR-027,Multi-device sync: Seamless experience across devices (Phase 2),Low,Technical,Device count support,2+ devices,"Scalability, Technical Feasibility",Phase 2
+28,NFR-028,Performance monitoring: Real-time APM (Application Performance Monitoring),Low,Monitoring,Uptime percentage (%) with monitoring,99.95%,"Technical Feasibility, Monitoring",Phase 2
+29,NFR-029,Internationalization: Support for future language additions,Low,Localization,Language capacity,Future-ready,"Scalability, Localization",Phase 1+
+30,NFR-030,Compliance audit trail: Maintain detailed logs for compliance verification,Low,Compliance,Audit log retention (months),24 months,"Compliance, Sustainability",Phase 2

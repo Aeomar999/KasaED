@@ -1,0 +1,36 @@
+Priority_Rank,Requirement_ID,Functional_Requirement,Priority_Level,Category,Complexity,Judging_Criteria_Impact,MVP_Status
+1,FR-001,AI-powered conversational chatbot with natural language understanding,Critical,Core Functionality,High,"Technical Feasibility, Innovation",Must Have
+2,FR-002,End-to-end encryption for all user conversations and data,Critical,Security & Privacy,High,"Technical Feasibility, Youth Friendliness",Must Have
+3,FR-003,Anonymous chat functionality (no registration required),Critical,Security & Privacy,Medium,"Youth Friendliness, UX",Must Have
+4,FR-004,Crisis detection and emergency referral system,Critical,Safety & Support,High,"Accuracy, Sustainability",Must Have
+5,FR-005,"Accurate, medically-validated SRH content database",Critical,Content,Medium,"Accuracy, Youth Friendliness",Must Have
+6,FR-006,"Multi-platform support (Android, iOS, web)",Critical,Technical,High,"UX, Scalability",Must Have
+7,FR-007,Offline mode with basic content access,Critical,Technical,Medium,"Accessibility, Sustainability",Should Have
+8,FR-008,Quick exit/panic button for user safety,Critical,Security & Privacy,Low,"Youth Friendliness, UX",Must Have
+9,FR-009,Age-appropriate content filtering and delivery,Critical,Content,Medium,"Accuracy, Youth Friendliness",Must Have
+10,FR-010,"Local language support (English, Twi, Ewe, Hausa)",Critical,Localization,High,"Accessibility, Youth Friendliness",Must Have
+11,FR-011,Mental health self-assessment tools,High,Mental Health Integration,Medium,"Accuracy, Innovation",Should Have
+12,FR-012,Geolocation-based health facility finder,High,Resource Linkage,Medium,"Sustainability, UX",Should Have
+13,FR-013,Push notifications for appointment reminders,High,User Engagement,Low,"UX, Sustainability",Should Have
+14,FR-014,In-app emergency hotline directory,High,Safety & Support,Low,"Accuracy, Sustainability",Must Have
+15,FR-015,User consent and privacy management,High,Security & Privacy,Medium,"Youth Friendliness, Technical",Must Have
+16,FR-016,Conversation history with auto-delete options,High,User Experience,Medium,"Youth Friendliness, UX",Should Have
+17,FR-017,Voice-to-text input for accessibility,High,Accessibility,Medium,"Accessibility, Youth Friendliness",Should Have
+18,FR-018,Text-to-speech output for visual impairment,High,Accessibility,Medium,"Accessibility, Youth Friendliness",Should Have
+19,FR-019,Quick reply buttons for common queries,High,User Experience,Low,"UX, Youth Friendliness",Must Have
+20,FR-020,Content search and filtering functionality,High,Content,Medium,"UX, Accuracy",Should Have
+21,FR-021,Personalized health recommendations,Medium,Personalization,High,"Innovation, Youth Friendliness",Could Have
+22,FR-022,Anonymous peer-to-peer Q&A forum,Medium,Community Features,High,"Innovation, Youth Friendliness",Could Have
+23,FR-023,"Educational multimedia library (videos, infographics)",Medium,Education,Medium,"Youth Friendliness, UX",Could Have
+24,FR-024,Interactive quizzes and gamification,Medium,Engagement,Medium,"Innovation, Youth Friendliness",Could Have
+25,FR-025,Mood tracking and journaling features,Medium,Mental Health Integration,Medium,"Innovation, Youth Friendliness",Could Have
+26,FR-026,Appointment booking integration with clinics,Medium,Resource Linkage,High,"Sustainability, UX",Could Have
+27,FR-027,Medication and health reminders,Medium,User Engagement,Low,"UX, Youth Friendliness",Could Have
+28,FR-028,User feedback and rating system,Medium,Quality Assurance,Low,"Sustainability, UX",Could Have
+29,FR-029,Social media sharing (anonymous stories),Low,Community Features,Medium,"Innovation, Youth Friendliness",Won't Have (V1)
+30,FR-030,In-app rewards and achievement badges,Low,Engagement,Low,"Innovation, Youth Friendliness",Won't Have (V1)
+31,FR-031,Multi-device synchronization,Low,Technical,Medium,"Technical, UX",Won't Have (V1)
+32,FR-032,Chatbot personality customization,Low,Personalization,Low,"Innovation, Youth Friendliness",Won't Have (V1)
+33,FR-033,Community challenges and campaigns,Low,Community Features,Medium,"Innovation, Youth Friendliness",Won't Have (V1)
+34,FR-034,Integration with wearable health devices,Low,Technical,High,"Innovation, Technical",Won't Have (V1)
+35,FR-035,Virtual support group scheduling,Low,Community Features,Medium,"Innovation, Youth Friendliness",Won't Have (V1)
