@@ -3,22 +3,61 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Calendar, Heart, Activity, AlertTriangle, Check,
   Shield, MapPin, Phone, Search, Mic, StopCircle,
-  Trash2, Play, Clock, AlertCircle, Info
+  Trash2, Play, Clock, AlertCircle, Info, TrendingUp,
+  Moon, Sun, Cloud, CloudRain, Zap, Droplets, Wind,
+  Smile, Frown, Meh, ThermometerSun, StickyNote, Edit3,
+  BarChart3, LineChart, PieChart, ChevronRight, Plus
 } from 'lucide-react';
 import './AdvancedFeatures.css';
 
-// Feature 3: Period & Cycle Tracking
+// Feature 3: Enhanced Period & Cycle Tracking
 export const PeriodTracker = ({ onClose }) => {
+  const [activeTab, setActiveTab] = useState('overview');
   const [cycles, setCycles] = useState(() => {
     const saved = localStorage.getItem('periodCycles');
     return saved ? JSON.parse(saved) : [];
   });
+  const [symptoms, setSymptoms] = useState(() => {
+    const saved = localStorage.getItem('periodSymptoms');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [moods, setMoods] = useState(() => {
+    const saved = localStorage.getItem('periodMoods');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [notes, setNotes] = useState(() => {
+    const saved = localStorage.getItem('periodNotes');
+    return saved ? JSON.parse(saved) : {};
+  });
   const [lastPeriod, setLastPeriod] = useState('');
   const [cycleLength, setCycleLength] = useState(28);
   const [periodLength, setPeriodLength] = useState(5);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [todayNote, setTodayNote] = useState('');
+
+  const symptomsList = [
+    { id: 'cramps', name: 'Cramps', icon: <Zap size={18} /> },
+    { id: 'bloating', name: 'Bloating', icon: <Wind size={18} /> },
+    { id: 'headache', name: 'Headache', icon: <AlertCircle size={18} /> },
+    { id: 'fatigue', name: 'Fatigue', icon: <Moon size={18} /> },
+    { id: 'acne', name: 'Acne', icon: <Sun size={18} /> },
+    { id: 'breast_tenderness', name: 'Breast Tenderness', icon: <Heart size={18} /> },
+    { id: 'heavy_flow', name: 'Heavy Flow', icon: <Droplets size={18} /> },
+    { id: 'spotting', name: 'Spotting', icon: <CloudRain size={18} /> }
+  ];
+
+  const moodsList = [
+    { id: 'happy', name: 'Happy', icon: <Smile size={24} />, color: '#34a853' },
+    { id: 'neutral', name: 'Neutral', icon: <Meh size={24} />, color: '#fbbc04' },
+    { id: 'sad', name: 'Sad', icon: <Frown size={24} />, color: '#ea4335' },
+    { id: 'anxious', name: 'Anxious', icon: <AlertCircle size={24} />, color: '#ff6d00' },
+    { id: 'energetic', name: 'Energetic', icon: <Zap size={24} />, color: '#4285f4' },
+    { id: 'tired', name: 'Tired', icon: <Moon size={24} />, color: '#9aa0a6' }
+  ];
 
   const addCycle = () => {
     const cycle = {
+      id: Date.now(),
       startDate: lastPeriod,
       cycleLength,
       periodLength,
@@ -29,6 +68,31 @@ export const PeriodTracker = ({ onClose }) => {
     const updated = [cycle, ...cycles];
     setCycles(updated);
     localStorage.setItem('periodCycles', JSON.stringify(updated));
+  };
+
+  const toggleSymptom = (symptomId) => {
+    const dateSymptoms = symptoms[selectedDate] || [];
+    const updated = dateSymptoms.includes(symptomId)
+      ? dateSymptoms.filter(s => s !== symptomId)
+      : [...dateSymptoms, symptomId];
+    const newSymptoms = { ...symptoms, [selectedDate]: updated };
+    setSymptoms(newSymptoms);
+    localStorage.setItem('periodSymptoms', JSON.stringify(newSymptoms));
+  };
+
+  const setMood = (moodId) => {
+    const newMoods = { ...moods, [selectedDate]: moodId };
+    setMoods(newMoods);
+    localStorage.setItem('periodMoods', JSON.stringify(newMoods));
+  };
+
+  const saveNote = () => {
+    if (todayNote.trim()) {
+      const newNotes = { ...notes, [selectedDate]: todayNote };
+      setNotes(newNotes);
+      localStorage.setItem('periodNotes', JSON.stringify(newNotes));
+      setTodayNote('');
+    }
   };
 
   const calculateNextPeriod = (start, length) => {
@@ -56,85 +120,397 @@ export const PeriodTracker = ({ onClose }) => {
     };
   };
 
+  const getDaysUntil = (targetDate) => {
+    const today = new Date();
+    const target = new Date(targetDate);
+    const diffTime = target - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const getCyclePhase = () => {
+    if (cycles.length === 0) return null;
+    const today = new Date();
+    const periodStart = new Date(cycles[0].startDate);
+    const daysSinceStart = Math.floor((today - periodStart) / (1000 * 60 * 60 * 24));
+    const cycleDay = daysSinceStart % cycleLength;
+
+    if (cycleDay >= 0 && cycleDay < periodLength) return { phase: 'Menstrual', color: '#ea4335' };
+    if (cycleDay >= periodLength && cycleDay < 14) return { phase: 'Follicular', color: '#fbbc04' };
+    if (cycleDay >= 14 && cycleDay <= 16) return { phase: 'Ovulation', color: '#34a853' };
+    return { phase: 'Luteal', color: '#4285f4' };
+  };
+
+  const renderCycleVisual = () => {
+    const phase = getCyclePhase();
+    if (!phase) return null;
+
+    const today = new Date();
+    const periodStart = new Date(cycles[0].startDate);
+    const daysSinceStart = Math.floor((today - periodStart) / (1000 * 60 * 60 * 24));
+    const cycleDay = (daysSinceStart % cycleLength) + 1;
+    const progress = (cycleDay / cycleLength) * 100;
+
+    return (
+      <div className="cycle-visual">
+        <div className="cycle-wheel">
+          <svg viewBox="0 0 200 200" className="cycle-svg">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="var(--border-medium)" strokeWidth="20" />
+            <circle 
+              cx="100" 
+              cy="100" 
+              r="80" 
+              fill="none" 
+              stroke={phase.color}
+              strokeWidth="20"
+              strokeDasharray={`${progress * 5.02} 502`}
+              strokeLinecap="round"
+              transform="rotate(-90 100 100)"
+              className="cycle-progress"
+            />
+          </svg>
+          <div className="cycle-center">
+            <span className="cycle-day">{cycleDay}</span>
+            <span className="cycle-label">Day of Cycle</span>
+          </div>
+        </div>
+        <div className="phase-info">
+          <div className="phase-badge" style={{ backgroundColor: `${phase.color}20`, color: phase.color }}>
+            {phase.phase} Phase
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <motion.div
       className="period-tracker"
-      initial={{ opacity: 0, y: '100%' }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: '100%' }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div className="tracker-header">
-        <h2>Period & Cycle Tracker</h2>
+        <h2><Calendar size={28} /> Period Tracker</h2>
         <button className="close-btn" onClick={onClose}><X size={24} /></button>
       </div>
 
-      <div className="tracker-input">
-        <h3>Log Your Cycle</h3>
-        <label>
-          Last Period Start Date
-          <input
-            type="date"
-            value={lastPeriod}
-            onChange={(e) => setLastPeriod(e.target.value)}
-          />
-        </label>
-        <label>
-          Average Cycle Length (days)
-          <input
-            type="number"
-            value={cycleLength}
-            onChange={(e) => setCycleLength(parseInt(e.target.value))}
-            min="21"
-            max="35"
-          />
-        </label>
-        <label>
-          Period Length (days)
-          <input
-            type="number"
-            value={periodLength}
-            onChange={(e) => setPeriodLength(parseInt(e.target.value))}
-            min="2"
-            max="7"
-          />
-        </label>
-        <button className="btn-primary" onClick={addCycle} disabled={!lastPeriod} style={{ width: '100%', marginTop: '1rem' }}>
-          Calculate Cycle
-        </button>
+      {/* Tab Navigation */}
+      <div className="tracker-tabs">
+        {[
+          { id: 'overview', label: 'Overview', icon: <BarChart3 size={18} /> },
+          { id: 'log', label: 'Log Cycle', icon: <Plus size={18} /> },
+          { id: 'symptoms', label: 'Symptoms', icon: <Activity size={18} /> },
+          { id: 'mood', label: 'Mood', icon: <Smile size={18} /> },
+          { id: 'notes', label: 'Notes', icon: <StickyNote size={18} /> }
+        ].map(tab => (
+          <motion.button
+            key={tab.id}
+            className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {tab.icon}
+            <span>{tab.label}</span>
+          </motion.button>
+        ))}
       </div>
 
-      {cycles.length > 0 && (
-        <motion.div
-          className="cycle-predictions"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h3>Your Cycle Predictions</h3>
-          <div className="prediction-card">
-            <div className="pred-item">
-              <span className="pred-icon"><Calendar size={24} /></span>
-              <div>
-                <h4>Next Period</h4>
-                <p>{new Date(cycles[0].nextPeriod).toLocaleDateString()}</p>
+      <AnimatePresence mode="wait">
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <motion.div
+            key="overview"
+            className="tab-content"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {cycles.length > 0 ? (
+              <>
+                {renderCycleVisual()}
+
+                <div className="predictions-grid">
+                  <motion.div 
+                    className="pred-card next-period"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <div className="pred-card-header">
+                      <Calendar size={24} />
+                      <h4>Next Period</h4>
+                    </div>
+                    <div className="pred-card-content">
+                      <p className="pred-date">{new Date(cycles[0].nextPeriod).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                      <span className="pred-countdown">{getDaysUntil(cycles[0].nextPeriod)} days</span>
+                    </div>
+                  </motion.div>
+
+                  <motion.div 
+                    className="pred-card ovulation"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <div className="pred-card-header">
+                      <Activity size={24} />
+                      <h4>Ovulation</h4>
+                    </div>
+                    <div className="pred-card-content">
+                      <p className="pred-date">{new Date(cycles[0].ovulation).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                      <span className="pred-countdown">{getDaysUntil(cycles[0].ovulation)} days</span>
+                    </div>
+                  </motion.div>
+
+                  <motion.div 
+                    className="pred-card fertility"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <div className="pred-card-header">
+                      <Heart size={24} />
+                      <h4>Fertility Window</h4>
+                    </div>
+                    <div className="pred-card-content">
+                      <p className="pred-date-range">
+                        {new Date(cycles[0].fertilityWindow.start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        <ChevronRight size={16} />
+                        {new Date(cycles[0].fertilityWindow.end).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </p>
+                      <span className="pred-countdown">6 days</span>
+                    </div>
+                  </motion.div>
+                </div>
+
+                <div className="cycle-insights">
+                  <h3><TrendingUp size={20} /> Cycle Insights</h3>
+                  <div className="insights-grid">
+                    <div className="insight-item">
+                      <span className="insight-label">Average Cycle</span>
+                      <span className="insight-value">{cycleLength} days</span>
+                    </div>
+                    <div className="insight-item">
+                      <span className="insight-label">Period Length</span>
+                      <span className="insight-value">{periodLength} days</span>
+                    </div>
+                    <div className="insight-item">
+                      <span className="insight-label">Cycles Tracked</span>
+                      <span className="insight-value">{cycles.length}</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="empty-state">
+                <Calendar size={64} className="empty-icon" />
+                <h3>Start Tracking Your Cycle</h3>
+                <p>Log your period to get predictions and insights</p>
+                <button className="btn-primary" onClick={() => setActiveTab('log')}>
+                  <Plus size={18} /> Log Your First Cycle
+                </button>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* Log Cycle Tab */}
+        {activeTab === 'log' && (
+          <motion.div
+            key="log"
+            className="tab-content"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="tracker-input">
+              <h3>Log Your Cycle</h3>
+              <label>
+                Last Period Start Date
+                <input
+                  type="date"
+                  value={lastPeriod}
+                  onChange={(e) => setLastPeriod(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                />
+              </label>
+              <label>
+                Average Cycle Length (days)
+                <input
+                  type="number"
+                  value={cycleLength}
+                  onChange={(e) => setCycleLength(parseInt(e.target.value) || 28)}
+                  min="21"
+                  max="45"
+                />
+                <small>Most cycles are 21-35 days</small>
+              </label>
+              <label>
+                Period Length (days)
+                <input
+                  type="number"
+                  value={periodLength}
+                  onChange={(e) => setPeriodLength(parseInt(e.target.value) || 5)}
+                  min="2"
+                  max="10"
+                />
+                <small>Typical period lasts 3-7 days</small>
+              </label>
+              <motion.button 
+                className="btn-primary" 
+                onClick={addCycle} 
+                disabled={!lastPeriod}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{ width: '100%', marginTop: '1rem' }}
+              >
+                <Check size={18} /> Calculate Cycle
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Symptoms Tab */}
+        {activeTab === 'symptoms' && (
+          <motion.div
+            key="symptoms"
+            className="tab-content"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="symptom-logger">
+              <div className="date-selector">
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                />
+              </div>
+
+              <h3>Log Symptoms</h3>
+              <div className="symptoms-grid">
+                {symptomsList.map(symptom => (
+                  <motion.button
+                    key={symptom.id}
+                    className={`symptom-btn ${(symptoms[selectedDate] || []).includes(symptom.id) ? 'active' : ''}`}
+                    onClick={() => toggleSymptom(symptom.id)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {symptom.icon}
+                    <span>{symptom.name}</span>
+                    {(symptoms[selectedDate] || []).includes(symptom.id) && <Check size={16} className="check-mark" />}
+                  </motion.button>
+                ))}
               </div>
             </div>
-            <div className="pred-item">
-              <span className="pred-icon"><Activity size={24} /></span>
-              <div>
-                <h4>Ovulation Day</h4>
-                <p>{new Date(cycles[0].ovulation).toLocaleDateString()}</p>
+          </motion.div>
+        )}
+
+        {/* Mood Tab */}
+        {activeTab === 'mood' && (
+          <motion.div
+            key="mood"
+            className="tab-content"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="mood-logger">
+              <div className="date-selector">
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                />
+              </div>
+
+              <h3>How are you feeling?</h3>
+              <div className="moods-grid">
+                {moodsList.map(mood => (
+                  <motion.button
+                    key={mood.id}
+                    className={`mood-btn ${moods[selectedDate] === mood.id ? 'active' : ''}`}
+                    onClick={() => setMood(mood.id)}
+                    style={{
+                      borderColor: moods[selectedDate] === mood.id ? mood.color : 'var(--border-medium)',
+                      backgroundColor: moods[selectedDate] === mood.id ? `${mood.color}20` : 'var(--bg-card)'
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <div className="mood-icon" style={{ color: mood.color }}>{mood.icon}</div>
+                    <span>{mood.name}</span>
+                  </motion.button>
+                ))}
               </div>
             </div>
-            <div className="pred-item">
-              <span className="pred-icon"><Heart size={24} /></span>
-              <div>
-                <h4>Fertility Window</h4>
-                <p>{new Date(cycles[0].fertilityWindow.start).toLocaleDateString()} - {new Date(cycles[0].fertilityWindow.end).toLocaleDateString()}</p>
+          </motion.div>
+        )}
+
+        {/* Notes Tab */}
+        {activeTab === 'notes' && (
+          <motion.div
+            key="notes"
+            className="tab-content"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="notes-section">
+              <div className="date-selector">
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                />
               </div>
+
+              <h3><Edit3 size={20} /> Add a Note</h3>
+              <textarea
+                className="note-input"
+                placeholder="How are you feeling today? Any observations?"
+                value={todayNote}
+                onChange={(e) => setTodayNote(e.target.value)}
+                rows={4}
+              />
+              <motion.button
+                className="btn-primary"
+                onClick={saveNote}
+                disabled={!todayNote.trim()}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{ marginTop: '1rem' }}
+              >
+                <Check size={18} /> Save Note
+              </motion.button>
+
+              {notes[selectedDate] && (
+                <motion.div
+                  className="saved-note"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <h4>Saved Note</h4>
+                  <p>{notes[selectedDate]}</p>
+                </motion.div>
+              )}
             </div>
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

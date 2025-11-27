@@ -1,6 +1,6 @@
 /* AdvancedFeatures.css - Enhanced Design System */
 
-/* Period Tracker */
+/* Period Tracker - Enhanced */
 .period-tracker {
   position: fixed;
   top: 0;
@@ -17,22 +17,291 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .tracker-header h2 {
   margin: 0;
   font-size: var(--text-2xl);
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
+/* Tracker Tabs */
+.tracker-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  scrollbar-width: thin;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-card);
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--primary-400);
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+  border-color: var(--primary-500);
+  color: white;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Cycle Visual - Circular Progress */
+.cycle-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--border-subtle);
+}
+
+.cycle-wheel {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.cycle-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.cycle-progress {
+  transition: stroke-dasharray 0.6s ease-out;
+}
+
+.cycle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cycle-day {
+  font-size: 3rem;
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.cycle-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-2);
+  font-weight: var(--font-medium);
+}
+
+.phase-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.phase-badge {
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-full);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.5px;
+}
+
+/* Predictions Grid */
+.predictions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.pred-card {
+  background: var(--bg-card);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--border-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.pred-card:hover {
+  border-color: var(--primary-400);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.pred-card.next-period .pred-card-header {
+  color: #ea4335;
+}
+
+.pred-card.ovulation .pred-card-header {
+  color: #34a853;
+}
+
+.pred-card.fertility .pred-card-header {
+  color: #fbbc04;
+}
+
+.pred-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.pred-card-header h4 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+}
+
+.pred-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pred-date {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.pred-date-range {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.pred-countdown {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+/* Cycle Insights */
+.cycle-insights {
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.05) 0%, var(--bg-card) 100%);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+}
+
+.cycle-insights h3 {
+  margin: 0 0 var(--space-5) 0;
+  color: var(--text-primary);
+  font-size: var(--text-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+}
+
+.insight-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+}
+
+.insight-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.insight-value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--primary-400);
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+}
+
+.empty-icon {
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  margin: 0 0 var(--space-2) 0;
+  color: var(--text-primary);
+  font-size: var(--text-xl);
+}
+
+.empty-state p {
+  margin: 0 0 var(--space-6) 0;
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+}
+
+/* Tracker Input */
 .tracker-input {
   background: var(--bg-card);
   padding: var(--space-6);
   border-radius: var(--radius-xl);
-  margin-bottom: var(--space-8);
-  box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
 }
 
 .tracker-input h3 {
@@ -68,59 +337,222 @@
   box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
 }
 
-.cycle-predictions {
-  background: linear-gradient(135deg, rgba(66, 133, 244, 0.1) 0%, var(--bg-card) 100%);
-  padding: var(--space-6);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-subtle);
+.tracker-input small {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-style: italic;
 }
 
-.cycle-predictions h3 {
-  margin: 0 0 var(--space-6) 0;
-  color: var(--text-primary);
-  font-size: var(--text-xl);
+/* Date Selector */
+.date-selector {
+  margin-bottom: var(--space-6);
 }
 
-.prediction-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.pred-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-  padding: var(--space-5);
-  background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-subtle);
-}
-
-.pred-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(66, 133, 244, 0.1);
-  color: var(--primary-400);
-  flex-shrink: 0;
-}
-
-.pred-item h4 {
-  margin: 0 0 var(--space-1) 0;
-  font-size: var(--text-base);
-  color: var(--text-primary);
+.date-selector label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
   font-weight: var(--font-semibold);
 }
 
-.pred-item p {
-  margin: 0;
+.date-selector input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transition: all var(--transition-base);
+}
+
+.date-selector input:focus {
+  border-color: var(--primary-500);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+/* Symptom Logger */
+.symptom-logger h3,
+.mood-logger h3,
+.notes-section h3 {
+  margin: 0 0 var(--space-5) 0;
+  color: var(--text-primary);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+}
+
+.symptoms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-3);
+}
+
+.symptom-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--bg-card);
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
   font-size: var(--text-sm);
   color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.symptom-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--primary-400);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.symptom-btn.active {
+  background: rgba(66, 133, 244, 0.1);
+  border-color: var(--primary-500);
+  color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+.symptom-btn .check-mark {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  color: var(--primary-500);
+}
+
+/* Mood Logger */
+.moods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-4);
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--bg-card);
+  border: 3px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-semibold);
+}
+
+.mood-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mood-btn.active {
+  box-shadow: 0 0 0 4px rgba(66, 133, 244, 0.2);
+  transform: scale(1.05);
+}
+
+.mood-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Notes Section */
+.note-input {
+  width: 100%;
+  padding: var(--space-4);
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  resize: vertical;
+  font-family: inherit;
+  transition: all var(--transition-base);
+}
+
+.note-input:focus {
+  border-color: var(--primary-500);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+.saved-note {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.05) 0%, var(--bg-card) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+}
+
+.saved-note h4 {
+  margin: 0 0 var(--space-3) 0;
+  color: var(--primary-400);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.saved-note p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tracker-tabs {
+    gap: var(--space-1);
+  }
+
+  .tab-btn span {
+    display: none;
+  }
+
+  .tab-btn {
+    padding: var(--space-3);
+    justify-content: center;
+  }
+
+  .predictions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .symptoms-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .moods-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cycle-wheel {
+    width: 180px;
+    height: 180px;
+  }
+
+  .cycle-day {
+    font-size: 2.5rem;
+  }
 }
 
 /* STI Risk Calculator */
