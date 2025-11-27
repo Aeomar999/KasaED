@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, MapPin, Navigation, Phone, Star, Clock,
@@ -9,6 +10,7 @@ import './LocationFeatures.css';
 
 // Feature 2: Nearby Clinics Finder
 export const ClinicFinder = ({ onClose }) => {
+  const { t } = useTranslation();
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [clinics, setClinics] = useState([]);
@@ -158,24 +160,24 @@ export const ClinicFinder = ({ onClose }) => {
       exit={{ opacity: 0, y: '100%' }}
     >
       <div className="finder-header">
-        <h2>Find Youth-Friendly Clinics</h2>
+        <h2>{t('clinicFinder.title')}</h2>
         <button className="close-btn" onClick={onClose}><X size={24} /></button>
       </div>
 
       {loading ? (
         <div className="loading-state">
           <div className="spinner"></div>
-          <p>Finding clinics near you...</p>
+          <p>{t('clinicFinder.findingClinics')}</p>
         </div>
       ) : (
         <>
           <div className="finder-filters">
-            <button className="filter-btn active">All Clinics</button>
+            <button className="filter-btn active">{t('clinicFinder.allClinics')}</button>
             <button className="filter-btn" onClick={() => setClinics(clinics.filter(c => c.youthFriendly))}>
-              Youth-Friendly
+              {t('clinicFinder.youthFriendly')}
             </button>
             <button className="filter-btn" onClick={() => setClinics(clinics.filter(c => c.freeServices))}>
-              Free Services
+              {t('clinicFinder.freeServices')}
             </button>
           </div>
 
@@ -196,7 +198,7 @@ export const ClinicFinder = ({ onClose }) => {
                     <p className="clinic-address"><MapPin size={14} style={{ display: 'inline', marginRight: '4px' }} /> {clinic.address}</p>
                     {clinic.distance && (
                       <p className="clinic-distance">
-                        <Navigation size={14} style={{ display: 'inline', marginRight: '4px' }} /> {clinic.distance.toFixed(1)} km away
+                        <Navigation size={14} style={{ display: 'inline', marginRight: '4px' }} /> {t('clinicFinder.distance', { distance: clinic.distance.toFixed(1) })}
                       </p>
                     )}
                     <div className="clinic-rating">
@@ -223,7 +225,7 @@ export const ClinicFinder = ({ onClose }) => {
                       exit={{ opacity: 0, height: 0 }}
                     >
                       <div className="detail-section">
-                        <h4>Services Offered</h4>
+                        <h4>{t('clinicFinder.servicesOffered')}</h4>
                         <div className="services-tags">
                           {clinic.services.map((service, i) => (
                             <span key={i} className="service-tag">{service}</span>
@@ -231,11 +233,11 @@ export const ClinicFinder = ({ onClose }) => {
                         </div>
                       </div>
                       <div className="detail-section">
-                        <h4>Operating Hours</h4>
+                        <h4>{t('clinicFinder.operatingHours')}</h4>
                         <p><Clock size={14} style={{ display: 'inline', marginRight: '4px' }} /> {clinic.hours}</p>
                       </div>
                       <div className="detail-section">
-                        <h4>Contact</h4>
+                        <h4>{t('clinicFinder.contact')}</h4>
                         <p><Phone size={14} style={{ display: 'inline', marginRight: '4px' }} /> {clinic.phone}</p>
                       </div>
                       <div className="clinic-actions">
@@ -246,13 +248,13 @@ export const ClinicFinder = ({ onClose }) => {
                             getDirections(clinic);
                           }}
                         >
-                          <Navigation size={16} style={{ marginRight: '8px' }} /> Get Directions
+                          <Navigation size={16} style={{ marginRight: '8px' }} /> {t('clinicFinder.getDirections')}
                         </button>
                         <button className="btn-call" onClick={(e) => {
                           e.stopPropagation();
                           window.location.href = `tel:${clinic.phone}`;
                         }}>
-                          <Phone size={16} style={{ marginRight: '8px' }} /> Call Now
+                          <Phone size={16} style={{ marginRight: '8px' }} /> {t('clinicFinder.callNow')}
                         </button>
                       </div>
                     </motion.div>
@@ -269,6 +271,7 @@ export const ClinicFinder = ({ onClose }) => {
 
 // Feature 7: Emergency Contact Network
 export const EmergencyContacts = ({ onClose }) => {
+  const { t } = useTranslation();
   const [contacts, setContacts] = useState(() => {
     const saved = localStorage.getItem('emergencyContacts');
     return saved ? JSON.parse(saved) : [];
@@ -332,32 +335,32 @@ export const EmergencyContacts = ({ onClose }) => {
       exit={{ opacity: 0, y: '100%' }}
     >
       <div className="emergency-header">
-        <h2>Emergency Contact Network</h2>
+        <h2>{t('emergencyContacts.title')}</h2>
         <button className="close-btn" onClick={onClose}><X size={24} /></button>
       </div>
 
       <div className="sos-section">
-        <h3><AlertTriangle size={24} style={{ display: 'inline', marginRight: '8px', color: '#ef4444' }} /> One-Tap SOS Alert</h3>
-        <p>Send emergency alert with your location to all trusted contacts</p>
+        <h3><AlertTriangle size={24} style={{ display: 'inline', marginRight: '8px', color: '#ef4444' }} /> {t('emergencyContacts.sosAlert')}</h3>
+        <p>{t('emergencyContacts.sosDescription')}</p>
         <button
           className="sos-btn"
           onClick={sendSOSAlert}
           disabled={contacts.length === 0 || sendingAlert}
         >
-          {sendingAlert ? 'Sending Alert...' : 'SEND SOS ALERT'}
+          {sendingAlert ? t('emergencyContacts.sendingAlert') : t('emergencyContacts.sendSOS')}
         </button>
         {contacts.length === 0 && (
-          <p className="sos-warning">⚠️ Add at least one contact first</p>
+          <p className="sos-warning">{t('emergencyContacts.addContactFirst')}</p>
         )}
       </div>
 
       <div className="add-contact-section">
-        <h3>Add Trusted Contact</h3>
+        <h3>{t('emergencyContacts.addContact')}</h3>
         <div className="input-group">
           <User size={18} className="input-icon" />
           <input
             type="text"
-            placeholder="Contact Name"
+            placeholder={t('emergencyContacts.contactName')}
             value={newContact.name}
             onChange={(e) => setNewContact({ ...newContact, name: e.target.value })}
           />
@@ -366,20 +369,20 @@ export const EmergencyContacts = ({ onClose }) => {
           <Phone size={18} className="input-icon" />
           <input
             type="tel"
-            placeholder="Phone Number"
+            placeholder={t('emergencyContacts.phoneNumber')}
             value={newContact.phone}
             onChange={(e) => setNewContact({ ...newContact, phone: e.target.value })}
           />
         </div>
         <button className="btn-add" onClick={addContact} disabled={!newContact.name || !newContact.phone}>
-          <Plus size={18} style={{ marginRight: '8px' }} /> Add Contact
+          <Plus size={18} style={{ marginRight: '8px' }} /> {t('emergencyContacts.addContactButton')}
         </button>
       </div>
 
       <div className="contacts-list-section">
-        <h3>Your Trusted Contacts ({contacts.length})</h3>
+        <h3>{t('emergencyContacts.trustedContacts', { count: contacts.length })}</h3>
         {contacts.length === 0 ? (
-          <p className="empty-state">No emergency contacts yet</p>
+          <p className="empty-state">{t('emergencyContacts.noContacts')}</p>
         ) : (
           <div className="contacts-list">
             {contacts.map(contact => (
@@ -408,21 +411,21 @@ export const EmergencyContacts = ({ onClose }) => {
       </div>
 
       <div className="emergency-hotlines">
-        <h3>National Emergency Hotlines</h3>
+        <h3>{t('emergencyContacts.nationalHotlines')}</h3>
         <div className="hotline-card">
-          <h4>Police Emergency</h4>
+          <h4>{t('emergencyContacts.policeEmergency')}</h4>
           <a href="tel:191"><Phone size={14} style={{ display: 'inline', marginRight: '4px' }} /> 191</a>
         </div>
         <div className="hotline-card">
-          <h4>Ambulance Service</h4>
+          <h4>{t('emergencyContacts.ambulanceService')}</h4>
           <a href="tel:193"><Phone size={14} style={{ display: 'inline', marginRight: '4px' }} /> 193</a>
         </div>
         <div className="hotline-card">
-          <h4>DOVVSU (Domestic Violence)</h4>
+          <h4>{t('emergencyContacts.dovvsu')}</h4>
           <a href="tel:0800701701"><Phone size={14} style={{ display: 'inline', marginRight: '4px' }} /> 0800-701-701</a>
         </div>
         <div className="hotline-card">
-          <h4>National Ambulance Service</h4>
+          <h4>{t('emergencyContacts.nationalAmbulance')}</h4>
           <a href="tel:112"><Phone size={14} style={{ display: 'inline', marginRight: '4px' }} /> 112</a>
         </div>
       </div>

@@ -1,0 +1,431 @@
+{
+  "welcome": {
+    "title": "Start Your Journey with KasaEd! 🚀",
+    "subtitle": "Your trusted companion for real talk about sexual and reproductive health. Ask questions, get answers, and find support anytime, anywhere — all in your language and privacy guaranteed.",
+    "getStarted": "Get Started"
+  },
+  "language": {
+    "title": "Choose Your Language",
+    "subtitle": "Select your preferred language",
+    "continue": "Continue"
+  },
+  "privacy": {
+    "title": "Your Privacy Matters",
+    "point1": "Everything you ask is confidential.",
+    "point2": "We don't collect your name, email, or phone number.",
+    "point3": "All conversations are encrypted.",
+    "point4": "You can delete your chat history anytime.",
+    "accept": "I understand and accept",
+    "acceptButton": "Accept"
+  },
+  "age": {
+    "title": "How Old Are You?",
+    "subtitle": "This helps us give you the right information for your age.",
+    "teen": "13-17 (Teen)",
+    "youngAdult": "18-25 (Young Adult)",
+    "other": "26+ (Other)",
+    "continue": "Continue"
+  },
+  "preferences": {
+    "title": "Customize Your Experience",
+    "subtitle": "Adjust settings to make your experience more comfortable",
+    "fontSize": "Font Size",
+    "darkMode": "Dark Mode",
+    "voiceResponses": "Voice Responses",
+    "highContrast": "High Contrast Mode",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "extraLarge": "Extra Large"
+  },
+  "personalization": {
+    "title": "Personalize Your Experience",
+    "subtitle": "Help the AI get to know you better (completely optional)",
+    "nickname": "Nickname (Optional)",
+    "nicknamePlaceholder": "What should we call you?",
+    "avatar": "Choose Your Avatar (Optional)",
+    "skip": "Skip This Step",
+    "getStarted": "Start Chatting!"
+  },
+  "chat": {
+    "greeting": "Hi there! 👋",
+    "subtitle": "Ask me anything about sexual health, mental health, or relationships.",
+    "noJudgment": "I'm here to help, no judgment!",
+    "placeholder": "Ask Kasa anything...",
+    "listening": "Listening...",
+    "quickReplies": {
+      "contraception": "Contraception",
+      "relationships": "Relationships & Consent",
+      "mentalHealth": "Mental Health",
+      "stiPrevention": "STI Prevention",
+      "general": "General SRH"
+    },
+    "newChat": "New Chat",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "daysAgo": "days ago",
+    "stopGenerating": "Stop generating",
+    "findClinics": "Find Nearby Clinics",
+    "tellMore": "Tell me more",
+    "noThanks": "No, thanks"
+  },
+  "menu": {
+    "settings": "Settings",
+    "clearChat": "Clear Chat",
+    "quickExit": "Quick Exit",
+    "history": "History",
+    "newSession": "New Session",
+    "deleteSelected": "Delete Selected",
+    "selectMode": "Select Mode",
+    "cancelSelection": "Cancel",
+    "mentalHealthCheckIn": "Mental Health Check-In",
+    "takeSRHQuiz": "Take SRH Quiz",
+    "moodJournal": "Mood Journal",
+    "medicationReminders": "Medication Reminders",
+    "periodTracker": "Period Tracker",
+    "stiRiskCalculator": "STI Risk Calculator",
+    "relationshipHealth": "Relationship Health",
+    "communityQA": "Community Q&A",
+    "achievements": "Achievements",
+    "findNearbyClinics": "Find Nearby Clinics",
+    "autoDeleteTimer": "Auto-Delete Timer",
+    "showRecommendations": "Show Recommendations",
+    "hideRecommendations": "Hide Recommendations",
+    "changeBotPersonality": "Change Bot Personality",
+    "profileSettings": "Profile Settings",
+    "enableKasaAI": "Enable Kasa AI",
+    "sendFeedback": "Send Feedback"
+  },
+  "personality": {
+    "friendly": "Friendly",
+    "professional": "Professional",
+    "casual": "Casual and fun",
+    "empathetic": "Empathetic"
+  },
+  "timer": {
+    "title": "Auto-Delete Timer",
+    "description": "Automatically delete your chat history after:",
+    "option1Hour": "1 Hour",
+    "option24Hours": "24 Hours",
+    "option7Days": "7 Days",
+    "option30Days": "30 Days",
+    "option90Days": "90 Days (Recommended)",
+    "optionOff": "Turn Off",
+    "active": "Timer active:",
+    "remaining": "remaining",
+    "cancel": "Cancel Timer",
+    "warningTitle": "Privacy Protection Active",
+    "warningMessage": "Your chat history will automatically be deleted after",
+    "warningTurnOff": "Turn Off Timer",
+    "warningKeep": "Keep Timer"
+  },
+  "confirmations": {
+    "clearChat": "Clear all messages in this chat?",
+    "deleteSession": "Delete chat session(s)?",
+    "panicExit": "This will close the app and clear all data. Continue?"
+  },
+  "alerts": {
+    "speechNotSupported": "Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.",
+    "micAccessDenied": "Microphone access denied. Please allow microphone access.",
+    "ttsNotSupported": "Text-to-speech not supported in your browser."
+  },
+  "panic": {
+    "button": "🔴 QUICK EXIT"
+  },
+  "emergency": {
+    "title": "🚨 IMMEDIATE SUPPORT AVAILABLE",
+    "message": "I hear you. You're not alone. Please reach out to one of these numbers right now. They are trained to help. You matter. Help is available.",
+    "callNow": "📞 CALL NOW",
+    "sendMessage": "💬 MESSAGE",
+    "continueChat": "Continue Chatting",
+    "closeApp": "Close App"
+  },
+  "footer": {
+    "faq": "ℹ️ FAQ",
+    "emergency": "📞 Emergency Help",
+    "settings": "⚙️ Settings"
+  },
+  "offline": {
+    "banner": "📵 You're Offline - Limited Mode",
+    "faq": "❓ Frequently Asked Questions",
+    "hotlines": "📞 Emergency Hotlines",
+    "contraception": "💊 Contraception Guide",
+    "sti": "⚠️ STI Info",
+    "mentalHealth": "🧠 Mental Health Tips",
+    "consent": "💑 Consent & Relationships",
+    "faqContent": {
+      "faq1": {
+        "question": "How effective are condoms?",
+        "answer": "Condoms are about 98% effective when used correctly every time. They also protect against STIs including HIV. Use a new condom for every sexual act."
+      },
+      "faq2": {
+        "question": "Can I get pregnant during my period?",
+        "answer": "Yes, though less likely. Sperm can live in the body for up to 5 days, so if you have a short cycle, pregnancy is possible. Use protection consistently."
+      },
+      "faq3": {
+        "question": "How do I know if I have an STI?",
+        "answer": "Many STIs have no symptoms. Common signs include unusual discharge, sores, pain during urination, or itching. Get tested regularly if sexually active."
+      },
+      "faq4": {
+        "question": "Is HIV curable?",
+        "answer": "HIV is not curable, but it is treatable. Antiretroviral therapy (ARVs) allows people with HIV to live long, healthy lives. With treatment, viral load can become undetectable."
+      },
+      "faq5": {
+        "question": "What is consent?",
+        "answer": "Consent is clear, voluntary agreement to engage in sexual activity. It must be freely given, can be withdrawn anytime, and silence or \"maybe\" is not consent."
+      },
+      "faq6": {
+        "question": "Where can I get free condoms?",
+        "answer": "Free condoms are available at government health facilities, PPAG clinics, youth-friendly centers, and some NGO offices across Ghana."
+      },
+      "faq7": {
+        "question": "How can I manage stress?",
+        "answer": "Healthy stress management includes: regular exercise, adequate sleep, talking to someone you trust, deep breathing exercises, and engaging in hobbies you enjoy."
+      },
+      "faq8": {
+        "question": "What should I do if I'm feeling suicidal?",
+        "answer": "Call a crisis hotline immediately (Suicide Prevention: 0800234567). Talk to a trusted adult, counselor, or healthcare provider. You are not alone, and help is available."
+      },
+      "faq9": {
+        "question": "Can I get the morning-after pill without prescription?",
+        "answer": "Yes, emergency contraception (Postinor-2, Plan B) is available over-the-counter at pharmacies in Ghana. Most effective within 72 hours of unprotected sex."
+      },
+      "faq10": {
+        "question": "How do I get tested for HIV?",
+        "answer": "Free HIV testing is available at Voluntary Counseling and Testing (VCT) centers, government hospitals, and PPAG clinics. Testing is confidential."
+      }
+    }
+  },
+  "mentalHealth": {
+    "checkIn": {
+      "title": "Mental Health Check-In",
+      "welcome": {
+        "title": "Your Mental Wellness Matters",
+        "text": "Taking care of your mental health is just as important as your physical health. Mental wellness affects every aspect of your life, including your sexual health, relationships, and overall well-being.",
+        "safeConfidential": "Safe & Confidential",
+        "clinicallyValidated": "Clinically Validated",
+        "notDiagnosis": "Not a Diagnosis",
+        "whyMatters": "Why Mental Health Matters for Sexual Health",
+        "healthyRelationships": "Healthy Relationships",
+        "betterDecisionMaking": "Better Decision Making",
+        "physicalWellness": "Physical Wellness",
+        "selfCare": "Self-Care",
+        "startCheckIn": "Start Check-In",
+        "viewHistory": "View Assessment History"
+      },
+      "selection": {
+        "title": "Choose Assessment Type",
+        "depression": {
+          "title": "Depression Screening",
+          "description": "PHQ-9 Assessment - 9 questions",
+          "info": "Screens for symptoms of depression including mood, interest, sleep, and energy"
+        },
+        "anxiety": {
+          "title": "Anxiety Screening",
+          "description": "GAD-7 Assessment - 7 questions",
+          "info": "Screens for generalized anxiety disorder including worry, restlessness, and fear"
+        }
+      },
+      "assessment": {
+        "depressionTitle": "Depression Screening",
+        "anxietyTitle": "Anxiety Screening",
+        "questionCounter": "Question {{current}} of {{total}}",
+        "confidentialNote": "All responses are confidential and stored locally on your device"
+      },
+      "results": {
+        "title": "Your Results",
+        "depressionScreening": "Depression Screening",
+        "anxietyScreening": "Anxiety Screening",
+        "outOf": "out of {{max}}",
+        "recommendations": "Recommendations:",
+        "takeAnother": "Take Another Assessment",
+        "returnToChat": "Return to Chat",
+        "disclaimer": "This is a screening tool, not a professional diagnosis. For a complete evaluation, please consult a licensed mental health provider or your doctor.",
+        "needSupport": "Need immediate support?",
+        "mentalHealthCrisisLine": "Mental Health Crisis Line: {{number}}"
+      },
+      "history": {
+        "title": "Assessment History",
+        "noHistory": "No Assessment History",
+        "noHistoryText": "Your completed assessments will appear here",
+        "depression": "Depression",
+        "anxiety": "Anxiety"
+      }
+    }
+  },
+  "clinicFinder": {
+    "title": "Find Youth-Friendly Clinics",
+    "findingClinics": "Finding clinics near you...",
+    "allClinics": "All Clinics",
+    "youthFriendly": "Youth-Friendly",
+    "freeServices": "Free Services",
+    "distance": "{{distance}} km away",
+    "getDirections": "Get Directions",
+    "callNow": "Call Now",
+    "servicesOffered": "Services Offered",
+    "operatingHours": "Operating Hours",
+    "contact": "Contact"
+  },
+  "emergencyContacts": {
+    "title": "Emergency Contact Network",
+    "sosAlert": "One-Tap SOS Alert",
+    "sosDescription": "Send emergency alert with your location to all trusted contacts",
+    "sendSOS": "SEND SOS ALERT",
+    "sendingAlert": "Sending Alert...",
+    "addContactFirst": "⚠️ Add at least one contact first",
+    "addContact": "Add Trusted Contact",
+    "contactName": "Contact Name",
+    "phoneNumber": "Phone Number",
+    "addContactButton": "Add Contact",
+    "trustedContacts": "Your Trusted Contacts ({{count}})",
+    "noContacts": "No emergency contacts yet",
+    "nationalHotlines": "National Emergency Hotlines",
+    "policeEmergency": "Police Emergency",
+    "ambulanceService": "Ambulance Service",
+    "dovvsu": "DOVVSU (Domestic Violence)",
+    "nationalAmbulance": "National Ambulance Service"
+  },
+  "features": {
+    "healthRecommendations": {
+      "personalizedForYou": "Personalized for You",
+      "stressManagement": {
+        "title": "Stress Management",
+        "text": "Based on your questions, try deep breathing exercises daily and maintain a regular sleep schedule."
+      },
+      "familyPlanning": {
+        "title": "Family Planning",
+        "text": "Consider visiting a family planning clinic for personalized contraception advice."
+      },
+      "regularTesting": {
+        "title": "Regular Testing",
+        "text": "Get tested for STIs every 6 months if sexually active. Free testing available at VCT centers."
+      },
+      "stayHealthy": {
+        "title": "Stay Healthy",
+        "text": "Keep asking questions! Regular check-ups and safe practices are key to good sexual health."
+      }
+    },
+    "quiz": {
+      "title": "Sexual & Reproductive Health Quiz",
+      "completeTitle": "Quiz Complete!",
+      "question": "Question",
+      "excellent": "Excellent! You know your stuff!",
+      "goodJob": "Good job! Keep learning!",
+      "keepPracticing": "Keep practicing, you'll get there!",
+      "tryAgain": "Try Again",
+      "close": "Close",
+      "questions": {
+        "0": {
+          "question": "What is the most effective way to prevent both pregnancy and STIs?",
+          "options": {
+            "0": "Birth control pills",
+            "1": "Condoms",
+            "2": "Withdrawal method",
+            "3": "Fertility awareness"
+          }
+        },
+        "1": {
+          "question": "How often should sexually active people get tested for STIs?",
+          "options": {
+            "0": "Once a year",
+            "1": "Every 6 months",
+            "2": "Only when symptoms appear",
+            "3": "Once in a lifetime"
+          }
+        },
+        "2": {
+          "question": "What does consent mean in a sexual relationship?",
+          "options": {
+            "0": "Not saying no",
+            "1": "Clear, enthusiastic agreement",
+            "2": "Going along with it",
+            "3": "Trusting your partner"
+          }
+        },
+        "3": {
+          "question": "Which of these is a sign of a healthy relationship?",
+          "options": {
+            "0": "Respect and open communication",
+            "1": "Jealousy and control",
+            "2": "Isolation from friends",
+            "3": "Pressure to do things you're uncomfortable with"
+          }
+        },
+        "4": {
+          "question": "What is the window period for HIV testing?",
+          "options": {
+            "0": "1-2 days",
+            "1": "2-4 weeks",
+            "2": "3-6 months",
+            "3": "1 year"
+          }
+        }
+      }
+    },
+    "moodTracker": {
+      "title": "Mood Journal",
+      "tabs": {
+        "log": "Log Mood",
+        "analytics": "Analytics",
+        "history": "History"
+      },
+      "log": {
+        "date": "Date",
+        "howAreYouFeeling": "How are you feeling?",
+        "selectEmoji": "Select the emoji that best describes your mood",
+        "whatsOnYourMind": "What's on your mind? (Optional)",
+        "placeholder": "Share your thoughts, feelings, or what happened today...",
+        "saveEntry": "Save Entry"
+      },
+      "analytics": {
+        "noDataYet": "No Data Yet",
+        "startLogging": "Start logging your moods to see your trends and insights!",
+        "logFirstMood": "Log Your First Mood",
+        "yourMoodTrends": "Your Mood Trends",
+        "last7Days": "Last 7 days overview",
+        "averageMood": "Average Mood",
+        "dayStreak": "Day Streak",
+        "mostCommon": "Most Common",
+        "keepItUp": "Keep it up!",
+        "startStreak": "Start your streak today!",
+        "weeklyPattern": "Weekly Mood Pattern",
+        "insights": "💡 Insights",
+        "insightsPositive": "You've been feeling great lately! Keep up the positive energy.",
+        "insightsLowMood": "Your mood has been low recently. Consider reaching out to someone you trust or a mental health professional.",
+        "insightsStreak": "Amazing! You've logged your mood for {streak} days straight. Consistency is key!"
+      },
+      "history": {
+        "title": "Mood History",
+        "noEntries": "No Entries Yet",
+        "startTracking": "Start tracking your mood to build your history!",
+        "logMood": "Log Your Mood",
+        "today": "Today",
+        "yesterday": "Yesterday"
+      }
+    },
+    "medicationReminders": {
+      "title": "Medication Reminders",
+      "addReminder": "Add Reminder",
+      "medicationName": "Medication name",
+      "noReminders": "No reminders set. Add one to get started!",
+      "frequency": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      }
+    },
+    "feedbackForm": {
+      "title": "Share Your Feedback",
+      "ratingQuestion": "How would you rate your experience?",
+      "placeholder": "Tell us what you think...",
+      "submit": "Submit Feedback",
+      "thankYou": "Thank You! 🙏",
+      "successMessage": "Your feedback helps us improve KasaEd for all users."
+    },
+    "common": {
+      "close": "Close",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  }
+}

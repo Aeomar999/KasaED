@@ -1,0 +1,509 @@
+{
+  "welcome": {
+    "title": "Woezo na KasaEd! 🚀",
+    "subtitle": "Nyoamesi a wode bo asɛm pa a ɛfa nhonam akwahosan ne awo ho nsɛm ho. Bisa nsɛm, nya mmuae, na nya mmoa bere biara, baabiara — wɔ wo kasa mu na wɔahyɛ wo ho bɔ sɛ wɔbɛkora wo kokoam so.",
+    "getStarted": "Fi Ase"
+  },
+  "language": {
+    "title": "Tia Wò Gbe",
+    "subtitle": "Tia wò gbe si alesi nawɔ la",
+    "continue": "Yi Adɔe"
+  },
+  "privacy": {
+    "title": "Wò Ɣaɣla Ðe Vevie",
+    "point1": "Nu siɖe alesi nawɔ la ɣaɣla de.",
+    "point2": "Míenɔnɔ wò ŋɔ, email, alo telefon nɔma.",
+    "point3": "Míedze encryption aɖe wò ŋɔɖoɖo ƒe nyatakaka siwo katã.",
+    "point4": "Ateŋu anya wò ŋɔɖoɖo ƒe nyatakaka ɣe ɣe.",
+    "accept": "Mate Aseɛ",
+    "acceptButton": "Xɔe"
+  },
+  "age": {
+    "title": "Ne Mɔ Kɛ?",
+    "subtitle": "Esia ana míɖe wò ŋuti nyatakaka siwo le wò ŋɔƒoƒo me.",
+    "teen": "13-17 (Mmeawa)",
+    "youngAdult": "18-25 (Mmeawa Panyin)",
+    "other": "26+ (Afoforo)",
+    "continue": "Yi Adɔe"
+  },
+  "preferences": {
+    "title": "Ɖo Wò Mɔnuwo Ɖe",
+    "subtitle": "Ɖo nɔnɔmetatawo ɖe be wò nyoanya me kpɔe",
+    "fontSize": "Ƒe Ƒoƒo Kpɔe",
+    "darkMode": "Ɖum Mode",
+    "voiceResponses": "Kasa Mɔnuwo",
+    "highContrast": "Kɔntaras Kpɔe",
+    "small": "Sɔɔ",
+    "medium": "Midiɛm",
+    "large": "Ɖe",
+    "extraLarge": "Ɖe Ɖe"
+  },
+  "personalization": {
+    "title": "Ɖo Wò Mɔnuwo Ɖe",
+    "subtitle": "Kpea AI be wo ŋuti nyatakaka (esia medze edzi o)",
+    "nickname": "Ɖo (Esia medze edzi o)",
+    "nicknamePlaceholder": "Mía ɖe wo ŋkɔ kɔkɔe?",
+    "avatar": "Tia Wò Avatar (Esia medze edzi o)",
+    "skip": "Ɖa Adzɔe",
+    "getStarted": "Fi Ase"
+  },
+  "chat": {
+    "greeting": "Woezo! 👋",
+    "subtitle": "Bisa me nu siɖe alesi nawɔ la ɣaɣla ne wò ŋɔɖoɖo, adwene akwahosan, alo abusuabɔ ho.",
+    "noJudgment": "Míele afii be míadzɔa, míenɔnu nu siɖe!",
+    "placeholder": "Bisa Kasa nu siɖe...",
+    "listening": "Míele...",
+    "quickReplies": {
+      "contraception": "Awo ano akwankyerɛ",
+      "relationships": "Abusuabɔ & Mpene",
+      "mentalHealth": "Adwene Akwahosan",
+      "stiPrevention": "STI Ho Bammɔ",
+      "general": "SRH Nsɛm Ankasa"
+    },
+    "newChat": "Ŋɔɖoɖo Yeye",
+    "today": "Egbe",
+    "yesterday": "Edzi",
+    "daysAgo": "e wɔ",
+    "stopGenerating": "Tɔe",
+    "findClinics": "Di Ayaresa Benkum",
+    "tellMore": "Kpɔe me nu bubuwo",
+    "noThanks": "Awoo, meda ase"
+  },
+  "menu": {
+    "settings": "Ɖoɖowo",
+    "clearChat": "Ɖe Ŋɔɖoɖo Ɖe",
+    "quickExit": "Ɖɔ Adzɔe",
+    "history": "Nyaŋɔŋlɔ",
+    "newSession": "Ŋɔɖoɖo Yeye",
+    "deleteSelected": "Ɖe Nusiwo Wopaw Ɖe",
+    "selectMode": "Paw Mɔdz",
+    "cancelSelection": "Tɔe",
+    "mentalHealthCheckIn": "Adwene Akwahosan Kɔkɔbɔ",
+    "takeSRHQuiz": "Ɖe SRH Nutsotso Ɖe",
+    "moodJournal": "Mood Ŋɔŋlɔ",
+    "medicationReminders": "Ƒuƒoƒo Nudzadzanya",
+    "periodTracker": "Nnɔɔ Ŋɔŋlɔ",
+    "stiRiskCalculator": "STI Hwehwɛ Kalkulatɛ",
+    "relationshipHealth": "Abusuabɔ Ahohonua",
+    "communityQA": "Community Q&A",
+    "achievements": "Nuwɔma",
+    "findNearbyClinics": "Di Ayaresa Benkum",
+    "autoDeleteTimer": "Aboa a Ɛbɛpepa",
+    "showRecommendations": "Fia Nudzadzanya",
+    "hideRecommendations": "Ɖe Nudzadzanya Ɖe",
+    "changeBotPersonality": "Trɔ Bot Nuŋlɔdzesi",
+    "profileSettings": "Profael Ɖoɖowo",
+    "enableKasaAI": "Ɖe Kasa AI Ɖe",
+    "sendFeedback": "Ɖe Nudzadzanya Ɖe"
+  },
+  "personality": {
+    "friendly": "Ɖekɛ Ɖe",
+    "professional": "Ɖoɖowo Ɖekɛ",
+    "casual": "Ɖekɛ Ɖe kple Fie",
+    "empathetic": "Ɖekɛ Ɖe kple Nyame"
+  },
+  "timer": {
+    "title": "Aboa a Ɛbɛpepa",
+    "description": "Ɖe wò ŋɔɖoɖo ƒe nyatakaka ɣe ɣe megbe:",
+    "option1Hour": "Gaƒoƒo 1",
+    "option24Hours": "Gaƒoƒo 24",
+    "option7Days": "Eŋɔwo 7",
+    "option30Days": "Eŋɔwo 30",
+    "option90Days": "Eŋɔwo 90 (Mía ŋu)",
+    "optionOff": "Tɔe",
+    "active": "Aboa a ɛwɔ adwuma:",
+    "remaining": "a ayi",
+    "cancel": "Tɔe Aboa",
+    "warningTitle": "Ho Hia a Ɛwɔ Hɔ",
+    "warningMessage": "Wò ŋɔɖoɖo ƒe nyatakaka betumi anya nsie megbe",
+    "warningTurnOff": "Tɔe Aboa",
+    "warningKeep": "Yi Adɔe kple Fa Aboa"
+  },
+  "confirmations": {
+    "clearChat": "Ɖe ŋɔɖoɖo siwo katã ɖe le ŋɔɖoɖo sia me?",
+    "deleteSession": "Ɖe ŋɔɖoɖo ahorow ɖe?",
+    "panicExit": "Esia betumi ama dwumadie no anya mu na apepa data siwo katã. Yi adɔe?"
+  },
+  "alerts": {
+    "speechNotSupported": "Sɛ wɔn antumi nnya dwumadi a wɔde bo kasa no. Yɛsrɛ sɛ fa Chrome, Edge, anaa Safari.",
+    "micAccessDenied": "Wɔn nnya kwan sɛ wɔfa microphone no. Yɛsrɛ sɛ fa kwan.",
+    "ttsNotSupported": "Sɛ wɔn antumi nnya dwumadi a wɔde bo kasa no kyerɛɛ kasa no."
+  },
+  "panic": {
+    "button": "🔴 Ɖɔ ADZOE"
+  },
+  "emergency": {
+    "title": "🚨 MMOSUPƐN A WƆ HIA",
+    "message": "Mate ase. Wonnyɛ anko. Yɛsrɛ sɛ fa dina biara. Wɔn a wɔkyerɛw ama wo. Wonni mmɔborɔ. Mmoa wɔ hɔ.",
+    "callNow": "📞 Yɔ SEISEIARA",
+    "sendMessage": "💬 NTSƐM",
+    "continueChat": "Yi Adɔe kple Kɔmmɔ",
+    "closeApp": "Tɔe Dwumadie"
+  },
+  "footer": {
+    "faq": "ℹ️ NTSƐM A WƆBISA TAA",
+    "emergency": "📞 Mmosupɛn Nsɛm",
+    "settings": "⚙️ Ɖoɖowo"
+  },
+  "offline": {
+    "banner": "📵 Woreyɛ Offline - Mɔdz a Ɛwɔ Hɔ",
+    "faq": "❓ Ntsɛm a Wɔbisa Taa",
+    "hotlines": "📞 Mmosupɛn Dina",
+    "contraception": "💊 Awo ano akwankyerɛ",
+    "sti": "⚠️ STI Ho Nsɛm",
+    "mentalHealth": "🧠 Adwene Akwahosan",
+    "consent": "💑 Mpene & Abusuabɔ",
+    "faqContent": {
+      "faq1": {
+        "question": "Kondomwo nana adi edzi bea?",
+        "answer": "Kondomwo nana adi edzi bea 98% esi wo de wo zaza geɖe. Wo na na kpɔkplɔ STIwo le HIV. Za kondom yeye geɖe."
+      },
+      "faq2": {
+        "question": "Nye ŋu aba me le me ŋɔƒoƒo me?",
+        "answer": "Ee, ke le bea si. Sperm siwo le me me na na kpɔ ɣe ŋɔƒoƒo 5, ke esi me ŋɔƒoƒo ko me le, aba me na ateŋu aba. Za nana kpɔkplɔ geɖe."
+      },
+      "faq3": {
+        "question": "Nye ŋu asɔ be nyo STI?",
+        "answer": "STIwo geɖe me le nɔnɔmetata siwo. Nɔnɔmetata siwo: adum, nɔnɔmetata, nuwo le me me, alo nɔnɔmetata. Za nana dɔɔnɔ geɖe esi nyo le ŋu."
+      },
+      "faq4": {
+        "question": "HIV nana ateŋu aɖe?",
+        "answer": "Wome teŋu aɖe HIV o, ke wo na teŋu aɖo. Antiretroviral therapy (ARVs) na naɖo wɔm be HIVwo na kpɔ ɣe ŋɔƒoƒo. Esi wo de aɖo, viral load na ateŋu aɖe."
+      },
+      "faq5": {
+        "question": "Nye ŋu be enye nyateƒe?",
+        "answer": "Nyateƒe enye nyateƒe si wo da ɖe be wo dzɔ be wo naɖo. Esi wo da ɖe be wo naɖo, wo na teŋu aɖo, ke si anaa \"nye be\" me enye nyateƒe o."
+      },
+      "faq6": {
+        "question": "Afi nana nyɔ kondom siwo me le?",
+        "answer": "Kondom siwo me le nana le ahwɛneɛ siwo, PPAG clinics, obaa siwo le, kple NGO siwo le Ghana."
+      },
+      "faq7": {
+        "question": "Nye ŋu aɖo stress?",
+        "answer": "Stress si nyo enye: dɔ geɖe, ŋɔƒoƒo si le, nana kɔɔɔ obi si nyo le, dɔ siwo na naɖo me, kple dɔ siwo nyo le."
+      },
+      "faq8": {
+        "question": "Nye ŋu be nyo suicidal?",
+        "answer": "Kɔɔ mmosupɛn dina geɖe (Suicide Prevention: 0800234567). Kɔɔɔ obi si nyo le, kɔɔnsɔla, alo dɔkta. Mewo nyo anko, kple mmoa siwo le."
+      },
+      "faq9": {
+        "question": "Nye ŋu anya morning-after pill si me le kɔɔɔ?",
+        "answer": "Ee, emergency contraception (Postinor-2, Plan B) le ahwɛneɛ me le Ghana. Nana adi edzi bea le ŋɔƒoƒo 72 esi wo nya me."
+      },
+      "faq10": {
+        "question": "Nye ŋu dɔɔnɔ HIV?",
+        "answer": "HIV dɔɔnɔ le Voluntary Counseling and Testing (VCT) centers, ahwɛneɛ, kple PPAG clinics. Dɔɔnɔ enye confidential."
+      }
+    }
+  },
+  "mentalHealth": {
+    "checkIn": {
+      "title": "Adwene Akwahosan Kɔkɔbɔ",
+      "welcome": {
+        "title": "Wo Adwene Akwahosan Ho Hia",
+        "text": "Sɛ wo adwene akwahosan no ayɛ no a ɛyɛ paa sɛ wo ahonu ahohonua no ayɛ. Adwene akwahosan no boa wo nneɛma nyinaa, gye sɛ nhonam akwahosan, abusuabɔ, ne wo ahonu ahohonua no nyina.",
+        "safeConfidential": "Yie & Kokoam",
+        "clinicallyValidated": "Aboa Agye Tom",
+        "notDiagnosis": "Ɛnyɛ Adwenkyerɛ",
+        "whyMatters": "Deɛn Nti Adwene Akwahosan No Hia Nhonam Akwahosan",
+        "healthyRelationships": "Abusuabɔ Yie",
+        "betterDecisionMaking": "Adwenkyerɛ Pɛn",
+        "physicalWellness": "Ahonu Ahohonua",
+        "selfCare": "Wo Ho Nsɛm",
+        "startCheckIn": "Fi Ase Kɔkɔbɔ",
+        "viewHistory": "Hwɛ Adwenkyerɛ Abakɔsɛm"
+      },
+      "selection": {
+        "title": "Paw Adwenkyerɛ Dodo",
+        "depression": {
+          "title": "Aduane Adwenkyerɛ",
+          "description": "PHQ-9 Adwenkyerɛ - Nsɛm 9",
+          "info": "Ɛhwehwɛ aduane adwenkyerɛ a ɛfa mood, nneɛma, nnɔɔ, ne ahoni mu"
+        },
+        "anxiety": {
+          "title": "Anxiety Adwenkyerɛ",
+          "description": "GAD-7 Adwenkyerɛ - Nsɛm 7",
+          "info": "Ɛhwehwɛ anxiety ahorow a ɛfa dwene, anipa, ne nyansa mu"
+        }
+      },
+      "assessment": {
+        "depressionTitle": "Aduane Adwenkyerɛ",
+        "anxietyTitle": "Anxiety Adwenkyerɛ",
+        "questionCounter": "Nsɛm {{current}} wɔ {{total}}",
+        "confidentialNote": "Nsɛm a wobisaa nyinaa yɛ kokoam na wɔde wɔn hyɛɛ wo dɛvɛs mu"
+      },
+      "results": {
+        "title": "Wo Adwenkyerɛ",
+        "depressionScreening": "Aduane Adwenkyerɛ",
+        "anxietyScreening": "Anxiety Adwenkyerɛ",
+        "outOf": "wɔ {{max}}",
+        "recommendations": "Nudzadzanya:",
+        "takeAnother": "Ɖe Adwenkyerɛ Blibo Ɖe",
+        "returnToChat": "Trɔ na Kɔmmɔ",
+        "disclaimer": "Eyi yɛ adwenkyerɛ dwɛn, ɛnyɛ adwenkyerɛ a wɔahyɛ. Sɛ wo pɛ sɛ wodeɛ kyɛn a, kɔn adwene akwahosan anaa wo dɔkta.",
+        "needSupport": "Hia mmoa seisei ara?",
+        "mentalHealthCrisisLine": "Adwene Akwahosan Mmosupɛn Dina: {{number}}"
+      },
+      "history": {
+        "title": "Adwenkyerɛ Abakɔsɛm",
+        "noHistory": "Adwenkyerɛ Abakɔsɛm Nni Hɔ",
+        "noHistoryText": "Wo adwenkyerɛ a wɔayɛ no bɛkɔ ha",
+        "depression": "Aduane",
+        "anxiety": "Anxiety"
+      }
+    }
+  },
+  "clinicFinder": {
+    "title": "Di Ayaresa Siwo Le Wo Nɔƒe",
+    "findingClinics": "Re di ayaresa siwo le wo nɔƒe...",
+    "allClinics": "Ayaresa Nyinaa",
+    "youthFriendly": "Obaa Ahyɛ",
+    "freeServices": "Mmoa Kwa",
+    "distance": "{{distance}} km afi hɔ",
+    "getDirections": "Fia Mɔɖeɖe",
+    "callNow": "Yɔ Seiseiara",
+    "servicesOffered": "Mmoa Siwo Wole",
+    "operatingHours": "Gaƒoƒo Siwo Wole",
+    "contact": "Kɔntak"
+  },
+  "emergencyContacts": {
+    "title": "Mmosupɛn Kɔntak Ntoboa",
+    "sosAlert": "SOS Kɔkɔbɔ Biara",
+    "sosDescription": "Ɖe mmosupɛn kɔkɔbɔ ɖe wo bea kɔkɔbɔ kɛ kɔntak siwo wole",
+    "sendSOS": "ƉE SOS KƆKƆBƆ ƉE",
+    "sendingAlert": "Rekɔkɔbɔ...",
+    "addContactFirst": "⚠️ Fa kɔntak biara ka ho",
+    "addContact": "Fa Kɔntak Ka Ho",
+    "contactName": "Kɔntak Ŋkɔ",
+    "phoneNumber": "Telefon Nɔma",
+    "addContactButton": "Fa Kɔntak Ka Ho",
+    "trustedContacts": "Wo Kɔntak Siwo Wole ({{count}})",
+    "noContacts": "Mmosupɛn kɔntak nni hɔ",
+    "nationalHotlines": "Amaneɛ Kɔntak Dina",
+    "policeEmergency": "Pɔlis Mmosupɛn",
+    "ambulanceService": "Ambulance Mmoa",
+    "dovvsu": "DOVVSU (Abusuabɔ Ahyɛ)",
+    "nationalAmbulance": "Amaneɛ Ambulance Mmoa"
+  },
+  "features": {
+    "healthRecommendations": {
+      "personalizedForYou": "Ɖo Wò Mɔnuwo Ɖe",
+      "stressManagement": {
+        "title": "Stress Ho Hwɛ",
+        "text": "Nea wo bisaa no, yɛ nnɔɔ a wɔde ma wo ara na hyɛ nnɔɔ pɛ biara."
+      },
+      "familyPlanning": {
+        "title": "Aba Famili Ho Hwɛ",
+        "text": "Yɛ nkomɔɔ famili no kɔ kliniki a wɔde ma wo ara."
+      },
+      "regularTesting": {
+        "title": "Nsɛn Nnwɔm",
+        "text": "Yɛ nsɛn nnwɔm STI biara 6 na wo dɔɔnkorɔn. Nnwɔm a ɛwɔ mfɛ wɔ VCT centers."
+      },
+      "stayHealthy": {
+        "title": "Hyɛ Wo Ahonu Ahohonua",
+        "text": "Kɔ a wobisa nsɛm! Nnwɔm a wɔyɛ bio na nhyehyɛe a ɛyɛ yie de yɛ ahonu ahohonua."
+      }
+    },
+    "quiz": {
+      "title": "Nudzadzanya ne Lafiya Nnwɔm",
+      "completeTitle": "Nnwɔm Woe!",
+      "question": "Nutsotso",
+      "excellent": "E nye koko! E nye nyateƒe!",
+      "goodJob": "A woe! Zi gɔme!",
+      "keepPracticing": "Zi gɔme, axɔe!",
+      "tryAgain": "Ɖo Vɔ",
+      "close": "Tɔe",
+      "questions": {
+        "0": {
+          "question": "Nutsotso si nye koko be wo nana tsɔe kpɔkplɔ kple STI enye nuke?",
+          "options": {
+            "0": "Ƒuƒoƒo siwo wode la",
+            "1": "Kondomwo",
+            "2": "Ɖɔɖɔmɔ",
+            "3": "Nu siwo wònya be wo axɔe"
+          }
+        },
+        "1": {
+          "question": "Obi si le nɔnɔmetata me ate ŋu adɔ STI nɔnɔmetata kɛnɛ ɖe?",
+          "options": {
+            "0": "Ƒoƒo ɖeka",
+            "1": "Eŋɔwo 6 ɖeka",
+            "2": "Ne si wo nya amewo koe",
+            "3": "Ƒoƒo ɖeka ke be wo axɔe"
+          }
+        },
+        "2": {
+          "question": "Nyateƒe si le nɔnɔmetata me nye nuke?",
+          "options": {
+            "0": "Mekpɔe o",
+            "1": "Nyateƒe siwo wònya be wo naɖo",
+            "2": "Nana zi gɔme",
+            "3": "Kɔɔɔ obi si nyo le"
+          }
+        },
+        "3": {
+          "question": "Nutsotso siwo kpalẽ be enye abusuabɔ yeye enye nuke?",
+          "options": {
+            "0": "Ɖekɛ kple nɔnɔmetata siwo katã",
+            "1": "Anipa kple nyateƒe",
+            "2": "Ɖe wo ŋɔ siwo katã",
+            "3": "Wo na na wo zãa nu siwo me nyo o"
+          }
+        },
+        "4": {
+          "question": "HIV dɔɔnɔnɔ ƒe ɣeyiyi enye nke?",
+          "options": {
+            "0": "Gaƒoƒo 1-2",
+            "1": "Eŋɔwo 2-4",
+            "2": "Eŋɔwo 3-6",
+            "3": "Ƒoƒo 1"
+          }
+        }
+      }
+    }
+  },
+  "features": {
+    "healthRecommendations": {
+      "personalizedForYou": "Ɖo Wò Mɔnuwo Ɖe",
+      "stressManagement": {
+        "title": "Stress Ho Hwɛ",
+        "text": "Nea wo bisaa no, yɛ nnɔɔ a wɔde ma wo ara na hyɛ nnɔɔ pɛ biara."
+      },
+      "familyPlanning": {
+        "title": "Aba Famili Ho Hwɛ",
+        "text": "Yɛ nkomɔɔ famili no kɔ kliniki a wɔde ma wo ara."
+      },
+      "regularTesting": {
+        "title": "Nsɛn Nnwɔm",
+        "text": "Yɛ nsɛn nnwɔm STI biara 6 na wo dɔɔnkorɔn. Nnwɔm a ɛwɔ mfɛ wɔ VCT centers."
+      },
+      "stayHealthy": {
+        "title": "Hyɛ Wo Ahonu Ahohonua",
+        "text": "Kɔ a wobisa nsɛm! Nnwɔm a wɔyɛ bio na nhyehyɛe a ɛyɛ yie de yɛ ahonu ahohonua."
+      }
+    },
+    "quiz": {
+      "title": "Nudzadzanya ne Lafiya Nnwɔm",
+      "completeTitle": "Nnwɔm Woe!",
+      "question": "Nutsotso",
+      "excellent": "E nye koko! E nye nyateƒe!",
+      "goodJob": "A woe! Zi gɔme!",
+      "keepPracticing": "Zi gɔme, axɔe!",
+      "tryAgain": "Ɖo Vɔ",
+      "close": "Tɔe",
+      "questions": {
+        "0": {
+          "question": "Nutsotso si nye koko be wo nana tsɔe kpɔkplɔ kple STI enye nuke?",
+          "options": {
+            "0": "Ƒuƒoƒo siwo wode la",
+            "1": "Kondomwo",
+            "2": "Ɖɔɖɔmɔ",
+            "3": "Nu siwo wònya be wo axɔe"
+          }
+        },
+        "1": {
+          "question": "Obi si le nɔnɔmetata me ate ŋu adɔ STI nɔnɔmetata kɛnɛ ɖe?",
+          "options": {
+            "0": "Ƒoƒo ɖeka",
+            "1": "Eŋɔwo 6 ɖeka",
+            "2": "Ne si wo nya amewo koe",
+            "3": "Ƒoƒo ɖeka ke be wo axɔe"
+          }
+        },
+        "2": {
+          "question": "Nyateƒe si le nɔnɔmetata me nye nuke?",
+          "options": {
+            "0": "Mekpɔe o",
+            "1": "Nyateƒe siwo wònya be wo naɖo",
+            "2": "Nana zi gɔme",
+            "3": "Kɔɔɔ obi si nyo le"
+          }
+        },
+        "3": {
+          "question": "Nutsotso siwo kpalẽ be enye abusuabɔ yeye enye nuke?",
+          "options": {
+            "0": "Ɖekɛ kple nɔnɔmetata siwo katã",
+            "1": "Anipa kple nyateƒe",
+            "2": "Ɖe wo ŋɔ siwo katã",
+            "3": "Wo na na wo zãa nu siwo me nyo o"
+          }
+        },
+        "4": {
+          "question": "HIV dɔɔnɔnɔ ƒe ɣeyiyi enye nke?",
+          "options": {
+            "0": "Gaƒoƒo 1-2",
+            "1": "Eŋɔwo 2-4",
+            "2": "Eŋɔwo 3-6",
+            "3": "Ƒoƒo 1"
+          }
+        }
+      }
+    },
+    "moodTracker": {
+      "title": "Mood Ŋɔŋlɔ",
+      "tabs": {
+        "log": "Log Mood",
+        "analytics": "Analytics",
+        "history": "History"
+      },
+      "log": {
+        "date": "Date",
+        "howAreYouFeeling": "Wo te sɛn?",
+        "selectEmoji": "Tia emoji si dzi ɖe wo te la",
+        "whatsOnYourMind": "Nude na wo te? (Esia medze edzi o)",
+        "placeholder": "Kpɔe me wo nu bubuwo, te alo nu siwo xɔe la...",
+        "saveEntry": "Ɖe Entry Ɖe"
+      },
+      "analytics": {
+        "noDataYet": "Data Nye Esia",
+        "startLogging": "Fi ase na log wo moods no ama wo nhwɛ wo nkyerɛase ne nhinti!",
+        "logFirstMood": "Log Wo Mood Kan",
+        "yourMoodTrends": "Wo Mood Nkyerɛase",
+        "last7Days": "Eŋɔwo 7 a atwam nhwɛ",
+        "averageMood": "Mood A Wɔde Ma",
+        "dayStreak": "Eŋɔ Streak",
+        "mostCommon": "De Ma A Ɛyɛ Dodo",
+        "keepItUp": "Yi Adɔe!",
+        "startStreak": "Fi ase na yɛ wo streak nnɛ!",
+        "weeklyPattern": "Eŋɔ Mood Nkyerɛase",
+        "insights": "💡 Nhinsɛm",
+        "insightsPositive": "Wo te paa ansa! Yi adɔe na fa wo nkwagye no!",
+        "insightsLowMood": "Wo mood no kakra ansa. Yɛsrɛ sɛ fa obi a wo tumi trɔ so anaa obi a wɔkyerɛw ama wo.",
+        "insightsStreak": "Yɛ paa! Wo ayɛ log wo mood ma nna {streak} so. Ngyegye de yɛ no!"
+      },
+      "history": {
+        "title": "Mood Abakɔsɛm",
+        "noEntries": "Nhyɛase Nni Hɔ",
+        "startTracking": "Fi ase na track wo mood no ama wo bui wo abakɔsɛm!",
+        "logMood": "Log Wo Mood",
+        "today": "Egbe",
+        "yesterday": "Edzi"
+      }
+    },
+    "medicationReminders": {
+      "title": "Ƒuƒoƒo Nudzadzanya",
+      "addReminder": "Fa Nudzadzanya Ka Ho",
+      "medicationName": "Ƒuƒoƒo Ŋkɔ",
+      "noReminders": "Nudzadzanya nni hɔ. Fa biara ka ho ase!",
+      "frequency": {
+        "daily": "Gaƒoƒo biara",
+        "weekly": "Eŋɔwo biara",
+        "monthly": "Ɣleti biara"
+      }
+    },
+    "feedbackForm": {
+      "title": "Ɖe Nudzadzanya Ɖe",
+      "ratingQuestion": "Wo bɛfa sɛn a wo te no ho?",
+      "placeholder": "Kpɔe me sɛn a wo twɛn...",
+      "submit": "Ɖe Nudzadzanya Man",
+      "thankYou": "Meda wo ase! 🙏",
+      "successMessage": "Wo nudzadzanya boa yɛn ama KasaEd yɛ paa ama obiara."
+    },
+    "common": {
+      "close": "Tɔe",
+      "save": "Ɖe Ɖe",
+      "cancel": "Tɔe"
+    }
+  }
+}

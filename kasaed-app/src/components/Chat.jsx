@@ -22,6 +22,7 @@ import { PeriodTracker, STIRiskCalculator, RelationshipChecker, MedicationChecke
 import { ClinicFinder, EmergencyContacts } from './LocationFeatures';
 import { InteractiveScenarios, LearningPaths } from './InteractiveFeatures';
 import { NutritionWellness, Telemedicine, CulturalSettings } from './WellnessFeatures';
+import OfflineMode from './OfflineMode';
 import './Chat.css';
 
 const Chat = () => {
@@ -49,6 +50,7 @@ const Chat = () => {
   const [useGrok, setUseGrok] = useState(false);
   const [grokAvailable, setGrokAvailable] = useState(false);
   const [showFirstTimeWarning, setShowFirstTimeWarning] = useState(false);
+  const [showOfflineMode, setShowOfflineMode] = useState(false);
   
   // Debug: Log when showFirstTimeWarning changes
   useEffect(() => {
@@ -1003,6 +1005,10 @@ const Chat = () => {
     return renderFeature();
   }
 
+  if (showOfflineMode) {
+    return <OfflineMode onClose={() => setShowOfflineMode(false)} />;
+  }
+
   if (showEmergency) {
     return (
       <motion.div
@@ -1061,16 +1067,16 @@ const Chat = () => {
           <button
             className="sidebar-icon-btn"
             onClick={() => setLeftSidebarExpanded(!leftSidebarExpanded)}
-            aria-label="Chat History"
-            title="Chat History"
+            aria-label={t('menu.history')}
+            title={t('menu.history')}
           >
             <History size={20} />
           </button>
           <button
             className="sidebar-icon-btn"
             onClick={handleNewChat}
-            aria-label="New Chat"
-            title="New Chat"
+            aria-label={t('chat.newChat')}
+            title={t('chat.newChat')}
           >
             <MessageSquarePlus size={20} />
           </button>
@@ -1079,19 +1085,19 @@ const Chat = () => {
         {/* Expanded View - Full Sidebar */}
         <div className="sidebar-expanded-content">
           <div className="sidebar-header">
-            <h3 className="sidebar-title">Chat History</h3>
+            <h3 className="sidebar-title">{t('menu.history')}</h3>
             <div className="sidebar-header-actions">
               <button
                 className="icon-btn"
                 onClick={handleNewChat}
-                aria-label="New Chat"
+                aria-label={t('chat.newChat')}
               >
                 <MessageSquarePlus size={20} />
               </button>
               <button
                 className="icon-btn"
                 onClick={() => setLeftSidebarExpanded(false)}
-                aria-label="Close"
+                aria-label={t('menu.cancelSelection')}
               >
                 <X size={20} />
               </button>
@@ -1101,7 +1107,7 @@ const Chat = () => {
           <div className="sidebar-content">
             {chatSessions.length === 0 ? (
               <div className="empty-sessions">
-                <p>No chat history yet</p>
+                <p>{t('menu.history')}</p>
               </div>
             ) : (
               <>
@@ -1110,14 +1116,14 @@ const Chat = () => {
                     className="btn-select-mode"
                     onClick={handleToggleSelectionMode}
                   >
-                    {selectionMode ? 'Cancel' : 'Select'}
+                    {selectionMode ? t('menu.cancelSelection') : t('menu.selectMode')}
                   </button>
                   {selectionMode && selectedSessions.size > 0 && (
                     <button
                       className="btn-delete-selected"
                       onClick={handleDeleteSelected}
                     >
-                      <Trash2 size={16} /> Delete ({selectedSessions.size})
+                      <Trash2 size={16} /> {t('menu.deleteSelected')} ({selectedSessions.size})
                     </button>
                   )}
                 </div>
@@ -1203,11 +1209,11 @@ const Chat = () => {
           <button
             className={`panic-btn-sidebar ${!leftSidebarExpanded ? 'icon-only' : ''}`}
             onClick={handlePanicButton}
-            aria-label="Quick Exit"
-            title="Quick Exit"
+            aria-label={t('menu.quickExit')}
+            title={t('menu.quickExit')}
           >
             <AlertTriangle size={leftSidebarExpanded ? 18 : 20} />
-            {leftSidebarExpanded && <span>Quick Exit</span>}
+            {leftSidebarExpanded && <span>{t('menu.quickExit')}</span>}
           </button>
         </div>
       </div>
@@ -1221,36 +1227,36 @@ const Chat = () => {
             <button
               className="icon-btn"
               onClick={() => { setActiveFeature('personality'); }}
-              aria-label="Change Bot Personality"
-              title="Change Bot Personality"
+              aria-label={t('menu.changeBotPersonality')}
+              title={t('menu.changeBotPersonality')}
             >
               <Smile size={20} />
             </button>
             <button
               className="icon-btn"
               onClick={() => {
-                if (window.confirm('Clear all messages in this chat?')) {
+                if (window.confirm(t('confirmations.clearChat'))) {
                   handleClearCurrentChat();
                 }
               }}
-              aria-label="Clear Chat"
-              title="Clear Chat"
+              aria-label={t('menu.clearChat')}
+              title={t('menu.clearChat')}
             >
               <Trash2 size={20} />
             </button>
             <button
               className="icon-btn danger-btn"
               onClick={handlePanicButton}
-              aria-label="Quick Exit"
-              title="Quick Exit"
+              aria-label={t('menu.quickExit')}
+              title={t('menu.quickExit')}
             >
               <AlertTriangle size={20} />
             </button>
             <button
               className="icon-btn header-menu-btn menu-button"
               onClick={() => setShowMenu(!showMenu)}
-              aria-label="Menu"
-              title="Menu"
+              aria-label={t('menu.settings')}
+              title={t('menu.settings')}
             >
               <MoreHorizontal size={24} />
             </button>
@@ -1267,50 +1273,50 @@ const Chat = () => {
               exit={{ opacity: 0, y: -10 }}
             >
               <button onClick={() => { setActiveFeature('assessment'); setShowMenu(false); }}>
-                <Activity size={18} /> Mental Health Check-In
+                <Activity size={18} /> {t('menu.mentalHealthCheckIn')}
               </button>
               <button onClick={() => { setActiveFeature('quiz'); setShowMenu(false); }}>
-                <BookOpen size={18} /> Take SRH Quiz
+                <BookOpen size={18} /> {t('menu.takeSRHQuiz')}
               </button>
               <button onClick={() => { setActiveFeature('mood'); setShowMenu(false); }}>
-                <Smile size={18} /> Mood Journal
+                <Smile size={18} /> {t('menu.moodJournal')}
               </button>
               <button onClick={() => { setActiveFeature('medReminders'); setShowMenu(false); }}>
-                <Pill size={18} /> Medication Reminders
+                <Pill size={18} /> {t('menu.medicationReminders')}
               </button>
               <button onClick={() => { setActiveFeature('period'); setShowMenu(false); }}>
-                <Calendar size={18} /> Period Tracker
+                <Calendar size={18} /> {t('menu.periodTracker')}
               </button>
               <button onClick={() => { setActiveFeature('sti'); setShowMenu(false); }}>
-                <Shield size={18} /> STI Risk Calculator
+                <Shield size={18} /> {t('menu.stiRiskCalculator')}
               </button>
               <button onClick={() => { setActiveFeature('relationship'); setShowMenu(false); }}>
-                <Heart size={18} /> Relationship Health
+                <Heart size={18} /> {t('menu.relationshipHealth')}
               </button>
               <button onClick={() => { setActiveFeature('forum'); setShowMenu(false); }}>
-                <Users size={18} /> Community Q&A
+                <Users size={18} /> {t('menu.communityQA')}
               </button>
               <button onClick={() => { setActiveFeature('achievements'); setShowMenu(false); }}>
-                <Award size={18} /> Achievements
+                <Award size={18} /> {t('menu.achievements')}
               </button>
               <button onClick={() => { setActiveFeature('clinic'); setShowMenu(false); }}>
-                <MapPin size={18} /> Find Nearby Clinics
+                <MapPin size={18} /> {t('menu.findNearbyClinics')}
               </button>
               <button onClick={() => { 
                 console.log('🕐 Auto-Delete Timer clicked, setting showTimerModal to true');
                 setShowTimerModal(true); 
                 setShowMenu(false); 
               }}>
-                <Timer size={18} /> Auto-Delete Timer
+                <Timer size={18} /> {t('menu.autoDeleteTimer')}
               </button>
               <button onClick={() => { setShowRecommendations(!showRecommendations); setShowMenu(false); }}>
-                <MoreHorizontal size={18} /> {showRecommendations ? 'Hide' : 'Show'} Recommendations
+                <MoreHorizontal size={18} /> {showRecommendations ? t('menu.hideRecommendations') : t('menu.showRecommendations')}
               </button>
               <button onClick={() => { setActiveFeature('personality'); setShowMenu(false); }}>
-                <Smile size={18} /> Change Bot Personality
+                <Smile size={18} /> {t('menu.changeBotPersonality')}
               </button>
               <button onClick={() => { setActiveFeature('profile'); setShowMenu(false); }}>
-                <User size={18} /> Profile Settings
+                <User size={18} /> {t('menu.profileSettings')}
               </button>
               <button
                 onClick={() => {
@@ -1349,10 +1355,10 @@ const Chat = () => {
                 className={useGrok ? 'menu-item-active' : ''}
               >
                 <Sparkles size={18} />
-                Enable Kasa AI
+                {t('menu.enableKasaAI')}
               </button>
               <button onClick={() => { setActiveFeature('feedback'); setShowMenu(false); }}>
-                <MessageCircle size={18} /> Send Feedback
+                <MessageCircle size={18} /> {t('menu.sendFeedback')}
               </button>
             </motion.div>
           )}
@@ -1362,6 +1368,9 @@ const Chat = () => {
         {!isOnline && (
           <div className="offline-banner">
             {t('offline.banner')}
+            <button className="btn-primary" onClick={() => setShowOfflineMode(true)} style={{ marginLeft: '1rem' }}>
+              {t('offline.faq')}
+            </button>
           </div>
         )}
 
@@ -1373,9 +1382,9 @@ const Chat = () => {
                 <Clock size={16} />
               </div>
               <div className="timer-banner-text">
-                Auto-delete in: 
+                {t('timer.active')} 
                 <span className="timer-countdown">
-                  {formatCountdown(timerCountdown)}
+                  {formatCountdown(timerCountdown)} {t('timer.remaining')}
                 </span>
               </div>
             </div>
@@ -1389,7 +1398,7 @@ const Chat = () => {
               }}
               type="button"
             >
-              <X size={14} /> Cancel
+              <X size={14} /> {t('timer.cancel')}
             </button>
           </div>
         )}
@@ -1414,39 +1423,39 @@ const Chat = () => {
                 onMouseDown={handleMouseDown}
               >
                 <div className="timer-modal-header" style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
-                  <h3>Set Auto-Delete Timer</h3>
+                  <h3>{t('timer.title')}</h3>
                   <button className="icon-btn" onClick={() => setShowTimerModal(false)}>
                     <X size={20} />
                   </button>
                 </div>
                 <div className="timer-modal-content">
-                  <p>Choose when to automatically delete all chat sessions:</p>
+                  <p>{t('timer.description')}</p>
                   <div className="timer-options">
                     <button className="timer-option-btn" onClick={() => handleSetTimer(60)}>
                       <Timer size={18} />
-                      1 Hour
+                      {t('timer.option1Hour')}
                     </button>
                     <button className="timer-option-btn" onClick={() => handleSetTimer(1440)}>
                       <Timer size={18} />
-                      24 Hours
+                      {t('timer.option24Hours')}
                     </button>
                     <button className="timer-option-btn" onClick={() => handleSetTimer(10080)}>
                       <Timer size={18} />
-                      7 Days
+                      {t('timer.option7Days')}
                     </button>
                     <button className="timer-option-btn timer-option-recommended" onClick={() => handleSetTimer(129600)}>
                       <Timer size={18} />
-                      90 Days (Recommended)
+                      {t('timer.option90Days')}
                     </button>
                     <button className="timer-option-btn timer-option-off" onClick={() => handleCancelTimer()}>
                       <X size={18} />
-                      Off
+                      {t('timer.optionOff')}
                     </button>
                   </div>
                   {autoDeleteTimer && (
                     <div className="timer-active-notice">
                       <AlertTriangle size={16} />
-                      A timer is already active. Setting a new one will replace it.
+                      {t('timer.active')}
                     </div>
                   )}
                 </div>
@@ -1470,19 +1479,19 @@ const Chat = () => {
                   <Shield size={24} />
                 </div>
                 <div className="warning-content">
-                  <h4>Privacy Protection Active</h4>
+                  <h4>{t('timer.warningTitle')}</h4>
                   <p>
-                    Your chat history will automatically be deleted after <strong>7 days</strong> to protect your privacy.
+                    {t('timer.warningMessage')} <strong>7 days</strong>.
                   </p>
                   <div className="warning-actions">
                     <button className="warning-btn-cancel" onClick={() => {
                       handleCancelTimer();
                       handleDismissWarning();
                     }}>
-                      <X size={16} /> Turn Off Timer
+                      <X size={16} /> {t('timer.warningTurnOff')}
                     </button>
                     <button className="warning-btn-keep" onClick={handleDismissWarning}>
-                      <Check size={16} /> Keep Timer
+                      <Check size={16} /> {t('timer.warningKeep')}
                     </button>
                   </div>
                 </div>

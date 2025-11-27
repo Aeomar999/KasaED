@@ -179,7 +179,7 @@ const Onboarding = () => {
         <p className="welcome-text">{t('welcome.subtitle')}</p>
 
         <button className="btn btn-primary btn-lg" onClick={() => setStep(1)}>
-          Let's Go!! <ChevronRight size={24} />
+          {t('welcome.getStarted')} <ChevronRight size={24} />
         </button>
       </div>
     </motion.div>
@@ -197,7 +197,7 @@ const Onboarding = () => {
         <span className="back-btn-fallback">←</span>
       </button>
       <h2>{t('language.title')}</h2>
-      <p className="subtitle">Select your preferred language</p>
+      <p className="subtitle">{t('language.subtitle')}</p>
       <div className="grid-2">
         {languages.map((lang) => (
           <div
@@ -328,25 +328,26 @@ const Onboarding = () => {
         <MdArrowBack size={20} />
         <span className="back-btn-fallback">←</span>
       </button>
-      <h2>Customize Your Experience</h2>
+      <h2>{t('preferences.title')}</h2>
+      <p className="subtitle">{t('preferences.subtitle')}</p>
       <div className="privacy-list">
         <label className="preference-row">
-          <span>Font Size</span>
+          <span>{t('preferences.fontSize')}</span>
           <div className="font-size-selector">
             <select
               value={preferences.fontSize}
               onChange={(e) => updatePreferenceLocal('fontSize', e.target.value)}
               className="font-size-dropdown"
             >
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
-              <option value="extra-large">Extra Large</option>
+              <option value="small">{t('preferences.small')}</option>
+              <option value="medium">{t('preferences.medium')}</option>
+              <option value="large">{t('preferences.large')}</option>
+              <option value="extra-large">{t('preferences.extraLarge')}</option>
             </select>
           </div>
         </label>
         <label className="preference-row">
-          <span>Dark Mode</span>
+          <span>{t('preferences.darkMode')}</span>
           <div className="toggle-switch">
             <input
               type="checkbox"
@@ -357,7 +358,7 @@ const Onboarding = () => {
           </div>
         </label>
         <label className="preference-row">
-          <span>Voice Responses</span>
+          <span>{t('preferences.voiceResponses')}</span>
           <div className="toggle-switch">
             <input
               type="checkbox"
@@ -368,7 +369,7 @@ const Onboarding = () => {
           </div>
         </label>
         <label className="preference-row">
-          <span>High Contrast Mode</span>
+          <span>{t('preferences.highContrast')}</span>
           <div className="toggle-switch">
             <input
               type="checkbox"
@@ -399,8 +400,8 @@ const Onboarding = () => {
       
       <div className="personalization-header">
         <Sparkles className="header-icon" size={32} />
-        <h2>Personalize Your Experience</h2>
-        <p className="subtitle">Help the AI get to know you better (completely optional)</p>
+        <h2>{t('personalization.title')}</h2>
+        <p className="subtitle">{t('personalization.subtitle')}</p>
       </div>
 
       <div className="privacy-notice">
@@ -415,13 +416,13 @@ const Onboarding = () => {
         <div className="input-section">
           <label htmlFor="nickname-input">
             <UserCircle size={20} />
-            <span>Nickname (Optional)</span>
+            <span>{t('personalization.nickname')}</span>
           </label>
           <input
             id="nickname-input"
             type="text"
             className="nickname-input"
-            placeholder="What should we call you?"
+            placeholder={t('personalization.nicknamePlaceholder')}
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             maxLength={20}
@@ -435,7 +436,7 @@ const Onboarding = () => {
 
         <div className="avatar-section">
           <label>
-            <span className="avatar-label">Choose Your Avatar (Optional)</span>
+            <span className="avatar-label">{t('personalization.avatar')}</span>
           </label>
           <div className="avatar-grid">
             {avatars.map((avatar) => (
@@ -466,10 +467,10 @@ const Onboarding = () => {
 
       <div className="personalization-actions">
         <button className="btn btn-secondary" onClick={handleSkipPersonalization}>
-          Skip This Step
+          {t('personalization.skip')}
         </button>
         <button className="btn btn-primary" onClick={handleNext}>
-          Start Chatting! <Check size={20} />
+          {t('personalization.getStarted')} <Check size={20} />
         </button>
       </div>
     </motion.div>

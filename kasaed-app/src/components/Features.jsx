@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, ChevronRight, Star, Trash2, Plus, Calendar, Clock,
@@ -9,6 +10,8 @@ import './Features.css';
 
 // Feature 21: Personalized Health Recommendations
 export const HealthRecommendations = ({ userProfile, chatHistory }) => {
+  const { t } = useTranslation();
+  
   const getRecommendations = () => {
     const topics = chatHistory.filter(m => m.sender === 'user')
       .map(m => m.text.toLowerCase());
@@ -17,32 +20,32 @@ export const HealthRecommendations = ({ userProfile, chatHistory }) => {
 
     if (topics.some(t => t.includes('stress') || t.includes('anxiety'))) {
       recommendations.push({
-        title: 'Stress Management',
-        text: 'Based on your questions, try deep breathing exercises daily and maintain a regular sleep schedule.',
+        title: t('features.healthRecommendations.stressManagement.title'),
+        text: t('features.healthRecommendations.stressManagement.text'),
         icon: <Activity size={24} />
       });
     }
 
     if (topics.some(t => t.includes('contraception') || t.includes('pregnancy'))) {
       recommendations.push({
-        title: 'Family Planning',
-        text: 'Consider visiting a family planning clinic for personalized contraception advice.',
+        title: t('features.healthRecommendations.familyPlanning.title'),
+        text: t('features.healthRecommendations.familyPlanning.text'),
         icon: <Heart size={24} />
       });
     }
 
     if (topics.some(t => t.includes('sti') || t.includes('test'))) {
       recommendations.push({
-        title: 'Regular Testing',
-        text: 'Get tested for STIs every 6 months if sexually active. Free testing available at VCT centers.',
+        title: t('features.healthRecommendations.regularTesting.title'),
+        text: t('features.healthRecommendations.regularTesting.text'),
         icon: <Shield size={24} />
       });
     }
 
     if (recommendations.length === 0) {
       recommendations.push({
-        title: 'Stay Healthy',
-        text: 'Keep asking questions! Regular check-ups and safe practices are key to good sexual health.',
+        title: t('features.healthRecommendations.stayHealthy.title'),
+        text: t('features.healthRecommendations.stayHealthy.text'),
         icon: <CheckCircle size={24} />
       });
     }
@@ -57,7 +60,7 @@ export const HealthRecommendations = ({ userProfile, chatHistory }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h3>Personalized for You</h3>
+      <h3>{t('features.healthRecommendations.personalizedForYou')}</h3>
       {getRecommendations().map((rec, i) => (
         <motion.div
           key={i}
@@ -78,34 +81,60 @@ export const HealthRecommendations = ({ userProfile, chatHistory }) => {
 
 // Feature 24: Interactive Quiz
 export const Quiz = ({ onClose }) => {
+  const { t } = useTranslation();
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
   const questions = [
     {
-      q: 'What is the most effective way to prevent both pregnancy and STIs?',
-      options: ['Birth control pills', 'Condoms', 'IUD', 'Calendar method'],
+      q: t('features.quiz.questions.0.question'),
+      options: [
+        t('features.quiz.questions.0.options.0'),
+        t('features.quiz.questions.0.options.1'),
+        t('features.quiz.questions.0.options.2'),
+        t('features.quiz.questions.0.options.3')
+      ],
       correct: 1
     },
     {
-      q: 'How often should sexually active youth get tested for STIs?',
-      options: ['Once a year', 'Every 6 months', 'Every 2 years', 'Only if symptoms appear'],
+      q: t('features.quiz.questions.1.question'),
+      options: [
+        t('features.quiz.questions.1.options.0'),
+        t('features.quiz.questions.1.options.1'),
+        t('features.quiz.questions.1.options.2'),
+        t('features.quiz.questions.1.options.3')
+      ],
       correct: 1
     },
     {
-      q: 'What does consent mean?',
-      options: ['Not saying no', 'Saying yes clearly', 'Maybe', 'Silence'],
+      q: t('features.quiz.questions.2.question'),
+      options: [
+        t('features.quiz.questions.2.options.0'),
+        t('features.quiz.questions.2.options.1'),
+        t('features.quiz.questions.2.options.2'),
+        t('features.quiz.questions.2.options.3')
+      ],
       correct: 1
     },
     {
-      q: 'Can you get pregnant during your period?',
-      options: ['Yes, it\'s possible', 'No, never', 'Only on day 1', 'Only if you have a short cycle'],
+      q: t('features.quiz.questions.3.question'),
+      options: [
+        t('features.quiz.questions.3.options.0'),
+        t('features.quiz.questions.3.options.1'),
+        t('features.quiz.questions.3.options.2'),
+        t('features.quiz.questions.3.options.3')
+      ],
       correct: 0
     },
     {
-      q: 'What is U=U in HIV treatment?',
-      options: ['Untreated = Unsafe', 'Undetectable = Untransmittable', 'Unsafe = Uncertain', 'Universal = Understanding'],
+      q: t('features.quiz.questions.4.question'),
+      options: [
+        t('features.quiz.questions.4.options.0'),
+        t('features.quiz.questions.4.options.1'),
+        t('features.quiz.questions.4.options.2'),
+        t('features.quiz.questions.4.options.3')
+      ],
       correct: 1
     }
   ];
@@ -131,7 +160,7 @@ export const Quiz = ({ onClose }) => {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
       >
-        <h2>Quiz Complete! 🎉</h2>
+        <h2>{t('features.quiz.completeTitle')}</h2>
         <div className="quiz-score">
           <div className="score-circle">
             <span className="score-number">{score}</span>
@@ -140,9 +169,9 @@ export const Quiz = ({ onClose }) => {
           <p className="score-percentage">{percentage}%</p>
         </div>
         <p className="score-message">
-          {percentage >= 80 ? 'Excellent! You really know your stuff! 🌟' :
-            percentage >= 60 ? 'Good job! Keep learning! 👍' :
-              'Keep practicing! Review the content and try again! 📚'}
+          {percentage >= 80 ? t('features.quiz.excellent') :
+            percentage >= 60 ? t('features.quiz.goodJob') :
+              t('features.quiz.keepPracticing')}
         </p>
         <div className="quiz-actions">
           <button className="btn-primary" onClick={() => {
@@ -150,10 +179,10 @@ export const Quiz = ({ onClose }) => {
             setScore(0);
             setShowResult(false);
           }}>
-            Try Again
+            {t('features.quiz.tryAgain')}
           </button>
           <button className="btn-secondary" onClick={onClose}>
-            Close
+            {t('features.quiz.close')}
           </button>
         </div>
       </motion.div>
@@ -169,11 +198,11 @@ export const Quiz = ({ onClose }) => {
       transition={{ type: "spring", damping: 25, stiffness: 200 }}
     >
       <div className="quiz-header">
-        <h2>SRH Knowledge Quiz</h2>
+        <h2>{t('features.quiz.title')}</h2>
         <button className="close-btn" onClick={onClose}><X size={24} /></button>
       </div>
       <div className="quiz-progress">
-        <span>Question {currentQ + 1} / {questions.length}</span>
+        <span>{t('features.quiz.question')} {currentQ + 1} / {questions.length}</span>
         <div className="progress-bar">
           <motion.div
             className="progress-fill"
@@ -204,6 +233,7 @@ export const Quiz = ({ onClose }) => {
 
 // Feature 25: Mood Tracking
 export const MoodTracker = ({ onClose }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('log');
   const [mood, setMood] = useState(null);
   const [note, setNote] = useState('');
@@ -386,17 +416,17 @@ export const MoodTracker = ({ onClose }) => {
         <div className="mood-header">
           <div className="header-content">
             <div className="header-icon">✨</div>
-            <h2>Mood Journal</h2>
+            <h2>{t('moodTracker.title')}</h2>
           </div>
-          <button className="close-btn" onClick={onClose}><X size={24} /></button>
+          <button className="close-btn" onClick={onClose} aria-label={t('common.close')}><X size={24} /></button>
         </div>
 
         {/* Tab Navigation */}
         <div className="mood-tabs">
           {[
-            { id: 'log', label: 'Log Mood', icon: '📝' },
-            { id: 'analytics', label: 'Analytics', icon: '📊' },
-            { id: 'history', label: 'History', icon: '📅' }
+            { id: 'log', label: t('moodTracker.tabs.log'), icon: '📝' },
+            { id: 'analytics', label: t('moodTracker.tabs.analytics'), icon: '📊' },
+            { id: 'history', label: t('moodTracker.tabs.history'), icon: '📅' }
           ].map(tab => (
             <motion.button
               key={tab.id}
@@ -424,7 +454,7 @@ export const MoodTracker = ({ onClose }) => {
             >
               <div className="mood-input">
                 <div className="date-selector">
-                  <label>Date</label>
+                  <label>{t('moodTracker.log.date')}</label>
                   <input
                     type="date"
                     value={selectedDate}
@@ -433,8 +463,8 @@ export const MoodTracker = ({ onClose }) => {
                   />
                 </div>
 
-                <h3>How are you feeling?</h3>
-                <p className="mood-subtitle">Select the emoji that best describes your mood</p>
+                <h3>{t('moodTracker.log.howAreYouFeeling')}</h3>
+                <p className="mood-subtitle">{t('moodTracker.log.selectEmoji')}</p>
                 
                 <div className="mood-options">
                   {moods.map(m => {
@@ -481,10 +511,10 @@ export const MoodTracker = ({ onClose }) => {
                 )}
 
                 <div className="note-section">
-                  <label>What's on your mind? (Optional)</label>
+                  <label>{t('moodTracker.log.whatsOnYourMind')}</label>
                   <textarea
                     className="mood-note"
-                    placeholder="Share your thoughts, feelings, or what happened today..."
+                    placeholder={t('moodTracker.log.placeholder')}
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     rows={4}
@@ -504,7 +534,7 @@ export const MoodTracker = ({ onClose }) => {
                   }}
                 >
                   <Check size={20} />
-                  Save Entry
+                  {t('moodTracker.log.saveEntry')}
                 </motion.button>
               </div>
             </motion.div>
@@ -524,16 +554,16 @@ export const MoodTracker = ({ onClose }) => {
                 {!stats ? (
                   <div className="empty-analytics">
                     <div className="empty-icon">📊</div>
-                    <h3>No Data Yet</h3>
-                    <p>Start logging your moods to see your trends and insights!</p>
+                    <h3>{t('moodTracker.analytics.noDataYet')}</h3>
+                    <p>{t('moodTracker.analytics.startLogging')}</p>
                     <button className="btn-secondary" onClick={() => setActiveTab('log')}>
-                      Log Your First Mood
+                      {t('moodTracker.analytics.logFirstMood')}
                     </button>
                   </div>
                 ) : (
                   <>
-                    <h3>Your Mood Trends</h3>
-                    <p className="analytics-subtitle">Last 7 days overview</p>
+                    <h3>{t('moodTracker.analytics.yourMoodTrends')}</h3>
+                    <p className="analytics-subtitle">{t('moodTracker.analytics.last7Days')}</p>
 
                     {/* Statistics Cards */}
                     <div className="stats-grid">
@@ -545,7 +575,7 @@ export const MoodTracker = ({ onClose }) => {
                       >
                         <div className="stat-icon">📈</div>
                         <div className="stat-value">{stats.avgMood}</div>
-                        <div className="stat-label">Average Mood</div>
+                        <div className="stat-label">{t('moodTracker.analytics.averageMood')}</div>
                         <div className="stat-bar">
                           <motion.div
                             className="stat-bar-fill"
@@ -568,9 +598,9 @@ export const MoodTracker = ({ onClose }) => {
                       >
                         <div className="stat-icon">🔥</div>
                         <div className="stat-value">{stats.streak}</div>
-                        <div className="stat-label">Day Streak</div>
+                        <div className="stat-label">{t('moodTracker.analytics.dayStreak')}</div>
                         <div className="stat-description">
-                          {stats.streak > 0 ? 'Keep it up!' : 'Start your streak today!'}
+                          {stats.streak > 0 ? t('moodTracker.analytics.keepItUp') : t('moodTracker.analytics.startStreak')}
                         </div>
                       </motion.div>
 
@@ -584,7 +614,7 @@ export const MoodTracker = ({ onClose }) => {
                         <div className="stat-value">
                           {moods.find(m => m.value === stats.mostCommonMood)?.icon}
                         </div>
-                        <div className="stat-label">Most Common</div>
+                        <div className="stat-label">{t('moodTracker.analytics.mostCommon')}</div>
                         <div className="stat-description">
                           {moods.find(m => m.value === stats.mostCommonMood)?.label}
                         </div>
@@ -598,37 +628,37 @@ export const MoodTracker = ({ onClose }) => {
                       >
                         <div className="stat-icon">📝</div>
                         <div className="stat-value">{stats.totalEntries}</div>
-                        <div className="stat-label">Total Entries</div>
+                        <div className="stat-label">{t('moodTracker.analytics.totalEntries')}</div>
                         <div className="stat-description">All time</div>
                       </motion.div>
                     </div>
 
                     {/* Mood Trend Chart */}
                     <div className="chart-section">
-                      <h4>Weekly Mood Pattern</h4>
+                      <h4>{t('moodTracker.analytics.weeklyPattern')}</h4>
                       {renderMoodChart()}
                     </div>
 
                     {/* Insights */}
                     <div className="insights-section">
-                      <h4>💡 Insights</h4>
+                      <h4>💡 {t('moodTracker.analytics.insights')}</h4>
                       <div className="insights-list">
                         {stats.avgMood >= 4 && (
                           <div className="insight-item positive">
                             <Check size={18} />
-                            <p>You've been feeling great lately! Keep up the positive energy.</p>
+                            <p>{t('moodTracker.analytics.insightsPositive')}</p>
                           </div>
                         )}
                         {stats.avgMood < 3 && (
                           <div className="insight-item warning">
                             <AlertCircle size={18} />
-                            <p>Your mood has been low recently. Consider reaching out to someone you trust or a mental health professional.</p>
+                            <p>{t('moodTracker.analytics.insightsLowMood')}</p>
                           </div>
                         )}
                         {stats.streak >= 7 && (
                           <div className="insight-item positive">
                             <TrendingUp size={18} />
-                            <p>Amazing! You've logged your mood for {stats.streak} days straight. Consistency is key!</p>
+                            <p>{t('moodTracker.analytics.insightsStreak', { streak: stats.streak })}</p>
                           </div>
                         )}
                       </div>
@@ -650,14 +680,14 @@ export const MoodTracker = ({ onClose }) => {
               transition={{ duration: 0.2 }}
             >
               <div className="mood-history">
-                <h3>Mood History</h3>
+                <h3>{t('moodTracker.history.title')}</h3>
                 {history.length === 0 ? (
                   <div className="empty-history">
                     <div className="empty-icon">📅</div>
-                    <h4>No Entries Yet</h4>
-                    <p>Start tracking your mood to build your history!</p>
+                    <h4>{t('moodTracker.history.noEntries')}</h4>
+                    <p>{t('moodTracker.history.startTracking')}</p>
                     <button className="btn-secondary" onClick={() => setActiveTab('log')}>
-                      Log Your Mood
+                      {t('moodTracker.history.logMood')}
                     </button>
                   </div>
                 ) : (
@@ -674,8 +704,8 @@ export const MoodTracker = ({ onClose }) => {
                         month: 'long', 
                         day: 'numeric' 
                       });
-                      if (isToday) dateLabel = 'Today';
-                      if (isYesterday) dateLabel = 'Yesterday';
+                      if (isToday) dateLabel = t('moodTracker.history.today');
+                      if (isYesterday) dateLabel = t('moodTracker.history.yesterday');
 
                       return (
                         <motion.div
@@ -724,6 +754,7 @@ export const MoodTracker = ({ onClose }) => {
 
 // Feature 27: Medication Reminders
 export const MedicationReminders = ({ onClose }) => {
+  const { t } = useTranslation();
   const [reminders, setReminders] = useState(() => {
     const saved = localStorage.getItem('medicationReminders');
     return saved ? JSON.parse(saved) : [];
@@ -762,13 +793,13 @@ export const MedicationReminders = ({ onClose }) => {
       exit={{ opacity: 0, y: '100%' }}
     >
       <div className="med-header">
-        <h2>Medication Reminders</h2>
-        <button className="close-btn" onClick={onClose}><X size={24} /></button>
+        <h2>{t('medicationReminders.title')}</h2>
+        <button className="close-btn" onClick={onClose} aria-label={t('common.close')}><X size={24} /></button>
       </div>
 
       {!showForm && (
         <button className="btn-primary" onClick={() => setShowForm(true)} style={{ width: '100%', marginBottom: '1.5rem' }}>
-          <Plus size={18} /> Add Reminder
+          <Plus size={18} /> {t('medicationReminders.addReminder')}
         </button>
       )}
 
@@ -782,7 +813,7 @@ export const MedicationReminders = ({ onClose }) => {
           >
             <input
               type="text"
-              placeholder="Medication name"
+              placeholder={t('medicationReminders.medicationName')}
               value={newReminder.name}
               onChange={(e) => setNewReminder({ ...newReminder, name: e.target.value })}
             />
@@ -795,13 +826,13 @@ export const MedicationReminders = ({ onClose }) => {
               value={newReminder.frequency}
               onChange={(e) => setNewReminder({ ...newReminder, frequency: e.target.value })}
             >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
+              <option value="daily">{t('medicationReminders.frequency.daily')}</option>
+              <option value="weekly">{t('medicationReminders.frequency.weekly')}</option>
+              <option value="monthly">{t('medicationReminders.frequency.monthly')}</option>
             </select>
             <div className="form-actions">
-              <button className="btn-primary" onClick={addReminder}>Save</button>
-              <button className="btn-secondary" onClick={() => setShowForm(false)}>Cancel</button>
+              <button className="btn-primary" onClick={addReminder}>{t('common.save')}</button>
+              <button className="btn-secondary" onClick={() => setShowForm(false)}>{t('common.cancel')}</button>
             </div>
           </motion.div>
         )}
@@ -809,7 +840,7 @@ export const MedicationReminders = ({ onClose }) => {
 
       <div className="reminders-list">
         {reminders.length === 0 ? (
-          <p className="empty-state">No reminders set. Add one to get started!</p>
+          <p className="empty-state">{t('medicationReminders.noReminders')}</p>
         ) : (
           reminders.map(r => (
             <motion.div
@@ -840,6 +871,7 @@ export const MedicationReminders = ({ onClose }) => {
 
 // Feature 28: Feedback System
 export const FeedbackForm = ({ onClose }) => {
+  const { t } = useTranslation();
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -867,9 +899,9 @@ export const FeedbackForm = ({ onClose }) => {
         animate={{ opacity: 1, scale: 1 }}
       >
         <div className="feedback-success">
-          <h2>Thank You! 🙏</h2>
-          <p>Your feedback helps us improve KasaEd for all users.</p>
-          <button className="btn-primary" onClick={onClose}>Close</button>
+          <h2>{t('feedbackForm.thankYou')}</h2>
+          <p>{t('feedbackForm.successMessage')}</p>
+          <button className="btn-primary" onClick={onClose}>{t('common.close')}</button>
         </div>
       </motion.div>
     );
@@ -883,12 +915,12 @@ export const FeedbackForm = ({ onClose }) => {
       exit={{ opacity: 0, y: '100%' }}
     >
       <div className="feedback-header">
-        <h2>Share Your Feedback</h2>
-        <button className="close-btn" onClick={onClose}><X size={24} /></button>
+        <h2>{t('feedbackForm.title')}</h2>
+        <button className="close-btn" onClick={onClose} aria-label={t('common.close')}><X size={24} /></button>
       </div>
 
       <div className="rating-section">
-        <p>How would you rate your experience?</p>
+        <p>{t('feedbackForm.ratingQuestion')}</p>
         <div className="star-rating">
           {[1, 2, 3, 4, 5].map(star => (
             <motion.button
@@ -906,7 +938,7 @@ export const FeedbackForm = ({ onClose }) => {
 
       <textarea
         className="feedback-text"
-        placeholder="Tell us what you think..."
+        placeholder={t('feedbackForm.placeholder')}
         value={feedback}
         onChange={(e) => setFeedback(e.target.value)}
         rows={5}
@@ -918,7 +950,7 @@ export const FeedbackForm = ({ onClose }) => {
         disabled={!rating}
         style={{ width: '100%' }}
       >
-        Submit Feedback
+        {t('feedbackForm.submit')}
       </button>
     </motion.div>
   );

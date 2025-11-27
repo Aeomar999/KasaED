@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Brain, Heart, Shield, TrendingUp, BarChart3, AlertCircle,
@@ -9,6 +10,7 @@ import { MdArrowBack } from 'react-icons/md';
 import './MentalHealthAssessment.css';
 
 const MentalHealthAssessment = ({ onClose }) => {
+  const { t } = useTranslation();
   const [view, setView] = useState('welcome'); // welcome, selection, assessment, results, history
   const [assessmentType, setAssessmentType] = useState(null); // 'depression' or 'anxiety'
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -345,7 +347,7 @@ const MentalHealthAssessment = ({ onClose }) => {
       >
         <div>
           <div className="assessment-header">
-            <h2><Brain size={28} /> Mental Health Check-In</h2>
+            <h2><Brain size={28} /> {t('mentalHealth.checkIn.title')}</h2>
             <button className="close-btn" onClick={onClose}><X size={24} /></button>
           </div>
 
@@ -354,49 +356,47 @@ const MentalHealthAssessment = ({ onClose }) => {
             <Heart size={64} className="pulse-icon" />
           </div>
 
-          <h3>Your Mental Wellness Matters</h3>
+          <h3>{t('mentalHealth.checkIn.welcome.title')}</h3>
           <p className="welcome-text">
-            Taking care of your mental health is just as important as your physical health. 
-            Mental wellness affects every aspect of your life, including your sexual health, 
-            relationships, and overall well-being.
+            {t('mentalHealth.checkIn.welcome.text')}
           </p>
 
           <div className="info-cards">
             <div className="info-card">
               <Shield size={24} />
-              <h4>Safe & Confidential</h4>
-              <p>All responses are stored securely on your device only. Nothing is shared.</p>
+              <h4>{t('mentalHealth.checkIn.welcome.safeConfidential')}</h4>
+              <p>{t('mentalHealth.checkIn.welcome.clinicallyValidated')}</p>
             </div>
             <div className="info-card">
               <Activity size={24} />
-              <h4>Clinically Validated</h4>
+              <h4>{t('mentalHealth.checkIn.welcome.clinicallyValidated')}</h4>
               <p>Based on PHQ-9 and GAD-7 screening tools used by healthcare professionals.</p>
             </div>
             <div className="info-card">
               <Info size={24} />
-              <h4>Not a Diagnosis</h4>
+              <h4>{t('mentalHealth.checkIn.welcome.notDiagnosis')}</h4>
               <p>This is a screening tool. For professional evaluation, consult a mental health provider.</p>
             </div>
           </div>
 
           <div className="connection-info">
-            <h4><Heart size={20} /> Why Mental Health Matters for Sexual Health</h4>
+            <h4><Heart size={20} /> {t('mentalHealth.checkIn.welcome.whyMatters')}</h4>
             <div className="connection-points">
               <div className="connection-point">
                 <CheckCircle size={18} />
-                <p><strong>Healthy Relationships:</strong> Good mental health helps you communicate better, set boundaries, and build trust in relationships.</p>
+                <p><strong>{t('mentalHealth.checkIn.welcome.healthyRelationships')}:</strong> Good mental health helps you communicate better, set boundaries, and build trust in relationships.</p>
               </div>
               <div className="connection-point">
                 <CheckCircle size={18} />
-                <p><strong>Better Decision Making:</strong> When you feel emotionally balanced, you're more likely to make informed, safe choices about sexual health.</p>
+                <p><strong>{t('mentalHealth.checkIn.welcome.betterDecisionMaking')}:</strong> When you feel emotionally balanced, you're more likely to make informed, safe choices about sexual health.</p>
               </div>
               <div className="connection-point">
                 <CheckCircle size={18} />
-                <p><strong>Physical Wellness:</strong> Depression and anxiety can affect hormone levels, sexual desire, and physical intimacy.</p>
+                <p><strong>{t('mentalHealth.checkIn.welcome.physicalWellness')}:</strong> Depression and anxiety can affect hormone levels, sexual desire, and physical intimacy.</p>
               </div>
               <div className="connection-point">
                 <CheckCircle size={18} />
-                <p><strong>Self-Care:</strong> Mental wellness empowers you to prioritize protection, consent, and overall health.</p>
+                <p><strong>{t('mentalHealth.checkIn.welcome.selfCare')}:</strong> Mental wellness empowers you to prioritize protection, consent, and overall health.</p>
               </div>
             </div>
           </div>
@@ -407,7 +407,7 @@ const MentalHealthAssessment = ({ onClose }) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            Start Check-In <ArrowRight size={20} />
+            {t('mentalHealth.checkIn.welcome.startCheckIn')} <ArrowRight size={20} />
           </motion.button>
 
           {history.length > 0 && (
@@ -415,7 +415,7 @@ const MentalHealthAssessment = ({ onClose }) => {
               className="btn-text"
               onClick={() => setView('history')}
             >
-              <Calendar size={18} /> View Assessment History
+              <Calendar size={18} /> {t('mentalHealth.checkIn.welcome.viewHistory')}
             </button>
           )}
         </div>
@@ -438,7 +438,7 @@ const MentalHealthAssessment = ({ onClose }) => {
           <button className="back-btn" onClick={() => setView('welcome')}>
             <MdArrowBack size={20} />
           </button>
-          <h2>Choose Assessment Type</h2>
+          <h2>{t('mentalHealth.checkIn.selection.title')}</h2>
           <button className="close-btn" onClick={onClose}><X size={24} /></button>
         </div>
 
@@ -452,11 +452,11 @@ const MentalHealthAssessment = ({ onClose }) => {
             <div className="selection-icon">
               <Brain size={40} />
             </div>
-            <h3>Depression Screening</h3>
-            <p>PHQ-9 Assessment - 9 questions</p>
+            <h3>{t('mentalHealth.checkIn.selection.depression.title')}</h3>
+            <p>{t('mentalHealth.checkIn.selection.depression.description')}</p>
             <div className="selection-info">
               <Info size={16} />
-              <span>Screens for symptoms of depression including mood, interest, sleep, and energy</span>
+              <span>{t('mentalHealth.checkIn.selection.depression.info')}</span>
             </div>
             <div className="selection-arrow">
               <ArrowRight size={24} />
@@ -472,11 +472,11 @@ const MentalHealthAssessment = ({ onClose }) => {
             <div className="selection-icon">
               <AlertCircle size={40} />
             </div>
-            <h3>Anxiety Screening</h3>
-            <p>GAD-7 Assessment - 7 questions</p>
+            <h3>{t('mentalHealth.checkIn.selection.anxiety.title')}</h3>
+            <p>{t('mentalHealth.checkIn.selection.anxiety.description')}</p>
             <div className="selection-info">
               <Info size={16} />
-              <span>Screens for generalized anxiety disorder including worry, restlessness, and fear</span>
+              <span>{t('mentalHealth.checkIn.selection.anxiety.info')}</span>
             </div>
             <div className="selection-arrow">
               <ArrowRight size={24} />
@@ -486,7 +486,7 @@ const MentalHealthAssessment = ({ onClose }) => {
 
         <div className="privacy-reminder">
           <Lock size={18} />
-          <p>Your responses are completely confidential and stored only on your device</p>
+          <p>{t('chat.assessment.confidentialNote')}</p>
         </div>
         </div>
       </motion.div>
@@ -507,9 +507,9 @@ const MentalHealthAssessment = ({ onClose }) => {
           <div className="assessment-header">
           <h2>
             {assessmentType === 'depression' ? (
-              <><Brain size={24} /> Depression Screening</>
+              <><Brain size={24} /> {t('mentalHealth.checkIn.assessment.depressionTitle')}</>
             ) : (
-              <><AlertCircle size={24} /> Anxiety Screening</>
+              <><AlertCircle size={24} /> {t('mentalHealth.checkIn.assessment.anxietyTitle')}</>
             )}
           </h2>
           <button className="close-btn" onClick={onClose}><X size={24} /></button>
@@ -525,7 +525,7 @@ const MentalHealthAssessment = ({ onClose }) => {
         </div>
 
         <div className="question-counter">
-          Question {currentQuestion + 1} of {currentQuestions.length}
+          {t('mentalHealth.checkIn.assessment.questionCounter', { current: currentQuestion + 1, total: currentQuestions.length })}
         </div>
 
         <AnimatePresence mode="wait">
@@ -563,7 +563,7 @@ const MentalHealthAssessment = ({ onClose }) => {
 
         <div className="assessment-info">
           <Lock size={14} />
-          <small>All responses are confidential and stored locally on your device</small>
+          <small>{t('mentalHealth.checkIn.assessment.confidentialNote')}</small>
         </div>
         </div>
       </motion.div>
@@ -585,7 +585,7 @@ const MentalHealthAssessment = ({ onClose }) => {
       >
         <div>
           <div className="assessment-header">
-          <h2>Your Results</h2>
+          <h2>{t('mentalHealth.checkIn.results.title')}</h2>
           <button className="close-btn" onClick={onClose}><X size={24} /></button>
         </div>
 
@@ -595,7 +595,7 @@ const MentalHealthAssessment = ({ onClose }) => {
           animate={{ opacity: 1, y: 0 }}
         >
           <div className="result-type-badge" style={{ backgroundColor: `${interpretation.color}20`, color: interpretation.color }}>
-            {assessmentType === 'depression' ? 'Depression Screening' : 'Anxiety Screening'}
+            {assessmentType === 'depression' ? t('mentalHealth.checkIn.results.depressionScreening') : t('mentalHealth.checkIn.results.anxietyScreening')}
           </div>
 
           {/* Circular Progress */}
@@ -628,7 +628,7 @@ const MentalHealthAssessment = ({ onClose }) => {
               <div className="score-number" style={{ color: interpretation.color }}>
                 {score}
               </div>
-              <div className="score-max">out of {maxScore}</div>
+              <div className="score-max">{t('mentalHealth.checkIn.results.outOf', { max: maxScore })}</div>
             </div>
           </div>
 
@@ -649,14 +649,14 @@ const MentalHealthAssessment = ({ onClose }) => {
             >
               <PhoneCall size={24} />
               <div>
-                <strong>Need immediate support?</strong>
-                <p>Mental Health Crisis Line: <a href="tel:0553456789">0553456789</a></p>
+                <strong>{t('mentalHealth.checkIn.results.needSupport')}</strong>
+                <p>{t('mentalHealth.checkIn.results.mentalHealthCrisisLine', { number: '0553456789' })}</p>
               </div>
             </motion.div>
           )}
 
           <div className="resources">
-            <h3>Recommendations:</h3>
+            <h3>{t('mentalHealth.checkIn.results.recommendations')}</h3>
             <ul>
               {interpretation.recommendations.map((rec, idx) => (
                 <motion.li 
@@ -675,18 +675,17 @@ const MentalHealthAssessment = ({ onClose }) => {
 
           <div className="assessment-actions">
             <button className="btn-secondary" onClick={restart}>
-              Take Another Assessment
+              {t('mentalHealth.checkIn.results.takeAnother')}
             </button>
             <button className="btn-primary" onClick={onClose}>
-              <MessageCircle size={18} /> Return to Chat
+              <MessageCircle size={18} /> {t('mentalHealth.checkIn.results.returnToChat')}
             </button>
           </div>
 
           <div className="disclaimer">
             <AlertCircle size={16} />
             <small>
-              This is a screening tool, not a professional diagnosis. For a complete evaluation, 
-              please consult a licensed mental health provider or your doctor.
+              {t('mentalHealth.checkIn.results.disclaimer')}
             </small>
           </div>
         </motion.div>
@@ -708,7 +707,7 @@ const MentalHealthAssessment = ({ onClose }) => {
           <button className="back-btn" onClick={() => setView('welcome')}>
             <MdArrowBack size={20} />
           </button>
-          <h2><Calendar size={24} /> Assessment History</h2>
+          <h2><Calendar size={24} /> {t('mentalHealth.checkIn.history.title')}</h2>
           <button className="close-btn" onClick={onClose}><X size={24} /></button>
         </div>
 
@@ -729,9 +728,9 @@ const MentalHealthAssessment = ({ onClose }) => {
                 <div className="history-header">
                   <div className="history-type" style={{ color: interpretation.color }}>
                     {entry.type === 'depression' ? (
-                      <><Brain size={18} /> Depression</>
+                      <><Brain size={18} /> {t('mentalHealth.checkIn.history.depression')}</>
                     ) : (
-                      <><AlertCircle size={18} /> Anxiety</>
+                      <><AlertCircle size={18} /> {t('mentalHealth.checkIn.history.anxiety')}</>
                     )}
                   </div>
                   <div className="history-date">
@@ -764,8 +763,8 @@ const MentalHealthAssessment = ({ onClose }) => {
         {history.length === 0 && (
           <div className="empty-history">
             <BarChart3 size={64} className="empty-icon" />
-            <h3>No Assessment History</h3>
-            <p>Your completed assessments will appear here</p>
+            <h3>{t('mentalHealth.checkIn.history.noHistory')}</h3>
+            <p>{t('mentalHealth.checkIn.history.noHistoryText')}</p>
           </div>
         )}
         </div>

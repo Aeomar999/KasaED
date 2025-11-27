@@ -1,0 +1,509 @@
+{
+  "welcome": {
+    "title": "Fara tafiya da KasaEd! 🚀",
+    "subtitle": "Abokinmu da aminci ne don magana game da lafiya mai zaman kansa da kuma lafiya na iyali. Yi tambaya, samu amsa, kuma nemo tallafi a kowane lokaci, a kowane wuri - duka a harshenka kuma amincinmu ne.",
+    "getStarted": "Fara"
+  },
+  "language": {
+    "title": "Zaɓi Harshenka",
+    "subtitle": "Zaɓi harshen da kuka fi so",
+    "continue": "Cigaba"
+  },
+  "privacy": {
+    "title": "Sirrinka Yana da Mahimmanci",
+    "point1": "Dukkan abubuwan da kuka tambaya ne sirri ne.",
+    "point2": "Ba mu tattara sunanka, imel ɗin ka, ko lambar wayarka ba.",
+    "point3": "Ana ɓoye duk tattaunawa.",
+    "point4": "Kuna iya share tarihin tattaunawar ku a kowane lokaci.",
+    "accept": "Na fahimta kuma na karba",
+    "acceptButton": "Karba"
+  },
+  "age": {
+    "title": "Kaɗan Shekara Kake?",
+    "subtitle": "Wannan zai taimaka mana don ba ku bayanin daidai waɗanda suka dace da shekaranku.",
+    "teen": "13-17 (Mace/Mata)",
+    "youngAdult": "18-25 (Matasa)",
+    "other": "26+ (Wasu)",
+    "continue": "Cigaba"
+  },
+  "preferences": {
+    "title": "Ƙayyade Tsarin Ku",
+    "subtitle": "Ƙayyada saituna don sa karin farin ciki",
+    "fontSize": "Girman Rubutu",
+    "darkMode": "Yanayin Duhu",
+    "voiceResponses": "Amsoshin Murya",
+    "highContrast": "Yanayin Contrast Mai Tsayi",
+    "small": "Ƙanƙanci",
+    "medium": "Tsaka-tsaka",
+    "large": "Babba",
+    "extraLarge": "Babba Babba"
+  },
+  "personalization": {
+    "title": "Ƙayyade Tsarin Ku",
+    "subtitle": "Taimaka AI ya san ku (ba dole ba)",
+    "nickname": "Sunan Kwatankwashi (Ba dole ba)",
+    "nicknamePlaceholder": "Menene sunan da za mu kira ku?",
+    "avatar": "Zaɓi Avatar ɗin ku (Ba dole ba)",
+    "skip": "Tsallake",
+    "getStarted": "Fara Tattaunawa!"
+  },
+  "chat": {
+    "greeting": "Sannu! 👋",
+    "subtitle": "Tambayani komai game da lafiya mai zaman kansa, lafiya na zuciya, ko alaƙa.",
+    "noJudgment": "Ina nan don taimaka, ba lallasa ba!",
+    "placeholder": "Tambayi Kasa komai...",
+    "listening": "Ina saurari...",
+    "quickReplies": {
+      "contraception": "Ƙaunatar Iyali",
+      "relationships": "Alaƙa & Izini",
+      "mentalHealth": "Lafiya na Zuciya",
+      "stiPrevention": "Ƙingida STI",
+      "general": "Lafiya na Iyali"
+    },
+    "newChat": "Sabon Tattaunawa",
+    "today": "Yau",
+    "yesterday": "Jiya",
+    "daysAgo": "kwana da suka wuce",
+    "stopGenerating": "Tsaya",
+    "findClinics": "Nemo Kliniki Kusa",
+    "tellMore": "Ƙara magana",
+    "noThanks": "A'a, godiya"
+  },
+  "menu": {
+    "settings": "Saituna",
+    "clearChat": "Share Tattaunawa",
+    "quickExit": "Fita da Sauri",
+    "history": "Tarihi",
+    "newSession": "Sabon Tattaunawa",
+    "deleteSelected": "Share Abubuwan da aka Zaɓa",
+    "selectMode": "Zaɓi Yanayi",
+    "cancelSelection": "Soke",
+    "mentalHealthCheckIn": "Lafiya na Zuciya Duba",
+    "takeSRHQuiz": "Ƙara SRH Nauyin",
+    "moodJournal": "Mood Littafi",
+    "medicationReminders": "Ƙumbura da Amsoshi",
+    "periodTracker": "Makon Nisan",
+    "stiRiskCalculator": "STI Risiko Lissafi",
+    "relationshipHealth": "Lafiya ta Alaƙa",
+    "communityQA": "Al'umma Tambayoyi & Amsoshi",
+    "achievements": "Nasara",
+    "findNearbyClinics": "Nemo Kliniki Kusa",
+    "autoDeleteTimer": "Agogon Sharewa",
+    "showRecommendations": "Nuna Shawarwari",
+    "hideRecommendations": "Ɓoye Shawarwari",
+    "changeBotPersonality": "Canza Bot Yanayi",
+    "profileSettings": "Saitunan Bayanai",
+    "enableKasaAI": "Kunna Kasa AI",
+    "sendFeedback": "Aika Martani"
+  },
+  "personality": {
+    "friendly": "Mai kyau",
+    "professional": "Mai aiki",
+    "casual": "Mai kyau da Nishaɗi",
+    "empathetic": "Mai jin dadi"
+  },
+  "timer": {
+    "title": "Agogon Sharewa",
+    "description": "Share tarihin tattaunawar ku ta atomatik bayan:",
+    "option1Hour": "Sa'a 1",
+    "option24Hours": "Sa'o'i 24",
+    "option7Days": "Kwana 7",
+    "option30Days": "Kwana 30",
+    "option90Days": "Kwana 90 (An bada shawara)",
+    "optionOff": "Kashe",
+    "active": "Agogo ne aiki:",
+    "remaining": "ya rage",
+    "cancel": "Soke Agogo",
+    "warningTitle": "Ƙariyar Sirri Yana Aiki",
+    "warningMessage": "Za a share tarihin tattaunawar ku ta atomatik bayan",
+    "warningTurnOff": "Kashe Agogo",
+    "warningKeep": "Ci gaba da Agogo"
+  },
+  "confirmations": {
+    "clearChat": "Share duk saƙonni a wannan tattaunawa?",
+    "deleteSession": "Share tattaunawa?",
+    "panicExit": "Wannan zai rufe app ɗin kuma ya share duk bayanai. Ci gaba?"
+  },
+  "alerts": {
+    "speechNotSupported": "Wannan browser ba ya goyan bayan gane magana. Da fatan za a yi amfani da Chrome, Edge, ko Safari.",
+    "micAccessDenied": "An hana shiga microphone. Da fatan za a ba da izini.",
+    "ttsNotSupported": "Rubutu-zuwa-magana ba ya goyan bayan wannan browser."
+  },
+  "panic": {
+    "button": "🔴 FITA DA SAURI"
+  },
+  "emergency": {
+    "title": "🚨 TALLAFI NA GAGI YANA AZAMAN",
+    "message": "Na ji ku. Ba ku kada ba. Da fatan za a tuntubi ɗayan waɗannan lambar a yanzu. Suna da koyarwa don taimaka. Kuwa yana da mahimmanci. Tallafi yana nan.",
+    "callNow": "📞 KIRA YANZU",
+    "sendMessage": "💬 SAƙo",
+    "continueChat": "Ci Gaba da Tattaunawa",
+    "closeApp": "Rufe App"
+  },
+  "footer": {
+    "faq": "ℹ️ Tambayoyin Akai-akai",
+    "emergency": "📞 Tallafin Gaggawa",
+    "settings": "⚙️ Saituna"
+  },
+  "offline": {
+    "banner": "📵 Ba ku Kan Layi - Yanayin Ƙarƙashin",
+    "faq": "❓ Tambayoyin da Aka Yi Taba",
+    "hotlines": "📞 Lambobin Gaggawa",
+    "contraception": "💊 Jagorar Ƙaunatar Iyali",
+    "sti": "⚠️ Bayani na STI",
+    "mentalHealth": "🧠 Shawarwari na Lafiya na Zuciya",
+    "consent": "💑 Izini & Alaƙa",
+    "faqContent": {
+      "faq1": {
+        "question": "Ƙayyade tsarin kondom ne?",
+        "answer": "Ƙayyade tsarin kondom shine kusan 98% idan an yi amfani da su daidai a kowane lokaci. Suna kare masa STI har da HIV. Yi amfani da sabon kondom a kowane aiki na jima'i."
+      },
+      "faq2": {
+        "question": "Shin zan iya samun ciki a cikin lokacin addin?",
+        "answer": "Ee, amma yana da ƙaranci. Sperm na iya rayuwa a cikin jiki har zuwa kwana 5, don haka idan lokacin addin ku na ƙaranci, yana yiwuwa. Yi amfani da karewa a gaba-gaba."
+      },
+      "faq3": {
+        "question": "Ta yaya zan san da STI?",
+        "answer": "Ƙwararrun STI ba su da alamomi. Alamomi masu amfani: sarari mara kyau, cuta, ciwon jini a lokacin shan abin sha, ko kuncin jini. Yi gwaji a gaba-gaba idan kuna aiki da jima'i."
+      },
+      "faq4": {
+        "question": "Shin HIV yana da magudi?",
+        "answer": "HIV ba shi da magudi, amma yana da shafawa. Antiretroviral therapy (ARVs) yana ba masu HIV damar rayuwa mai tsayi da lafiya. Da shafawa, viral load na iya zama mara ganuwa."
+      },
+      "faq5": {
+        "question": "Menene izini?",
+        "answer": "Izini shine yarda mai zuwa don shiga a cikin aiki na jima'i. Dole ne a ba shi da kyau, ana iya janyewa a kowane lokaci, kuma shirin aiki ko \"ƙila\" ba shi izini ba."
+      },
+      "faq6": {
+        "question": "Ina zan sami kondom na kyauta?",
+        "answer": "Kondom na kyauta akwai a cibiyar lafiya na gwamnati, kliniki na PPAG, cibiyar masu alƙawari, da wasu gidajen NGO a Ghana."
+      },
+      "faq7": {
+        "question": "Ta yaya zan sarrafa damuwa?",
+        "answer": "Sarrafa damuwa da lafiya ya haɗa: riyawa a gaba-gaba, barci mai yawa, magana da wani da ka amince, jin ƙararrawa, da shiga a wasu abubuwa da ka ke so."
+      },
+      "faq8": {
+        "question": "Me zan yi idan na ji damuwa?",
+        "answer": "Kira lamba na gaggawa yanzu (Suicide Prevention: 0800234567). Magana da babba, mai shawara, ko mai lafiya. Ba ku kada ba, kuma taimako akwai."
+      },
+      "faq9": {
+        "question": "Shin zan iya samun alabin gaggawa ba tare da takardar dokar ba?",
+        "answer": "Ee, kowane gaggawa (Postinor-2, Plan B) akwai a sayar da su a apothecaries a Ghana. Yana da amfani a cikin awa 72 bayan shiga ba karewa ba."
+      },
+      "faq10": {
+        "question": "Ta yaya zan gwada HIV?",
+        "answer": "Gwajin HIV na kyauta akwai a cibiyar Shawarwari da Gwaji (VCT), asibiti na gwamnati, da kliniki na PPAG. Gwajin shi ne sirri."
+      }
+    }
+  },
+  "mentalHealth": {
+    "checkIn": {
+      "title": "Lafiya na Zuciya Duba",
+      "welcome": {
+        "title": "Lafiya na Zuciyar Ka Yana da Mahimmanci",
+        "text": "Kare lafiya na zuciyar ka yana da mahimmanci kamar yadda kake kare lafiya na jiki. Lafiya na zuciyar ka yana shafi dukkan abubuwan da ke rayuwarka, har da lafiya mai zaman kansa, alaƙa, da dukkan lafiyar ku.",
+        "safeConfidential": "Aminci & Sirri",
+        "clinicallyValidated": "An tabbatar da Shaidar Kliniki",
+        "notDiagnosis": "Ba shaidar cuta ba",
+        "whyMatters": "Me Yasa Lafiya na Zuciyar Ka Yana da Mahimmanci don Lafiya Mai Zaman Kansa",
+        "healthyRelationships": "Alaƙa Masu Lafiya",
+        "betterDecisionMaking": "Ƙara Yanke Shawara",
+        "physicalWellness": "Lafiya na Jiki",
+        "selfCare": "Kare Kanka",
+        "startCheckIn": "Fara Duba",
+        "viewHistory": "Duba Tarihin Duba"
+      },
+      "selection": {
+        "title": "Zaɓi Nau'in Duba",
+        "depression": {
+          "title": "Shaidar Rashin Farin Ciki",
+          "description": "PHQ-9 Shaidar - Tambayoyi 9",
+          "info": "Shaidar alamar rashin farin ciki da ke haɗa da yanayin jiki, sha'awa, barci, da ƙarfi"
+        },
+        "anxiety": {
+          "title": "Shaidar Damuwa",
+          "description": "GAD-7 Shaidar - Tambayoyi 7",
+          "info": "Shaidar damuwa mai zaman kansa da ke haɗa da damuwa, rashin jin daɗi, da tsoro"
+        }
+      },
+      "assessment": {
+        "depressionTitle": "Shaidar Rashin Farin Ciki",
+        "anxietyTitle": "Shaidar Damuwa",
+        "questionCounter": "Tambaya {{current}} daga {{total}}",
+        "confidentialNote": "Dukkan amsoshin ku sirri ne kuma an adana su a na'urar ku"
+      },
+      "results": {
+        "title": "Sakamakonku",
+        "depressionScreening": "Shaidar Rashin Farin Ciki",
+        "anxietyScreening": "Shaidar Damuwa",
+        "outOf": "daga {{max}}",
+        "recommendations": "Shawarwari:",
+        "takeAnother": "Ƙara Duba Wani",
+        "returnToChat": "Koma zuwa Tattaunawa",
+        "disclaimer": "Wannan shaidar duba ne, ba shaidar cuta ba. Don duba cikakke, da fatan za a tuntubi mai lafiya na zuciyar ka ko daktarka.",
+        "needSupport": "Kuna buƙatar tallafi yanzu?",
+        "mentalHealthCrisisLine": "Lambar Tallafin Lafiya na Zuciya: {{number}}"
+      },
+      "history": {
+        "title": "Tarihin Duba",
+        "noHistory": "Babu Tarihin Duba",
+        "noHistoryText": "Dubawa da kuka kammala za su bayyana anan",
+        "depression": "Rashin Farin Ciki",
+        "anxiety": "Damuwa"
+      }
+    }
+  },
+  "clinicFinder": {
+    "title": "Nemo Kliniki Masu Alƙawari",
+    "findingClinics": "Ana nemo kliniki kusa da ku...",
+    "allClinics": "Dukkan Kliniki",
+    "youthFriendly": "Masu Alƙawari",
+    "freeServices": "Aiki na Kyauta",
+    "distance": "{{distance}} km daga nan",
+    "getDirections": "Samu Muhalli",
+    "callNow": "Kira Yanzu",
+    "servicesOffered": "Ayyukan da Aka Samara",
+    "operatingHours": "Lokacin Aiki",
+    "contact": "Tuntubi"
+  },
+  "emergencyContacts": {
+    "title": "Lambar Tuntubi na Gaggawa",
+    "sosAlert": "Ƙarar Kunna SOS",
+    "sosDescription": "Aika gargadi na gaggawa tare da wuri ku zuwa dukkan abokan ku",
+    "sendSOS": "Aika SOS GARGADI",
+    "sendingAlert": "Ana aikawa Gargadi...",
+    "addContactFirst": "⚠️ Ƙara tuntubi ɗaya a farko",
+    "addContact": "Ƙara Tuntubi Mai Aminci",
+    "contactName": "Sunan Tuntubi",
+    "phoneNumber": "Lambar Waya",
+    "addContactButton": "Ƙara Tuntubi",
+    "trustedContacts": "Abokan ku Masu Aminci ({{count}})",
+    "noContacts": "Babu tuntubin gaggawa",
+    "nationalHotlines": "Lambobin Kasa",
+    "policeEmergency": "Ƙungiyar Tsare-tsare na Gaggawa",
+    "ambulanceService": "Aikin Ambulan",
+    "dovvsu": "DOVVSU (Tsarin Mace/Mata)",
+    "nationalAmbulance": "Ambulan Kasa"
+  },
+  "features": {
+    "healthRecommendations": {
+      "personalizedForYou": "Ƙayyade Tsarin Ku",
+      "stressManagement": {
+        "title": "Sarrafa Damuwa",
+        "text": "Dangane da tambayoyin ku, yi ƙoƙarin jin ƙararrawa a kowane rana kuma ka yi jin ƙoƙarin barci daidai."
+      },
+      "familyPlanning": {
+        "title": "Ƙayyade Iyalan",
+        "text": "Yi la'akari da ziyartar kliniki don ƙayyade iyali don shawarwari mai zaman kansa."
+      },
+      "regularTesting": {
+        "title": "Gwaji na Yau da Yau",
+        "text": "Yi gwaji don STI kowane watanni 6 idan kuna aiki da jima'i. Gwaji na kyauta akwai a cibiyar VCT."
+      },
+      "stayHealthy": {
+        "title": "Ku Je Lafiya",
+        "text": "Ci gaba da yin tambayoyi! Gwaji da ƙayyade iyali daidai ne don lafiya mai zaman kansa."
+      }
+    },
+    "quiz": {
+      "title": "Lafiya Mai Zaman Kansa da Lafiya na Iyalan Nauyin",
+      "completeTitle": "Nauyin An Gama!",
+      "question": "Tambaya",
+      "excellent": "Mai kyau! Kuna sanin abubuwanku!",
+      "goodJob": "Ƙariyar kyau! Ci gaba da koyawa!",
+      "keepPracticing": "Ci gaba da gwaji, za ku iya shi!",
+      "tryAgain": "Sake Gwaji",
+      "close": "Rufe",
+      "questions": {
+        "0": {
+          "question": "Menene hanya mafi inganci don karewa daga cikin gabatarwa da STI?",
+          "options": {
+            "0": "Jagorar ƙaunatar iyali",
+            "1": "Kondom",
+            "2": "Hanyar janyewa",
+            "3": "Ƙaunatawa ta amfani da zaman"
+          }
+        },
+        "1": {
+          "question": "Sau nawa masu aiki da jima'i suke gwajin STI?",
+          "options": {
+            "0": "Sau ɗaya a shekara",
+            "1": "Sau biyu a watanni 6",
+            "2": "Kawai idan alamomi sun bayyana",
+            "3": "Sau ɗaya a rayuwa"
+          }
+        },
+        "2": {
+          "question": "Menene ma'ana ta izini a cikin alaƙa ta jima'i?",
+          "options": {
+            "0": "Ba a ce ba",
+            "1": "Izini mai kyau da ƙarfafa",
+            "2": "Ci gaba da shi",
+            "3": "Amincewa da abokin ku"
+          }
+        },
+        "3": {
+          "question": "Wanne daga cikin waɗannan alama ce ta alaƙa mai kyau?",
+          "options": {
+            "0": "Girmamawa da buɗe magana",
+            "1": "Anipa da izini",
+            "2": "Ƙarewa daga abokan gaba",
+            "3": "Tsayawa ne idan kuna jin tsoro"
+          }
+        },
+        "4": {
+          "question": "Menene lokacin gwajin HIV?",
+          "options": {
+            "0": "Kwanaki 1-2",
+            "1": "Kwanaki 2-4",
+            "2": "Kwanaki 3-6",
+            "3": "Shekara 1"
+          }
+        }
+      }
+    }
+  },
+  "features": {
+    "healthRecommendations": {
+      "personalizedForYou": "Ƙayyade Tsarin Ku",
+      "stressManagement": {
+        "title": "Sarrafa Damuwa",
+        "text": "Dangane da tambayoyin ku, yi ƙoƙarin jin ƙararrawa a kowane rana kuma ka yi jin ƙoƙarin barci daidai."
+      },
+      "familyPlanning": {
+        "title": "Ƙayyade Iyalan",
+        "text": "Yi la'akari da ziyartar kliniki don ƙayyade iyali don shawarwari mai zaman kansa."
+      },
+      "regularTesting": {
+        "title": "Gwaji na Yau da Yau",
+        "text": "Yi gwaji don STI kowane watanni 6 idan kuna aiki da jima'i. Gwaji na kyauta akwai a cibiyar VCT."
+      },
+      "stayHealthy": {
+        "title": "Ku Je Lafiya",
+        "text": "Ci gaba da yin tambayoyi! Gwaji da ƙayyade iyali daidai ne don lafiya mai zaman kansa."
+      }
+    },
+    "quiz": {
+      "title": "Lafiya Mai Zaman Kansa da Lafiya na Iyalan Nauyin",
+      "completeTitle": "Nauyin An Gama!",
+      "question": "Tambaya",
+      "excellent": "Mai kyau! Kuna sanin abubuwanku!",
+      "goodJob": "Ƙariyar kyau! Ci gaba da koyawa!",
+      "keepPracticing": "Ci gaba da gwaji, za ku iya shi!",
+      "tryAgain": "Sake Gwaji",
+      "close": "Rufe",
+      "questions": {
+        "0": {
+          "question": "Menene hanya mafi inganci don karewa daga cikin gabatarwa da STI?",
+          "options": {
+            "0": "Jagorar ƙaunatar iyali",
+            "1": "Kondom",
+            "2": "Hanyar janyewa",
+            "3": "Ƙaunatawa ta amfani da zaman"
+          }
+        },
+        "1": {
+          "question": "Sau nawa masu aiki da jima'i suke gwajin STI?",
+          "options": {
+            "0": "Sau ɗaya a shekara",
+            "1": "Sau biyu a watanni 6",
+            "2": "Kawai idan alamomi sun bayyana",
+            "3": "Sau ɗaya a rayuwa"
+          }
+        },
+        "2": {
+          "question": "Menene ma'ana ta izini a cikin alaƙa ta jima'i?",
+          "options": {
+            "0": "Ba a ce ba",
+            "1": "Izini mai kyau da ƙarfafa",
+            "2": "Ci gaba da shi",
+            "3": "Amincewa da abokin ku"
+          }
+        },
+        "3": {
+          "question": "Wanne daga cikin waɗannan alama ce ta alaƙa mai kyau?",
+          "options": {
+            "0": "Girmamawa da buɗe magana",
+            "1": "Anipa da izini",
+            "2": "Ƙarewa daga abokan gaba",
+            "3": "Tsayawa ne idan kuna jin tsoro"
+          }
+        },
+        "4": {
+          "question": "Menene lokacin gwajin HIV?",
+          "options": {
+            "0": "Kwanaki 1-2",
+            "1": "Kwanaki 2-4",
+            "2": "Kwanaki 3-6",
+            "3": "Shekara 1"
+          }
+        }
+      }
+    },
+    "moodTracker": {
+      "title": "Mood Littafi",
+      "tabs": {
+        "log": "Log Mood",
+        "analytics": "Analytics",
+        "history": "History"
+      },
+      "log": {
+        "date": "Date",
+        "howAreYouFeeling": "Yaya ka ji?",
+        "selectEmoji": "Zaɓi emoji wanda ya fi ƙayyade yanayinka",
+        "whatsOnYourMind": "Menene a cikin zukunka? (Ba dole ba)",
+        "placeholder": "Raba tunanin ka, jin daɗin ka, ko abin da ya faru yau...",
+        "saveEntry": "Ajiye Shigarwa"
+      },
+      "analytics": {
+        "noDataYet": "Babu Bayanai Har Yanzu",
+        "startLogging": "Fara shigar da yanayinku don ganin nishadin ku da tunanin ku!",
+        "logFirstMood": "Shigar da Yanayinku na Farko",
+        "yourMoodTrends": "Nishadin Yanayinku",
+        "last7Days": "Bayanin Kwana 7 da suka wuce",
+        "averageMood": "Yanayin Tsaka-tsaka",
+        "dayStreak": "Ƙungiyar Kwana",
+        "mostCommon": "Mafi Amfani",
+        "keepItUp": "Ci Gaba!",
+        "startStreak": "Fara ƙungiyar ku yau!",
+        "weeklyPattern": "Tsarin Yanayin Makon",
+        "insights": "💡 Tunanin",
+        "insightsPositive": "Kun yi jin daɗi a kwanaki masu zuwa! Ci gaba da ƙarfin ruhi.",
+        "insightsLowMood": "Yanayinku ya yi ƙasa a kwanaki masu zuwa. Yi la'akari da tuntubar wani da ka amince ko mai lafiya na zuciya.",
+        "insightsStreak": "Mai kyau! Kun shigar da yanayinku kwanaki {streak} a jere. Juyawa ne babbar makashi ne!"
+      },
+      "history": {
+        "title": "Tarihin Yanayi",
+        "noEntries": "Babu Shigarwa Har Yanzu",
+        "startTracking": "Fara kaddamar da yanayinku don gina tarihin ku!",
+        "logMood": "Shigar da Yanayinku",
+        "today": "Yau",
+        "yesterday": "Jiya"
+      }
+    },
+    "medicationReminders": {
+      "title": "Ƙumbura da Amsoshi",
+      "addReminder": "Ƙara Tunatarwa",
+      "medicationName": "Sunan Magani",
+      "noReminders": "Babu tunatarwa da aka saita. Ƙara ɗaya don farawa!",
+      "frequency": {
+        "daily": "Kowane rana",
+        "weekly": "Kowane mako",
+        "monthly": "Kowane wata"
+      }
+    },
+    "feedbackForm": {
+      "title": "Aika Martani",
+      "ratingQuestion": "Ya yaya za ku tarawa jin daɗin ku?",
+      "placeholder": "Gayyace mana abin da kuka tuni...",
+      "submit": "Aika Martani",
+      "thankYou": "Godiya! 🙏",
+      "successMessage": "Martaninku tana taimaka mana don inganta KasaEd don masu amfani da shi."
+    },
+    "common": {
+      "close": "Rufe",
+      "save": "Ajiye",
+      "cancel": "Soke"
+    }
+  }
+}
