@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../contexts/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Trash2, User, ChevronRight, Check } from 'lucide-react';
+import { Shield, Lock, Trash2, User, ChevronRight, ChevronLeft, Check } from 'lucide-react';
 import ConfidentWomanPortrait from '../assets/Confident_Woman_Portrait.png';
 import SmilingIndividual from '../assets/Smiling_Individual.png';
 import './Onboarding.css';
@@ -48,6 +48,12 @@ const Onboarding = () => {
     }
   };
 
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+
   const variants = {
     enter: (direction) => ({
       x: direction > 0 ? 1000 : -1000,
@@ -67,7 +73,7 @@ const Onboarding = () => {
 
   const renderWelcomeScreen = () => (
     <motion.div
-      className="onboarding-card glass-panel welcome-card"
+      className="onboarding-card glass-panel uniform-card welcome-card"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -98,11 +104,14 @@ const Onboarding = () => {
 
   const renderLanguageScreen = () => (
     <motion.div
-      className="onboarding-card glass-panel"
+      className="onboarding-card glass-panel uniform-card"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
     >
+      <button className="back-btn" onClick={handleBack} aria-label="Go back">
+        <ChevronLeft size={20} />
+      </button>
       <h2>{t('language.title')}</h2>
       <p className="subtitle">Select your preferred language</p>
       <div className="grid-2">
@@ -129,11 +138,14 @@ const Onboarding = () => {
 
   const renderPrivacyScreen = () => (
     <motion.div
-      className="onboarding-card glass-panel"
+      className="onboarding-card glass-panel uniform-card"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
     >
+      <button className="back-btn" onClick={handleBack} aria-label="Go back">
+        <ChevronLeft size={20} />
+      </button>
       <h2>{t('privacy.title')}</h2>
       <div className="privacy-list">
         <div className="privacy-item">
@@ -176,11 +188,14 @@ const Onboarding = () => {
 
   const renderAgeScreen = () => (
     <motion.div
-      className="onboarding-card glass-panel"
+      className="onboarding-card glass-panel uniform-card"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
     >
+      <button className="back-btn" onClick={handleBack} aria-label="Go back">
+        <ChevronLeft size={20} />
+      </button>
       <h2>{t('age.title')}</h2>
       <p className="subtitle">{t('age.subtitle')}</p>
       <div className="grid-2">
@@ -218,11 +233,14 @@ const Onboarding = () => {
 
   const renderPreferencesScreen = () => (
     <motion.div
-      className="onboarding-card glass-panel"
+      className="onboarding-card glass-panel uniform-card"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
     >
+      <button className="back-btn" onClick={handleBack} aria-label="Go back">
+        <ChevronLeft size={20} />
+      </button>
       <h2>Customize Your Experience</h2>
       <div className="privacy-list">
         <label className="preference-row">
