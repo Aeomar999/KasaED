@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, ChevronRight, Star, Trash2, Plus, Calendar, Clock,
   Activity, Heart, Shield, AlertCircle, CheckCircle, Smile,
-  Frown, Meh, ThumbsUp, ThumbsDown
+  Frown, Meh, ThumbsUp, ThumbsDown, Check, TrendingUp
 } from 'lucide-react';
 import './Features.css';
 
@@ -204,111 +204,519 @@ export const Quiz = ({ onClose }) => {
 
 // Feature 25: Mood Tracking
 export const MoodTracker = ({ onClose }) => {
+  const [activeTab, setActiveTab] = useState('log');
   const [mood, setMood] = useState(null);
   const [note, setNote] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [history, setHistory] = useState(() => {
     const saved = localStorage.getItem('moodHistory');
     return saved ? JSON.parse(saved) : [];
   });
 
   const moods = [
-    { icon: <Smile size={32} />, label: 'Great', value: 5 },
-    { icon: <Smile size={32} style={{ transform: 'scale(0.9)' }} />, label: 'Good', value: 4 },
-    { icon: <Meh size={32} />, label: 'Okay', value: 3 },
-    { icon: <Frown size={32} style={{ transform: 'scale(0.9)' }} />, label: 'Low', value: 2 },
-    { icon: <Frown size={32} />, label: 'Very Low', value: 1 }
+    { 
+      icon: '😄', 
+      label: 'Amazing', 
+      value: 5, 
+      color: '#10b981',
+      gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      description: 'Feeling great!'
+    },
+    { 
+      icon: '🙂', 
+      label: 'Good', 
+      value: 4, 
+      color: '#3b82f6',
+      gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+      description: 'Pretty good day'
+    },
+    { 
+      icon: '😐', 
+      label: 'Okay', 
+      value: 3, 
+      color: '#f59e0b',
+      gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+      description: 'Just okay'
+    },
+    { 
+      icon: '😔', 
+      label: 'Low', 
+      value: 2, 
+      color: '#f97316',
+      gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+      description: 'Not so good'
+    },
+    { 
+      icon: '😢', 
+      label: 'Very Low', 
+      value: 1, 
+      color: '#ef4444',
+      gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+      description: 'Really struggling'
+    }
   ];
 
   const saveMood = () => {
     const entry = {
       mood,
       note,
-      date: new Date().toISOString(),
+      date: selectedDate,
       timestamp: Date.now()
     };
-    const newHistory = [entry, ...history].slice(0, 30); // Keep last 30
+    const newHistory = [entry, ...history.filter(e => e.date !== selectedDate)].slice(0, 60);
     setHistory(newHistory);
     localStorage.setItem('moodHistory', JSON.stringify(newHistory));
     setMood(null);
     setNote('');
+    setActiveTab('analytics');
+  };
+
+  // Calculate mood statistics
+  const calculateStats = () => {
+    if (history.length === 0) return null;
+
+    const totalMood = history.reduce((sum, entry) => sum + entry.mood, 0);
+    const avgMood = totalMood / history.length;
+    
+    const moodCounts = {};
+    history.forEach(entry => {
+      moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+    });
+    const mostCommonMood = Object.entries(moodCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+
+    // Calculate streak (consecutive days with entries)
+    const sortedDates = [...new Set(history.map(e => e.date))].sort().reverse();
+    let streak = 0;
+    const today = new Date().toISOString().split('T')[0];
+    let currentDate = today;
+    
+    for (let i = 0; i < sortedDates.length; i++) {
+      if (sortedDates[i] === currentDate) {
+        streak++;
+        const date = new Date(currentDate);
+        date.setDate(date.getDate() - 1);
+        currentDate = date.toISOString().split('T')[0];
+      } else {
+        break;
+      }
+    }
+
+    return {
+      avgMood: avgMood.toFixed(1),
+      totalEntries: history.length,
+      mostCommonMood: parseInt(mostCommonMood),
+      streak
+    };
+  };
+
+  // Get mood trend data for last 7 days
+  const getMoodTrend = () => {
+    const last7Days = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      const dayEntry = history.find(e => e.date === dateStr);
+      last7Days.push({
+        date: dateStr,
+        day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+        mood: dayEntry?.mood || null
+      });
+    }
+    return last7Days;
+  };
+
+  const stats = calculateStats();
+  const trendData = getMoodTrend();
+
+  // Render mood trend chart
+  const renderMoodChart = () => {
+    const maxHeight = 120;
+    
+    return (
+      <div className="mood-chart">
+        <div className="chart-bars">
+          {trendData.map((day, index) => {
+            const moodData = moods.find(m => m.value === day.mood);
+            const height = day.mood ? (day.mood / 5) * maxHeight : 0;
+            
+            return (
+              <motion.div
+                key={index}
+                className="chart-bar-container"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="chart-bar-wrapper" style={{ height: `${maxHeight}px` }}>
+                  {day.mood && (
+                    <motion.div
+                      className="chart-bar"
+                      style={{
+                        height: `${height}px`,
+                        background: moodData?.gradient
+                      }}
+                      initial={{ height: 0 }}
+                      animate={{ height: `${height}px` }}
+                      transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
+                    >
+                      <span className="bar-emoji">{moodData?.icon}</span>
+                    </motion.div>
+                  )}
+                  {!day.mood && <div className="chart-bar-empty" />}
+                </div>
+                <span className="chart-label">{day.day}</span>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   return (
     <motion.div
       className="mood-tracker"
-      initial={{ opacity: 0, y: '100%' }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: '100%' }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      <div className="mood-header">
-        <h2>Mood Journal</h2>
-        <button className="close-btn" onClick={onClose}><X size={24} /></button>
-      </div>
+      <div className="mood-container">
+        <div className="mood-header">
+          <div className="header-content">
+            <div className="header-icon">✨</div>
+            <h2>Mood Journal</h2>
+          </div>
+          <button className="close-btn" onClick={onClose}><X size={24} /></button>
+        </div>
 
-      <div className="mood-input">
-        <h3>How are you feeling today?</h3>
-        <div className="mood-options">
-          {moods.map(m => (
+        {/* Tab Navigation */}
+        <div className="mood-tabs">
+          {[
+            { id: 'log', label: 'Log Mood', icon: '📝' },
+            { id: 'analytics', label: 'Analytics', icon: '📊' },
+            { id: 'history', label: 'History', icon: '📅' }
+          ].map(tab => (
             <motion.button
-              key={m.value}
-              className={`mood-btn ${mood === m.value ? 'selected' : ''}`}
-              onClick={() => setMood(m.value)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              key={tab.id}
+              className={`mood-tab ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <span className="mood-emoji">{m.icon}</span>
-              <span className="mood-label">{m.label}</span>
+              <span className="tab-icon">{tab.icon}</span>
+              <span className="tab-label">{tab.label}</span>
             </motion.button>
           ))}
         </div>
 
-        <textarea
-          className="mood-note"
-          placeholder="How's your day going? (optional)"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          rows={3}
-        />
+        {/* Log Mood Tab */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'log' && (
+            <motion.div
+              key="log"
+              className="tab-content"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mood-input">
+                <div className="date-selector">
+                  <label>Date</label>
+                  <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    max={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
 
-        <button
-          className="btn-primary"
-          onClick={saveMood}
-          disabled={!mood}
-          style={{ width: '100%' }}
-        >
-          Save Entry
-        </button>
-      </div>
+                <h3>How are you feeling?</h3>
+                <p className="mood-subtitle">Select the emoji that best describes your mood</p>
+                
+                <div className="mood-options">
+                  {moods.map(m => {
+                    const isSelected = mood === m.value;
+                    return (
+                      <motion.button
+                        key={m.value}
+                        className={`mood-btn ${isSelected ? 'selected' : ''}`}
+                        onClick={() => setMood(m.value)}
+                        whileHover={{ scale: 1.08, y: -5 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                          borderColor: isSelected ? m.color : 'var(--border-medium)',
+                          background: isSelected ? `${m.color}15` : 'var(--bg-card)'
+                        }}
+                      >
+                        <span className="mood-emoji" style={{ fontSize: isSelected ? '3rem' : '2.5rem' }}>
+                          {m.icon}
+                        </span>
+                        <span className="mood-label" style={{ color: isSelected ? m.color : 'var(--text-secondary)' }}>
+                          {m.label}
+                        </span>
+                        {isSelected && (
+                          <motion.div
+                            className="mood-selected-indicator"
+                            layoutId="mood-indicator"
+                            style={{ background: m.gradient }}
+                          />
+                        )}
+                      </motion.button>
+                    );
+                  })}
+                </div>
 
-      <div className="mood-history">
-        <h3>Recent Entries</h3>
-        {history.length === 0 ? (
-          <p className="empty-state">No entries yet. Start tracking your mood!</p>
-        ) : (
-          <div className="mood-entries">
-            {history.slice(0, 5).map((entry, i) => {
-              const moodData = moods.find(m => m.value === entry.mood);
-              const date = new Date(entry.date);
-              return (
-                <motion.div
-                  key={i}
-                  className="mood-entry"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                {mood && (
+                  <motion.div
+                    className="mood-description"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <p>{moods.find(m => m.value === mood)?.description}</p>
+                  </motion.div>
+                )}
+
+                <div className="note-section">
+                  <label>What's on your mind? (Optional)</label>
+                  <textarea
+                    className="mood-note"
+                    placeholder="Share your thoughts, feelings, or what happened today..."
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    rows={4}
+                  />
+                </div>
+
+                <motion.button
+                  className="btn-save-mood"
+                  onClick={saveMood}
+                  disabled={!mood}
+                  whileHover={{ scale: mood ? 1.02 : 1 }}
+                  whileTap={{ scale: mood ? 0.98 : 1 }}
+                  style={{
+                    background: mood ? moods.find(m => m.value === mood)?.gradient : 'var(--bg-tertiary)',
+                    opacity: mood ? 1 : 0.5,
+                    cursor: mood ? 'pointer' : 'not-allowed'
+                  }}
                 >
-                  <span className="entry-emoji">{moodData?.icon}</span>
-                  <div className="entry-content">
-                    <span className="entry-date">
-                      {date.toLocaleDateString()} {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                    {entry.note && <p className="entry-note">{entry.note}</p>}
+                  <Check size={20} />
+                  Save Entry
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Analytics Tab */}
+          {activeTab === 'analytics' && (
+            <motion.div
+              key="analytics"
+              className="tab-content"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mood-analytics">
+                {!stats ? (
+                  <div className="empty-analytics">
+                    <div className="empty-icon">📊</div>
+                    <h3>No Data Yet</h3>
+                    <p>Start logging your moods to see your trends and insights!</p>
+                    <button className="btn-secondary" onClick={() => setActiveTab('log')}>
+                      Log Your First Mood
+                    </button>
                   </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
+                ) : (
+                  <>
+                    <h3>Your Mood Trends</h3>
+                    <p className="analytics-subtitle">Last 7 days overview</p>
+
+                    {/* Statistics Cards */}
+                    <div className="stats-grid">
+                      <motion.div
+                        className="stat-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        <div className="stat-icon">📈</div>
+                        <div className="stat-value">{stats.avgMood}</div>
+                        <div className="stat-label">Average Mood</div>
+                        <div className="stat-bar">
+                          <motion.div
+                            className="stat-bar-fill"
+                            style={{
+                              width: `${(stats.avgMood / 5) * 100}%`,
+                              background: moods.find(m => m.value === Math.round(stats.avgMood))?.gradient
+                            }}
+                            initial={{ width: 0 }}
+                            animate={{ width: `${(stats.avgMood / 5) * 100}%` }}
+                            transition={{ delay: 0.3, duration: 0.6 }}
+                          />
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        className="stat-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        <div className="stat-icon">🔥</div>
+                        <div className="stat-value">{stats.streak}</div>
+                        <div className="stat-label">Day Streak</div>
+                        <div className="stat-description">
+                          {stats.streak > 0 ? 'Keep it up!' : 'Start your streak today!'}
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        className="stat-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <div className="stat-icon">✨</div>
+                        <div className="stat-value">
+                          {moods.find(m => m.value === stats.mostCommonMood)?.icon}
+                        </div>
+                        <div className="stat-label">Most Common</div>
+                        <div className="stat-description">
+                          {moods.find(m => m.value === stats.mostCommonMood)?.label}
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        className="stat-card"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                      >
+                        <div className="stat-icon">📝</div>
+                        <div className="stat-value">{stats.totalEntries}</div>
+                        <div className="stat-label">Total Entries</div>
+                        <div className="stat-description">All time</div>
+                      </motion.div>
+                    </div>
+
+                    {/* Mood Trend Chart */}
+                    <div className="chart-section">
+                      <h4>Weekly Mood Pattern</h4>
+                      {renderMoodChart()}
+                    </div>
+
+                    {/* Insights */}
+                    <div className="insights-section">
+                      <h4>💡 Insights</h4>
+                      <div className="insights-list">
+                        {stats.avgMood >= 4 && (
+                          <div className="insight-item positive">
+                            <Check size={18} />
+                            <p>You've been feeling great lately! Keep up the positive energy.</p>
+                          </div>
+                        )}
+                        {stats.avgMood < 3 && (
+                          <div className="insight-item warning">
+                            <AlertCircle size={18} />
+                            <p>Your mood has been low recently. Consider reaching out to someone you trust or a mental health professional.</p>
+                          </div>
+                        )}
+                        {stats.streak >= 7 && (
+                          <div className="insight-item positive">
+                            <TrendingUp size={18} />
+                            <p>Amazing! You've logged your mood for {stats.streak} days straight. Consistency is key!</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          )}
+
+          {/* History Tab */}
+          {activeTab === 'history' && (
+            <motion.div
+              key="history"
+              className="tab-content"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mood-history">
+                <h3>Mood History</h3>
+                {history.length === 0 ? (
+                  <div className="empty-history">
+                    <div className="empty-icon">📅</div>
+                    <h4>No Entries Yet</h4>
+                    <p>Start tracking your mood to build your history!</p>
+                    <button className="btn-secondary" onClick={() => setActiveTab('log')}>
+                      Log Your Mood
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mood-entries">
+                    {history.map((entry, i) => {
+                      const moodData = moods.find(m => m.value === entry.mood);
+                      const date = new Date(entry.date);
+                      const isToday = entry.date === new Date().toISOString().split('T')[0];
+                      const isYesterday = entry.date === new Date(Date.now() - 86400000).toISOString().split('T')[0];
+                      
+                      let dateLabel = date.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      });
+                      if (isToday) dateLabel = 'Today';
+                      if (isYesterday) dateLabel = 'Yesterday';
+
+                      return (
+                        <motion.div
+                          key={i}
+                          className="mood-entry"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          style={{ borderLeft: `4px solid ${moodData?.color}` }}
+                        >
+                          <div className="entry-mood">
+                            <span className="entry-emoji" style={{ fontSize: '2.5rem' }}>
+                              {moodData?.icon}
+                            </span>
+                            <div className="entry-mood-info">
+                              <span className="entry-mood-label" style={{ color: moodData?.color }}>
+                                {moodData?.label}
+                              </span>
+                              <div className="entry-mood-value">
+                                {'★'.repeat(entry.mood)}{'☆'.repeat(5 - entry.mood)}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="entry-content">
+                            <div className="entry-date">
+                              <Calendar size={14} />
+                              <span>{dateLabel}</span>
+                            </div>
+                            {entry.note && (
+                              <p className="entry-note">{entry.note}</p>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
