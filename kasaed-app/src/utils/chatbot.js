@@ -123,19 +123,45 @@ export const detectNeedForHelp = (message) => {
     "unsafe",
   ];
 
-  // Mental health specific
+  // Mental health specific - ENHANCED
   const mentalHealthHelp = [
     "depressed",
+    "depression",
     "suicidal",
+    "suicide",
     "self harm",
+    "self-harm",
     "cutting",
     "want to die",
     "end it all",
     "cant cope",
     "can't cope",
     "breakdown",
+    "mental breakdown",
     "panic attack",
     "severe anxiety",
+    "anxiety",
+    "anxious",
+    "overwhelming",
+    "overwhelmed",
+    "hopeless",
+    "helpless",
+    "worthless",
+    "no point",
+    "give up",
+    "can't go on",
+    "ending my life",
+    "kill myself",
+    "thoughts of death",
+    "thoughts of dying",
+    "mental health crisis",
+    "emotional crisis",
+    "feeling suicidal",
+    "mental illness",
+    "psychiatric help",
+    "psychological help",
+    "counseling",
+    "therapy",
   ];
 
   // Physical health specific
@@ -348,7 +374,7 @@ export const generateChatbotResponse = (userMessage, userProfile) => {
   if (helpCheck.needsHelp) {
     const facilityRecommendation = {
       mentalHealth:
-        "Based on what you're experiencing, I strongly recommend speaking with a mental health professional. Would you like me to help you find nearby counseling services or mental health clinics?",
+        "Based on what you're experiencing, I strongly recommend speaking with a mental health professional. Your mental health matters, and there are people who want to help. Would you like me to help you find nearby counseling services or mental health clinics?",
       physical:
         "It sounds like you may need medical attention. I recommend visiting a health facility for proper diagnosis and treatment. Would you like me to show you nearby clinics that can help?",
       general:
@@ -382,7 +408,18 @@ export const generateChatbotResponse = (userMessage, userProfile) => {
 };
 
 // Generate follow-up suggestions based on conversation context
-export const generateFollowUpSuggestions = (intent) => {
+export const generateFollowUpSuggestions = (intent, category = null) => {
+  // Mental health-specific supportive suggestions
+  if (category === "mentalHealth") {
+    return [
+      "Find nearby health facilities",
+      "Talk to a counselor",
+      "I need crisis support",
+      "Tell me about coping strategies",
+      "Connect me with help resources",
+    ];
+  }
+
   const suggestions = {
     contraception: [
       "Tell me about condoms",

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../contexts/AppContext';
 import { generateGrokResponse, checkGrokAvailability, getGrokApiKey, saveGrokApiKey } from '../utils/grokClient';
-import { generateChatbotResponse, generateFollowUpSuggestions, detectIntent } from '../utils/chatbot';
+import { generateChatbotResponse, generateFollowUpSuggestions, detectIntent, detectNeedForHelp } from '../utils/chatbot';
 import { panicClear } from '../utils/encryption';
 import { emergencyHotlines } from '../data/srhContent';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -49,6 +49,11 @@ const Chat = () => {
   const [useGrok, setUseGrok] = useState(false);
   const [grokAvailable, setGrokAvailable] = useState(false);
   const [showFirstTimeWarning, setShowFirstTimeWarning] = useState(false);
+  
+  // Debug: Log when showFirstTimeWarning changes
+  useEffect(() => {
+    console.log('🚨 showFirstTimeWarning state changed to:', showFirstTimeWarning);
+  }, [showFirstTimeWarning]);
   const [abortController, setAbortController] = useState(null);
   const [botPersonality, setBotPersonality] = useState(() => localStorage.getItem('botPersonality') || 'friendly');
   const [leftSidebarExpanded, setLeftSidebarExpanded] = useState(false);
@@ -98,40 +103,14 @@ const Chat = () => {
   useEffect(() => {
     const loadChatSessions = async () => {
       try {
+        console.log('🔍 Loading chat sessions...');
         const sessions = JSON.parse(localStorage.getItem('chatSessions') || '[]');
+        console.log('📦 Sessions loaded:', sessions.length);
         setChatSessions(sessions);
-
-        // Check if this is a first-time user
-        const hasSeenWarning = localStorage.getItem('hasSeenTimerWarning');
-        const savedTimer = localStorage.getItem('autoDeleteTimer');
-
-        if (!hasSeenWarning && !savedTimer) {
-          // First-time user - show warning and set default 7-day timer
-          setShowFirstTimeWarning(true);
-          const defaultDuration = 10080 * 60 * 1000; // 7 days in milliseconds
-          const timerData = {
-            duration: defaultDuration,
-            startTime: Date.now()
-          };
-          localStorage.setItem('autoDeleteTimer', JSON.stringify(timerData));
-          setAutoDeleteTimer(defaultDuration);
-          startAutoDeleteCountdown(defaultDuration);
-        } else if (savedTimer) {
-          // Load existing timer
-          const timerData = JSON.parse(savedTimer);
-          setAutoDeleteTimer(timerData.duration);
-          // Check if timer should be active
-          const elapsed = Date.now() - timerData.startTime;
-          if (elapsed < timerData.duration) {
-            startAutoDeleteCountdown(timerData.duration - elapsed);
-          } else {
-            // Timer expired, clear sessions
-            handleAutoDeleteSessions();
-          }
-        }
 
         // If there's no current session, create one
         if (!currentSessionId && sessions.length === 0) {
+          console.log('➕ Creating new session for first-time user');
           const newSession = {
             id: Date.now().toString(),
             title: 'New Chat',
@@ -144,10 +123,65 @@ const Chat = () => {
           setCurrentSessionId(newSession.id);
         } else if (!currentSessionId && sessions.length > 0) {
           // Load the most recent session
+          console.log('📂 Loading most recent session');
           setCurrentSessionId(sessions[sessions.length - 1].id);
         }
+
+        // Check if timer has been explicitly disabled
+        const timerDisabled = localStorage.getItem('timerDisabled');
+        console.log('⏲️ Timer disabled flag:', timerDisabled);
+        
+        if (timerDisabled === 'true') {
+          console.log('⏸️ Timer is disabled by user preference - skipping timer setup');
+          // Don't set up any timer, but continue with other initialization
+          return;
+        }
+
+        // Check if this is a first-time user
+        const hasSeenWarning = localStorage.getItem('hasSeenTimerWarning');
+        const savedTimer = localStorage.getItem('autoDeleteTimer');
+        
+        console.log('🔍 Checking first-time user status:');
+        console.log('  - hasSeenTimerWarning:', hasSeenWarning);
+        console.log('  - savedTimer:', savedTimer);
+
+        if (!hasSeenWarning && !savedTimer) {
+          // First-time user - show warning and set default 7-day timer
+          console.log('👋 ✅ FIRST-TIME USER DETECTED - SHOWING WARNING!');
+          console.log('🎯 Setting showFirstTimeWarning to TRUE');
+          setShowFirstTimeWarning(true);
+          
+          const defaultDuration = 10080 * 60 * 1000; // 7 days in milliseconds
+          const timerData = {
+            duration: defaultDuration,
+            startTime: Date.now()
+          };
+          localStorage.setItem('autoDeleteTimer', JSON.stringify(timerData));
+          setAutoDeleteTimer(defaultDuration);
+          startAutoDeleteCountdown(defaultDuration);
+          console.log('⏱️ Default 7-day timer started');
+        } else {
+          console.log('ℹ️ Not a first-time user (warning seen or timer exists)');
+          
+          if (savedTimer) {
+            // Load existing timer
+            console.log('🔄 Loading existing timer');
+            const timerData = JSON.parse(savedTimer);
+            setAutoDeleteTimer(timerData.duration);
+            // Check if timer should be active
+            const elapsed = Date.now() - timerData.startTime;
+            if (elapsed < timerData.duration) {
+              startAutoDeleteCountdown(timerData.duration - elapsed);
+              console.log('⏱️ Existing timer resumed');
+            } else {
+              // Timer expired, clear sessions
+              console.log('⏰ Timer expired - clearing sessions');
+              handleAutoDeleteSessions();
+            }
+          }
+        }
       } catch (error) {
-        console.error('Error loading chat sessions:', error);
+        console.error('❌ Error loading chat sessions:', error);
       }
     };
     loadChatSessions();
@@ -230,6 +264,31 @@ const Chat = () => {
     // Clear chat history to start fresh without reloading
     clearChatHistory();
     setShowSidebar(false);
+  };
+
+  const handleClearCurrentChat = () => {
+    // Create greeting message
+    const greetingMessage = {
+      sender: 'bot',
+      text: `${t('chat.greeting')} ${t('chat.subtitle')} ${t('chat.noJudgment')}`,
+      type: 'greeting',
+      id: Date.now(),
+      timestamp: new Date().toISOString()
+    };
+
+    // Directly set chat history to only the greeting message
+    saveChatHistory([greetingMessage]);
+
+    // Update the current session in localStorage to reflect cleared state
+    if (currentSessionId) {
+      const updatedSessions = chatSessions.map(s =>
+        s.id === currentSessionId
+          ? { ...s, messages: [greetingMessage], timestamp: new Date().toISOString() }
+          : s
+      );
+      setChatSessions(updatedSessions);
+      localStorage.setItem('chatSessions', JSON.stringify(updatedSessions));
+    }
   };
 
   const handleLoadSession = (sessionId) => {
@@ -336,6 +395,57 @@ const Chat = () => {
     }
   };
 
+  // Generate descriptive title from user message
+  const generateChatTitle = (message) => {
+    const text = message.toLowerCase().trim();
+    
+    // Common question patterns and their titles
+    const patterns = [
+      { keywords: ['contraception', 'birth control', 'prevent pregnancy'], title: 'Contraception Info' },
+      { keywords: ['condom'], title: 'Condoms' },
+      { keywords: ['pill', 'birth control pill'], title: 'Birth Control Pills' },
+      { keywords: ['iud', 'intrauterine'], title: 'IUD Information' },
+      { keywords: ['implant', 'jadelle'], title: 'Contraceptive Implants' },
+      { keywords: ['emergency', 'morning after', 'postinor', 'plan b'], title: 'Emergency Contraception' },
+      { keywords: ['sti', 'std', 'sexually transmitted'], title: 'STI Information' },
+      { keywords: ['hiv', 'aids'], title: 'HIV/AIDS Info' },
+      { keywords: ['test', 'testing', 'get tested'], title: 'STI Testing' },
+      { keywords: ['pregnant', 'pregnancy'], title: 'Pregnancy Information' },
+      { keywords: ['period', 'menstruation', 'menstrual'], title: 'Period & Cycle' },
+      { keywords: ['depressed', 'depression', 'sad'], title: 'Depression Support' },
+      { keywords: ['anxiety', 'anxious', 'worried', 'panic'], title: 'Anxiety Support' },
+      { keywords: ['stress', 'overwhelmed'], title: 'Stress Management' },
+      { keywords: ['suicidal', 'suicide', 'want to die'], title: 'Crisis Support' },
+      { keywords: ['mental health', 'counseling', 'therapy'], title: 'Mental Health' },
+      { keywords: ['abuse', 'abused', 'violence', 'assault'], title: 'Abuse Support' },
+      { keywords: ['consent', 'relationship'], title: 'Relationships' },
+      { keywords: ['clinic', 'hospital', 'health facility'], title: 'Find Health Facility' },
+      { keywords: ['symptoms', 'pain', 'bleeding'], title: 'Health Symptoms' },
+    ];
+
+    // Check for pattern matches
+    for (const pattern of patterns) {
+      if (pattern.keywords.some(keyword => text.includes(keyword))) {
+        return pattern.title;
+      }
+    }
+
+    // If no pattern matched, create title from first few words
+    const words = message.trim().split(/\s+/);
+    if (words.length <= 3) {
+      // Short message - use as is (max 25 chars)
+      return message.substring(0, 25);
+    } else {
+      // Longer message - use first 3-4 words
+      let title = words.slice(0, 3).join(' ');
+      if (title.length < 20 && words.length > 3) {
+        title = words.slice(0, 4).join(' ');
+      }
+      // Ensure it's not too long
+      return title.length > 28 ? title.substring(0, 28) + '...' : title;
+    }
+  };
+
   const startAutoDeleteCountdown = (duration) => {
     const endTime = Date.now() + duration;
 
@@ -372,23 +482,42 @@ const Chat = () => {
       startTime: Date.now()
     };
 
+    // Remove the disabled flag since user is re-enabling timer
+    localStorage.removeItem('timerDisabled');
+    
     localStorage.setItem('autoDeleteTimer', JSON.stringify(timerData));
     setAutoDeleteTimer(duration);
     startAutoDeleteCountdown(duration);
     setShowTimerModal(false);
+    
+    console.log(`⏱️ Timer set for ${minutes} minutes`);
   };
 
   const handleCancelTimer = () => {
-    // Clear the countdown interval
+    console.log('🚫 Cancelling auto-delete timer...');
+    
+    // 1. Clear the countdown interval
     if (countdownInterval) {
       clearInterval(countdownInterval);
       setCountdownInterval(null);
+      console.log('✅ Countdown interval cleared');
     }
 
+    // 2. Remove timer from localStorage
     localStorage.removeItem('autoDeleteTimer');
+    console.log('✅ Timer removed from localStorage');
+    
+    // 3. Reset all timer-related state
     setAutoDeleteTimer(null);
     setTimerCountdown(null);
+    
+    // 4. Close timer modal if open
     setShowTimerModal(false);
+    
+    // 5. Mark timer as explicitly disabled
+    localStorage.setItem('timerDisabled', 'true');
+    
+    console.log('✅ Auto-delete timer fully disabled');
   };
 
   const formatCountdown = (ms) => {
@@ -491,9 +620,29 @@ const Chat = () => {
     setInputMessage('');
     setIsTyping(true);
 
+    // Auto-rename session based on first user message
+    if (currentSessionId) {
+      const currentSession = chatSessions.find(s => s.id === currentSessionId);
+      // Check if this is the first user message (only greeting exists before)
+      if (currentSession && chatHistory.length <= 1) {
+        const newTitle = generateChatTitle(messageText);
+        const updatedSessions = chatSessions.map(s =>
+          s.id === currentSessionId
+            ? { ...s, title: newTitle }
+            : s
+        );
+        setChatSessions(updatedSessions);
+        localStorage.setItem('chatSessions', JSON.stringify(updatedSessions));
+      }
+    }
+
     // Create abort controller for this request
     const controller = new AbortController();
     setAbortController(controller);
+
+    // Check for mental health concerns BEFORE generating response
+    const helpCheck = detectNeedForHelp(messageText);
+    const isMentalHealthConcern = helpCheck.needsHelp && helpCheck.category === 'mentalHealth';
 
     // Simulate processing delay
     const timeoutId = setTimeout(async () => {
@@ -520,15 +669,21 @@ const Chat = () => {
             // Use Groq response
             console.log('✅ Using Groq response!');
 
-            // Use the same intelligent suggestion system as default bot
+            // Detect intent for suggestions
             const intent = detectIntent(messageText);
-            const followUpSuggestions = generateFollowUpSuggestions(intent);
+            
+            // Generate appropriate suggestions based on mental health concern
+            const followUpSuggestions = isMentalHealthConcern 
+              ? generateFollowUpSuggestions(intent, 'mentalHealth')
+              : generateFollowUpSuggestions(intent);
 
             const responseMessage = {
               sender: 'bot',
               text: grokResult.response,
               model: 'groq',
-              relatedTopics: followUpSuggestions.slice(0, 3) // Show first 3 as related topics in bubble
+              relatedTopics: followUpSuggestions.slice(0, 3), // Show first 3 as related topics in bubble
+              showFacilityButton: isMentalHealthConcern, // Add facility button for mental health concerns
+              category: isMentalHealthConcern ? 'mentalHealth' : null
             };
             addMessage(responseMessage);
             setIsTyping(false);
@@ -579,12 +734,16 @@ const Chat = () => {
           sender: 'bot',
           text: botResponse.message,
           type: 'facility_recommendation',
-          showFacilityButton: true
+          showFacilityButton: true,
+          category: botResponse.category
         };
         addMessage(facilityMessage);
 
-        // Update suggestions
-        setCurrentSuggestions([t('chat.findClinics'), t('chat.tellMore'), t('chat.noThanks')]);
+        // Update suggestions with mental health-specific ones if applicable
+        const followUpSuggestions = botResponse.category === 'mentalHealth'
+          ? generateFollowUpSuggestions(botResponse.intent, 'mentalHealth')
+          : [t('chat.findClinics'), t('chat.tellMore'), t('chat.noThanks')];
+        setCurrentSuggestions(followUpSuggestions);
       } else {
         // Normal response
         const responseMessage = {
@@ -607,10 +766,20 @@ const Chat = () => {
   };
 
   const handleQuickReply = (reply) => {
-    if (reply === t('chat.findClinics')) {
+    // Handle special quick reply actions
+    if (reply === t('chat.findClinics') || reply === 'Find nearby health facilities') {
       setActiveFeature('clinic');
       return;
     }
+    if (reply === 'Talk to a counselor' || reply === 'I need crisis support') {
+      setShowEmergency(true);
+      return;
+    }
+    if (reply === 'Connect me with help resources') {
+      setActiveFeature('contacts');
+      return;
+    }
+    // Otherwise, send as a regular message
     handleSendMessage(reply);
   };
 
@@ -756,9 +925,8 @@ const Chat = () => {
             <button
               className="facility-finder-btn"
               onClick={() => setActiveFeature('clinic')}
-              style={{ marginTop: '1rem' }}
             >
-              <MapPin size={16} /> Find Nearby Health Facilities
+              <MapPin size={18} /> Find Nearby Health Facilities
             </button>
           )}
           {!isUser && (
@@ -1052,16 +1220,16 @@ const Chat = () => {
             <button
               className="icon-btn"
               onClick={() => { setActiveFeature('personality'); }}
-              aria-label="Settings"
-              title="Settings"
+              aria-label="Change Bot Personality"
+              title="Change Bot Personality"
             >
-              <Settings size={20} />
+              <Smile size={20} />
             </button>
             <button
               className="icon-btn"
               onClick={() => {
                 if (window.confirm('Clear all messages in this chat?')) {
-                  clearChatHistory();
+                  handleClearCurrentChat();
                 }
               }}
               aria-label="Clear Chat"
@@ -1127,14 +1295,18 @@ const Chat = () => {
               <button onClick={() => { setActiveFeature('clinic'); setShowMenu(false); }}>
                 <MapPin size={18} /> Find Nearby Clinics
               </button>
-              <button onClick={() => { setShowTimerModal(true); setShowMenu(false); }}>
+              <button onClick={() => { 
+                console.log('🕐 Auto-Delete Timer clicked, setting showTimerModal to true');
+                setShowTimerModal(true); 
+                setShowMenu(false); 
+              }}>
                 <Timer size={18} /> Auto-Delete Timer
               </button>
               <button onClick={() => { setShowRecommendations(!showRecommendations); setShowMenu(false); }}>
                 <MoreHorizontal size={18} /> {showRecommendations ? 'Hide' : 'Show'} Recommendations
               </button>
               <button onClick={() => { setActiveFeature('personality'); setShowMenu(false); }}>
-                <Settings size={18} /> Settings
+                <Smile size={18} /> Change Bot Personality
               </button>
               <button
                 onClick={() => {
@@ -1173,7 +1345,7 @@ const Chat = () => {
                 className={useGrok ? 'menu-item-active' : ''}
               >
                 <Sparkles size={18} />
-                {grokAvailable ? (useGrok ? 'Using Groq AI ✓' : 'Enable Groq AI') : 'Setup Groq AI'}
+                Enable Kasa AI
               </button>
               <button onClick={() => { setActiveFeature('feedback'); setShowMenu(false); }}>
                 <MessageCircle size={18} /> Send Feedback
@@ -1192,9 +1364,27 @@ const Chat = () => {
         {/* Timer Countdown Banner */}
         {timerCountdown && (
           <div className="timer-banner">
-            <Clock size={16} />
-            Auto-delete in: {formatCountdown(timerCountdown)}
-            <button className="btn-cancel-timer" onClick={handleCancelTimer}>
+            <div className="timer-banner-content">
+              <div className="timer-banner-icon">
+                <Clock size={16} />
+              </div>
+              <div className="timer-banner-text">
+                Auto-delete in: 
+                <span className="timer-countdown">
+                  {formatCountdown(timerCountdown)}
+                </span>
+              </div>
+            </div>
+            <button 
+              className="btn-cancel-timer" 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🖱️ Cancel button clicked!');
+                handleCancelTimer();
+              }}
+              type="button"
+            >
               <X size={14} /> Cancel
             </button>
           </div>
@@ -1204,6 +1394,7 @@ const Chat = () => {
         <AnimatePresence>
           {showTimerModal && (
             <>
+              {console.log('👀 Timer modal is rendering, showTimerModal:', showTimerModal)}
               <motion.div
                 className="modal-overlay"
                 initial={{ opacity: 0 }}
@@ -1213,14 +1404,9 @@ const Chat = () => {
               />
               <motion.div
                 className="timer-modal"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                style={{
-                  left: modalPosition.x ? `${modalPosition.x}px` : '50%',
-                  top: modalPosition.y ? `${modalPosition.y}px` : '50%',
-                  transform: modalPosition.x ? 'none' : 'translate(-50%, -50%)'
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 onMouseDown={handleMouseDown}
               >
                 <div className="timer-modal-header" style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
