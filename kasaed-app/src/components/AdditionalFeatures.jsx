@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { X } from 'lucide-react';
 import './AdditionalFeatures.css';
 
 // Feature 30: Achievement Badges
@@ -98,6 +99,171 @@ export const PersonalitySettings = ({ onClose }) => {
       <button className="btn-primary" onClick={onClose}>
         Save Changes
       </button>
+    </div>
+  );
+};
+
+// Profile Settings - Nickname and Avatar Management
+export const ProfileSettings = ({ onClose }) => {
+  const [nickname, setNickname] = useState(() => {
+    return localStorage.getItem('userNickname') || '';
+  });
+  
+  const [selectedAvatar, setSelectedAvatar] = useState(() => {
+    const saved = localStorage.getItem('userAvatar');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [hasChanges, setHasChanges] = useState(false);
+
+  const avatars = [
+    { id: 1, emoji: '😊', name: 'Smiling Face' },
+    { id: 2, emoji: '🌟', name: 'Star' },
+    { id: 3, emoji: '🌸', name: 'Blossom' },
+    { id: 4, emoji: '🦋', name: 'Butterfly' },
+    { id: 5, emoji: '🌈', name: 'Rainbow' },
+    { id: 6, emoji: '💫', name: 'Dizzy' },
+    { id: 7, emoji: '🌺', name: 'Hibiscus' },
+    { id: 8, emoji: '✨', name: 'Sparkles' }
+  ];
+
+  const handleNicknameChange = (e) => {
+    setNickname(e.target.value);
+    setHasChanges(true);
+  };
+
+  const handleAvatarSelect = (avatar) => {
+    setSelectedAvatar(avatar);
+    setHasChanges(true);
+  };
+
+  const handleSave = () => {
+    // Save nickname
+    if (nickname.trim()) {
+      localStorage.setItem('userNickname', nickname.trim());
+    } else {
+      localStorage.removeItem('userNickname');
+    }
+
+    // Save avatar
+    if (selectedAvatar) {
+      localStorage.setItem('userAvatar', JSON.stringify(selectedAvatar));
+    } else {
+      localStorage.removeItem('userAvatar');
+    }
+
+    setHasChanges(false);
+    alert('✅ Profile updated! The chatbots will use your new preferences.');
+  };
+
+  const handleClearAll = () => {
+    if (window.confirm('Clear all profile personalization? This will remove your nickname and avatar.')) {
+      setNickname('');
+      setSelectedAvatar(null);
+      localStorage.removeItem('userNickname');
+      localStorage.removeItem('userAvatar');
+      setHasChanges(false);
+      alert('✅ Profile cleared!');
+    }
+  };
+
+  return (
+    <div className="profile-settings">
+      <div className="settings-header">
+        <h2>Profile Settings</h2>
+      </div>
+
+      <div className="profile-settings-card">
+        <button className="icon-btn-close-profile" onClick={onClose} aria-label="Close profile settings">
+          <X size={20} />
+        </button>
+        
+        <p className="settings-desc">
+          Personalize how the AI addresses you in conversations
+        </p>
+
+        <div className="privacy-notice-profile">
+          <span className="shield-icon">🛡️</span>
+          <p>
+            <strong>Your privacy matters.</strong> This information stays on your device 
+            and helps personalize your experience.
+          </p>
+        </div>
+
+        <div className="profile-form">
+          {/* Nickname Input */}
+          <div className="form-group">
+            <label htmlFor="nickname-input-profile">
+              <span className="label-icon">👤</span>
+              <span>Nickname (Optional)</span>
+            </label>
+            <input
+              id="nickname-input-profile"
+              type="text"
+              className="profile-input"
+              placeholder="What should we call you?"
+              value={nickname}
+              onChange={handleNicknameChange}
+              maxLength={20}
+            />
+            {nickname && (
+              <small className="input-hint-profile">
+                The AI will address you as "{nickname}"
+              </small>
+            )}
+          </div>
+
+          {/* Avatar Selection */}
+          <div className="form-group">
+            <label>
+              <span className="label-icon">🎨</span>
+              <span>Choose Your Avatar (Optional)</span>
+            </label>
+            <div className="avatar-grid-profile">
+              {avatars.map((avatar) => (
+                <div
+                  key={avatar.id}
+                  className={`avatar-option-profile ${
+                    selectedAvatar?.id === avatar.id ? 'selected' : ''
+                  }`}
+                  onClick={() => handleAvatarSelect(avatar)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Select ${avatar.name} avatar`}
+                >
+                  <span className="avatar-emoji-profile">{avatar.emoji}</span>
+                  {selectedAvatar?.id === avatar.id && (
+                    <span className="check-icon-profile">✓</span>
+                  )}
+                </div>
+              ))}
+            </div>
+            {selectedAvatar && (
+              <small className="input-hint-profile">
+                Selected: {selectedAvatar.name}
+              </small>
+            )}
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="profile-actions">
+          <button 
+            className="btn-secondary" 
+            onClick={handleClearAll}
+            disabled={!nickname && !selectedAvatar}
+          >
+            Clear All
+          </button>
+          <button 
+            className="btn-primary" 
+            onClick={handleSave}
+            disabled={!hasChanges}
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

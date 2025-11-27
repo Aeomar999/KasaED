@@ -1,30 +1,41 @@
 // Groq API Client
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
+// Get user's nickname from localStorage
+const getUserNickname = () => {
+  const nickname = localStorage.getItem("userNickname");
+  return nickname || null;
+};
+
 // Get personality-specific tone instructions
 const getPersonalityTone = () => {
   const personality = localStorage.getItem("botPersonality") || "friendly";
+  const nickname = getUserNickname();
 
   const tones = {
     friendly: {
       style: "warm, supportive, and encouraging",
-      instructions:
-        "Use a friendly, approachable tone. Be supportive and positive. Use emojis frequently (😊 💙 ✨ 🌟). Make the user feel comfortable and valued.",
+      instructions: nickname
+        ? `Use a friendly, approachable tone. Be supportive and positive. Address the user as "${nickname}" occasionally to make responses more personal. Use emojis frequently (😊 💙 ✨ 🌟). Make the user feel comfortable and valued.`
+        : "Use a friendly, approachable tone. Be supportive and positive. Use emojis frequently (😊 💙 ✨ 🌟). Make the user feel comfortable and valued.",
     },
     professional: {
       style: "clinical, informative, and precise",
-      instructions:
-        "Use a professional, medical tone. Be precise and evidence-based. Use fewer emojis, focus on facts. Provide detailed, structured information similar to a healthcare provider.",
+      instructions: nickname
+        ? `Use a professional, medical tone. You may address the user as "${nickname}" when appropriate. Be precise and evidence-based. Use fewer emojis, focus on facts. Provide detailed, structured information similar to a healthcare provider.`
+        : "Use a professional, medical tone. Be precise and evidence-based. Use fewer emojis, focus on facts. Provide detailed, structured information similar to a healthcare provider.",
     },
     casual: {
       style: "relaxed, conversational, and fun",
-      instructions:
-        "Use a casual, friendly tone like chatting with a peer. Be conversational and relatable. Use modern language and plenty of emojis (😎 👍 🎉 💯). Keep it light but informative.",
+      instructions: nickname
+        ? `Use a casual, friendly tone like chatting with a peer. Address the user as "${nickname}" naturally in conversation. Be conversational and relatable. Use modern language and plenty of emojis (😎 👍 🎉 💯). Keep it light but informative.`
+        : "Use a casual, friendly tone like chatting with a peer. Be conversational and relatable. Use modern language and plenty of emojis (😎 👍 🎉 💯). Keep it light but informative.",
     },
     empathetic: {
       style: "understanding, caring, and compassionate",
-      instructions:
-        "Use a deeply empathetic and caring tone. Acknowledge feelings and validate emotions. Use supportive emojis (🤗 💕 🫂 💙). Show understanding and provide gentle guidance.",
+      instructions: nickname
+        ? `Use a deeply empathetic and caring tone. Address the user as "${nickname}" to show personal connection. Acknowledge feelings and validate emotions. Use supportive emojis (🤗 💕 🫂 💙). Show understanding and provide gentle guidance.`
+        : "Use a deeply empathetic and caring tone. Acknowledge feelings and validate emotions. Use supportive emojis (🤗 💕 🫂 💙). Show understanding and provide gentle guidance.",
     },
   };
 

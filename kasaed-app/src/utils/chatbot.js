@@ -1,13 +1,58 @@
 import { srhContent, crisisKeywords } from "../data/srhContent";
 
+// Get user's nickname from localStorage
+const getUserNickname = () => {
+  const nickname = localStorage.getItem("userNickname");
+  return nickname || null;
+};
+
+// Create personalized greeting with nickname
+const createPersonalizedGreeting = (baseText, personality = "friendly") => {
+  const nickname = getUserNickname();
+
+  if (!nickname) {
+    return baseText;
+  }
+
+  const greetings = {
+    friendly: [
+      `Hi ${nickname}! 😊 `,
+      `Hey there ${nickname}! 💙 `,
+      `Hello ${nickname}! ✨ `,
+    ],
+    professional: [`Hello ${nickname}. `, `Greetings ${nickname}. `],
+    casual: [
+      `Hey ${nickname}! 😎 `,
+      `Yo ${nickname}! 👋 `,
+      `What's up ${nickname}? `,
+    ],
+    empathetic: [
+      `Hi ${nickname}, `,
+      `Hello ${nickname}, 🤗 `,
+      `Hey ${nickname}, `,
+    ],
+  };
+
+  const personalityGreetings = greetings[personality] || greetings.friendly;
+  const selectedGreeting =
+    personalityGreetings[
+      Math.floor(Math.random() * personalityGreetings.length)
+    ];
+
+  return `${selectedGreeting}${baseText}`;
+};
+
 // Get personality-specific response modifier
 const applyPersonality = (text, personality = null) => {
   const botPersonality =
     personality || localStorage.getItem("botPersonality") || "friendly";
+  const nickname = getUserNickname();
 
   const modifiers = {
     friendly: {
-      prefix: ["😊 ", "💙 ", "✨ ", ""],
+      prefix: nickname
+        ? [`Hi ${nickname}! 😊 `, `Hey ${nickname}! 💙 `, `${nickname}, `, ""]
+        : ["😊 ", "💙 ", "✨ ", ""],
       suffix: [
         " Hope this helps! 😊",
         " Let me know if you have more questions! 💙",
@@ -17,7 +62,7 @@ const applyPersonality = (text, personality = null) => {
       emojis: true,
     },
     professional: {
-      prefix: [""],
+      prefix: nickname ? [`${nickname}, `, ""] : [""],
       suffix: [
         " Please consult a healthcare provider for personalized advice.",
         " For more information, consult with a medical professional.",
@@ -26,7 +71,9 @@ const applyPersonality = (text, personality = null) => {
       emojis: false,
     },
     casual: {
-      prefix: ["Hey! ", "So, ", "Alright, so ", ""],
+      prefix: nickname
+        ? [`Hey ${nickname}! `, `Yo ${nickname}! 😎 `, `${nickname}, so `, ""]
+        : ["Hey! ", "So, ", "Alright, so ", ""],
       suffix: [
         " 😎",
         " Hope that makes sense! 👍",
@@ -36,12 +83,20 @@ const applyPersonality = (text, personality = null) => {
       emojis: true,
     },
     empathetic: {
-      prefix: [
-        "I hear you. ",
-        "I understand this is important to you. ",
-        "Thank you for sharing. ",
-        "",
-      ],
+      prefix: nickname
+        ? [
+            `${nickname}, I hear you. `,
+            `I understand ${nickname}. `,
+            `Thank you for sharing, ${nickname}. `,
+            `${nickname}, `,
+            "",
+          ]
+        : [
+            "I hear you. ",
+            "I understand this is important to you. ",
+            "Thank you for sharing. ",
+            "",
+          ],
       suffix: [
         " You're not alone in this. 🤗",
         " I'm here to support you. 💕",
@@ -500,3 +555,6 @@ export const analyzeSentiment = (message) => {
   if (negativeCount > positiveCount) return "negative";
   return "neutral";
 };
+
+// Export helper functions for external use
+export { getUserNickname, createPersonalizedGreeting };

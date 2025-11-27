@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import MentalHealthAssessment from './MentalHealthAssessment';
 import { HealthRecommendations, Quiz, MoodTracker, MedicationReminders, FeedbackForm } from './Features';
-import { Achievements, PersonalitySettings, CommunityForum, MediaLibrary, AppointmentBooking } from './AdditionalFeatures';
+import { Achievements, PersonalitySettings, ProfileSettings, CommunityForum, MediaLibrary, AppointmentBooking } from './AdditionalFeatures';
 import { PeriodTracker, STIRiskCalculator, RelationshipChecker, MedicationChecker, VoiceDiary } from './AdvancedFeatures';
 import { ClinicFinder, EmergencyContacts } from './LocationFeatures';
 import { InteractiveScenarios, LearningPaths } from './InteractiveFeatures';
@@ -979,6 +979,7 @@ const Chat = () => {
       case 'feedback': return <FeedbackForm onClose={closeFeature} />;
       case 'achievements': return <Achievements onClose={closeFeature} />;
       case 'personality': return <PersonalitySettings onClose={closeFeature} />;
+      case 'profile': return <ProfileSettings onClose={closeFeature} />;
       case 'forum': return <CommunityForum onClose={closeFeature} />;
       case 'library': return <MediaLibrary onClose={closeFeature} />;
       case 'booking': return <AppointmentBooking onClose={closeFeature} />;
@@ -1307,6 +1308,9 @@ const Chat = () => {
               </button>
               <button onClick={() => { setActiveFeature('personality'); setShowMenu(false); }}>
                 <Smile size={18} /> Change Bot Personality
+              </button>
+              <button onClick={() => { setActiveFeature('profile'); setShowMenu(false); }}>
+                <User size={18} /> Profile Settings
               </button>
               <button
                 onClick={() => {

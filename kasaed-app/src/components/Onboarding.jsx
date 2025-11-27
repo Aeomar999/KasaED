@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../contexts/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Trash2, User, ChevronRight, ChevronLeft, Check } from 'lucide-react';
+import { Shield, Lock, Trash2, User, ChevronRight, ChevronLeft, Check, Sparkles, UserCircle } from 'lucide-react';
 import ConfidentWomanPortrait from '../assets/Confident_Woman_Portrait.png';
 import SmilingIndividual from '../assets/Smiling_Individual.png';
 import './Onboarding.css';
@@ -14,6 +14,8 @@ const Onboarding = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [selectedAge, setSelectedAge] = useState(null);
+  const [nickname, setNickname] = useState('');
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [preferences, setPreferences] = useState({
     fontSize: 'medium',
     darkMode: false,
@@ -28,6 +30,17 @@ const Onboarding = () => {
     { code: 'ha', name: 'Hausa', flag: '🇳🇬' }
   ];
 
+  const avatars = [
+    { id: 1, emoji: '😊', name: 'Smiling Face' },
+    { id: 2, emoji: '🌟', name: 'Star' },
+    { id: 3, emoji: '🌸', name: 'Blossom' },
+    { id: 4, emoji: '🦋', name: 'Butterfly' },
+    { id: 5, emoji: '🌈', name: 'Rainbow' },
+    { id: 6, emoji: '💫', name: 'Dizzy' },
+    { id: 7, emoji: '🌺', name: 'Hibiscus' },
+    { id: 8, emoji: '✨', name: 'Sparkles' }
+  ];
+
   const handleLanguageSelect = (lang) => {
     setSelectedLanguage(lang);
     i18n.changeLanguage(lang);
@@ -35,13 +48,21 @@ const Onboarding = () => {
   };
 
   const handleNext = () => {
-    if (step === 4) {
-      // Save language to localStorage before completing onboarding
+    if (step === 5) {
+      // Save all data including nickname and avatar
       localStorage.setItem('userLanguage', selectedLanguage);
+      if (nickname) {
+        localStorage.setItem('userNickname', nickname);
+      }
+      if (selectedAvatar) {
+        localStorage.setItem('userAvatar', JSON.stringify(selectedAvatar));
+      }
       completeOnboarding({
         ageGroup: selectedAge,
         language: selectedLanguage,
-        preferences
+        preferences,
+        nickname: nickname || null,
+        avatar: selectedAvatar || null
       });
     } else {
       setStep(step + 1);
@@ -52,6 +73,18 @@ const Onboarding = () => {
     if (step > 1) {
       setStep(step - 1);
     }
+  };
+
+  const handleSkipPersonalization = () => {
+    // Skip to complete onboarding without nickname/avatar
+    localStorage.setItem('userLanguage', selectedLanguage);
+    completeOnboarding({
+      ageGroup: selectedAge,
+      language: selectedLanguage,
+      preferences,
+      nickname: null,
+      avatar: null
+    });
   };
 
   const variants = {
@@ -300,8 +333,97 @@ const Onboarding = () => {
         </label>
       </div>
       <button className="btn btn-primary" onClick={handleNext}>
-        Start Chatting! <Check size={20} />
+        Continue <ChevronRight size={20} />
       </button>
+    </motion.div>
+  );
+
+  const renderPersonalizationScreen = () => (
+    <motion.div
+      className="onboarding-card glass-panel uniform-card personalization-card"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+    >
+      <button className="back-btn" onClick={handleBack} aria-label="Go back">
+        <ChevronLeft size={20} />
+      </button>
+      
+      <div className="personalization-header">
+        <Sparkles className="header-icon" size={32} />
+        <h2>Personalize Your Experience</h2>
+        <p className="subtitle">Help the AI get to know you better (completely optional)</p>
+      </div>
+
+      <div className="privacy-notice">
+        <Shield size={18} />
+        <p>
+          <strong>Your privacy is our priority.</strong> This information stays on your device 
+          and helps personalize your experience. We never share your data without your consent.
+        </p>
+      </div>
+
+      <div className="personalization-content">
+        <div className="input-section">
+          <label htmlFor="nickname-input">
+            <UserCircle size={20} />
+            <span>Nickname (Optional)</span>
+          </label>
+          <input
+            id="nickname-input"
+            type="text"
+            className="nickname-input"
+            placeholder="What should we call you?"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            maxLength={20}
+          />
+          {nickname && (
+            <small className="input-hint">
+              The AI will address you as "{nickname}"
+            </small>
+          )}
+        </div>
+
+        <div className="avatar-section">
+          <label>
+            <span className="avatar-label">Choose Your Avatar (Optional)</span>
+          </label>
+          <div className="avatar-grid">
+            {avatars.map((avatar) => (
+              <div
+                key={avatar.id}
+                className={`avatar-option ${
+                  selectedAvatar?.id === avatar.id ? 'selected' : ''
+                }`}
+                onClick={() => setSelectedAvatar(avatar)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Select ${avatar.name} avatar`}
+              >
+                <span className="avatar-emoji">{avatar.emoji}</span>
+                {selectedAvatar?.id === avatar.id && (
+                  <Check className="check-icon" size={16} />
+                )}
+              </div>
+            ))}
+          </div>
+          {selectedAvatar && (
+            <small className="input-hint">
+              Selected: {selectedAvatar.name}
+            </small>
+          )}
+        </div>
+      </div>
+
+      <div className="personalization-actions">
+        <button className="btn btn-secondary" onClick={handleSkipPersonalization}>
+          Skip This Step
+        </button>
+        <button className="btn btn-primary" onClick={handleNext}>
+          Start Chatting! <Check size={20} />
+        </button>
+      </div>
     </motion.div>
   );
 
@@ -309,7 +431,7 @@ const Onboarding = () => {
     <div className="onboarding-container">
       {step > 0 && (
         <div className="progress-dots">
-          {[1, 2, 3, 4].map((dot) => (
+          {[1, 2, 3, 4, 5].map((dot) => (
             <motion.span
               key={dot}
               className={`dot ${step >= dot ? 'active' : ''} ${step > dot ? 'completed' : ''}`}
@@ -326,6 +448,7 @@ const Onboarding = () => {
         {step === 2 && <React.Fragment key="privacy">{renderPrivacyScreen()}</React.Fragment>}
         {step === 3 && <React.Fragment key="age">{renderAgeScreen()}</React.Fragment>}
         {step === 4 && <React.Fragment key="prefs">{renderPreferencesScreen()}</React.Fragment>}
+        {step === 5 && <React.Fragment key="personalization">{renderPersonalizationScreen()}</React.Fragment>}
       </AnimatePresence>
     </div>
   );
