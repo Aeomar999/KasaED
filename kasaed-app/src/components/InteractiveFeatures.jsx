@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, BookOpen, Shield, Heart, Activity, CheckCircle,
-  AlertTriangle, RotateCcw, ArrowLeft, Trophy, Star,
+  AlertTriangle, RotateCcw, Trophy, Star,
   Play, Lock, Unlock, Award, ChevronRight
 } from 'lucide-react';
+import { MdArrowBack } from 'react-icons/md';
 import './InteractiveFeatures.css';
 
 // Feature 6: Interactive Scenarios
@@ -309,7 +310,7 @@ export const InteractiveScenarios = ({ onClose }) => {
               <RotateCcw size={16} style={{ marginRight: '8px' }} /> Try Again
             </button>
             <button className="btn-primary" onClick={backToMenu}>
-              <ArrowLeft size={16} style={{ marginRight: '8px' }} /> Back to Scenarios
+              <MdArrowBack size={16} style={{ marginRight: '8px' }} /> Back to Scenarios
             </button>
           </div>
         </div>
@@ -329,7 +330,7 @@ export const InteractiveScenarios = ({ onClose }) => {
         animate={{ opacity: 1 }}
       >
         <div className="scenario-header">
-          <button className="back-btn" onClick={backToMenu}><ArrowLeft size={18} /> Back</button>
+          <button className="back-btn" onClick={backToMenu}><MdArrowBack size={18} /> Back</button>
           <div className="scenario-progress">
             <span>Step {scenarioStep + 1}/{currentScenario.steps.length}</span>
             <div className="progress-bar">

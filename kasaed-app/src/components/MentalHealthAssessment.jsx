@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Brain, Heart, Shield, TrendingUp, BarChart3, AlertCircle,
   Info, CheckCircle, PhoneCall, MessageCircle, Users, Lock,
-  ArrowRight, ArrowLeft, Calendar, Activity
+  ArrowRight, Calendar, Activity
 } from 'lucide-react';
+import { MdArrowBack } from 'react-icons/md';
 import './MentalHealthAssessment.css';
 
 const MentalHealthAssessment = ({ onClose }) => {
@@ -435,7 +436,7 @@ const MentalHealthAssessment = ({ onClose }) => {
         <div>
           <div className="assessment-header">
           <button className="back-btn" onClick={() => setView('welcome')}>
-            <ArrowLeft size={20} />
+            <MdArrowBack size={20} />
           </button>
           <h2>Choose Assessment Type</h2>
           <button className="close-btn" onClick={onClose}><X size={24} /></button>
@@ -705,7 +706,7 @@ const MentalHealthAssessment = ({ onClose }) => {
         <div>
           <div className="assessment-header">
           <button className="back-btn" onClick={() => setView('welcome')}>
-            <ArrowLeft size={20} />
+            <MdArrowBack size={20} />
           </button>
           <h2><Calendar size={24} /> Assessment History</h2>
           <button className="close-btn" onClick={onClose}><X size={24} /></button>

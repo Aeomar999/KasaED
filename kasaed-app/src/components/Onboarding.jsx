@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../contexts/AppContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Trash2, User, ChevronRight, ChevronLeft, Check, Sparkles, UserCircle } from 'lucide-react';
+import { Shield, Lock, Trash2, User, ChevronRight, Check, Sparkles, UserCircle } from 'lucide-react';
+import { MdArrowBack } from 'react-icons/md';
 import ConfidentWomanPortrait from '../assets/Confident_Woman_Portrait.png';
 import SmilingIndividual from '../assets/Smiling_Individual.png';
 import './Onboarding.css';
 
 const Onboarding = () => {
   const { t, i18n } = useTranslation();
-  const { completeOnboarding } = useApp();
+  const { completeOnboarding, userProfile, saveUserProfile, updatePreference } = useApp();
+  const themeContext = useTheme();
   const [step, setStep] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
@@ -41,10 +44,57 @@ const Onboarding = () => {
     { id: 8, emoji: '✨', name: 'Sparkles' }
   ];
 
-  const handleLanguageSelect = (lang) => {
+  // Load existing user preferences when component mounts
+  useEffect(() => {
+    if (userProfile && userProfile.preferences) {
+      setPreferences({
+        fontSize: userProfile.preferences.fontSize || 'medium',
+        darkMode: userProfile.preferences.darkMode || false,
+        voiceEnabled: userProfile.preferences.voiceEnabled || false,
+        highContrast: userProfile.preferences.highContrast || false
+      });
+    }
+
+    // Set language if user already has one
+    if (userProfile && userProfile.language) {
+      setSelectedLanguage(userProfile.language);
+    }
+
+    // Set age group if user already has one
+    if (userProfile && userProfile.ageGroup) {
+      setSelectedAge(userProfile.ageGroup);
+    }
+  }, [userProfile]);
+
+  // Update preferences and save immediately
+  const updatePreferenceLocal = async (key, value) => {
+    const newPreferences = { ...preferences, [key]: value };
+    setPreferences(newPreferences);
+
+    // Use AppContext to update and persist
+    await updatePreference(key, value);
+
+    // Show voice responses feedback if enabled
+    if (key === 'voiceEnabled' && value) {
+      // Placeholder for voice responses functionality
+      console.log('Voice responses enabled! This feature will provide audio feedback for chat responses.');
+      
+      // You could add a toast notification here
+      // toast.success('Voice responses enabled!');
+    }
+  };
+
+  const handleLanguageSelect = async (lang) => {
     setSelectedLanguage(lang);
     i18n.changeLanguage(lang);
     localStorage.setItem('userLanguage', lang);
+    
+    // Update userProfile immediately
+    const updatedProfile = {
+      ...userProfile,
+      language: lang
+    };
+    await saveUserProfile(updatedProfile);
   };
 
   const handleNext = () => {
@@ -70,7 +120,7 @@ const Onboarding = () => {
   };
 
   const handleBack = () => {
-    if (step > 1) {
+    if (step > 0) {
       setStep(step - 1);
     }
   };
@@ -143,7 +193,8 @@ const Onboarding = () => {
       exit={{ opacity: 0, x: -50 }}
     >
       <button className="back-btn" onClick={handleBack} aria-label="Go back">
-        <ChevronLeft size={20} />
+        <MdArrowBack size={20} />
+        <span className="back-btn-fallback">←</span>
       </button>
       <h2>{t('language.title')}</h2>
       <p className="subtitle">Select your preferred language</p>
@@ -177,7 +228,8 @@ const Onboarding = () => {
       exit={{ opacity: 0, x: -50 }}
     >
       <button className="back-btn" onClick={handleBack} aria-label="Go back">
-        <ChevronLeft size={20} />
+        <MdArrowBack size={20} />
+        <span className="back-btn-fallback">←</span>
       </button>
       <h2>{t('privacy.title')}</h2>
       <div className="privacy-list">
@@ -227,7 +279,8 @@ const Onboarding = () => {
       exit={{ opacity: 0, x: -50 }}
     >
       <button className="back-btn" onClick={handleBack} aria-label="Go back">
-        <ChevronLeft size={20} />
+        <MdArrowBack size={20} />
+        <span className="back-btn-fallback">←</span>
       </button>
       <h2>{t('age.title')}</h2>
       <p className="subtitle">{t('age.subtitle')}</p>
@@ -272,24 +325,24 @@ const Onboarding = () => {
       exit={{ opacity: 0, x: -50 }}
     >
       <button className="back-btn" onClick={handleBack} aria-label="Go back">
-        <ChevronLeft size={20} />
+        <MdArrowBack size={20} />
+        <span className="back-btn-fallback">←</span>
       </button>
       <h2>Customize Your Experience</h2>
       <div className="privacy-list">
         <label className="preference-row">
-          <span>Larger Text</span>
-          <div className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.fontSize === 'large'}
-              onChange={(e) =>
-                setPreferences({
-                  ...preferences,
-                  fontSize: e.target.checked ? 'large' : 'medium'
-                })
-              }
-            />
-            <span className="slider"></span>
+          <span>Font Size</span>
+          <div className="font-size-selector">
+            <select
+              value={preferences.fontSize}
+              onChange={(e) => updatePreferenceLocal('fontSize', e.target.value)}
+              className="font-size-dropdown"
+            >
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="extra-large">Extra Large</option>
+            </select>
           </div>
         </label>
         <label className="preference-row">
@@ -298,35 +351,29 @@ const Onboarding = () => {
             <input
               type="checkbox"
               checked={preferences.darkMode}
-              onChange={(e) =>
-                setPreferences({ ...preferences, darkMode: e.target.checked })
-              }
+              onChange={(e) => updatePreferenceLocal('darkMode', e.target.checked)}
             />
             <span className="slider"></span>
           </div>
         </label>
         <label className="preference-row">
-          <span>Voice Assistant</span>
+          <span>Voice Responses</span>
           <div className="toggle-switch">
             <input
               type="checkbox"
               checked={preferences.voiceEnabled}
-              onChange={(e) =>
-                setPreferences({ ...preferences, voiceEnabled: e.target.checked })
-              }
+              onChange={(e) => updatePreferenceLocal('voiceEnabled', e.target.checked)}
             />
             <span className="slider"></span>
           </div>
         </label>
         <label className="preference-row">
-          <span>High Contrast</span>
+          <span>High Contrast Mode</span>
           <div className="toggle-switch">
             <input
               type="checkbox"
               checked={preferences.highContrast}
-              onChange={(e) =>
-                setPreferences({ ...preferences, highContrast: e.target.checked })
-              }
+              onChange={(e) => updatePreferenceLocal('highContrast', e.target.checked)}
             />
             <span className="slider"></span>
           </div>
@@ -346,7 +393,8 @@ const Onboarding = () => {
       exit={{ opacity: 0, x: -50 }}
     >
       <button className="back-btn" onClick={handleBack} aria-label="Go back">
-        <ChevronLeft size={20} />
+        <MdArrowBack size={20} />
+        <span className="back-btn-fallback">←</span>
       </button>
       
       <div className="personalization-header">

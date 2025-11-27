@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { createSession, getSession, initInactivityMonitor } from '../utils/encryption';
 import localforage from 'localforage';
+import { useTheme } from './ThemeContext';
 
 const AppContext = createContext();
 
@@ -27,6 +28,14 @@ export const AppProvider = ({ children }) => {
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  // Theme integration (only works if ThemeProvider is available)
+  let themeContext = null;
+  try {
+    themeContext = useTheme();
+  } catch {
+    // ThemeProvider not available, ignore
+  }
 
   // Initialize session
   useEffect(() => {
@@ -58,6 +67,19 @@ export const AppProvider = ({ children }) => {
       const savedProfile = await localforage.getItem('userProfile');
       if (savedProfile) {
         setUserProfile(savedProfile);
+        
+        // Apply saved preferences to DOM immediately
+        applyPreferencesToDOM(savedProfile.preferences);
+        
+        // Sync with theme context if available
+        if (themeContext && savedProfile.preferences?.darkMode !== undefined) {
+          if (savedProfile.preferences.darkMode) {
+            themeContext.setDarkTheme();
+          } else {
+            themeContext.setLightTheme();
+          }
+        }
+        
         // setOnboardingComplete(true); // Always start onboarding on reload for dev
       }
 
@@ -70,11 +92,45 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // Apply preferences to DOM
+  const applyPreferencesToDOM = (preferences) => {
+    if (!preferences) return;
+    
+    // Apply font size
+    if (preferences.fontSize) {
+      document.documentElement.setAttribute('data-font-size', preferences.fontSize);
+    }
+    
+    // Apply high contrast
+    if (preferences.highContrast !== undefined) {
+      document.documentElement.setAttribute('data-high-contrast', preferences.highContrast ? 'true' : 'false');
+    }
+  };
+
+  // Apply preferences whenever userProfile changes
+  useEffect(() => {
+    if (userProfile && userProfile.preferences) {
+      applyPreferencesToDOM(userProfile.preferences);
+    }
+  }, [userProfile]);
+
   // Save preferences
   const saveUserProfile = async (profile) => {
     try {
       await localforage.setItem('userProfile', profile);
       setUserProfile(profile);
+      
+      // Apply preferences to DOM immediately
+      applyPreferencesToDOM(profile.preferences);
+      
+      // Sync with theme context if available
+      if (themeContext && profile.preferences?.darkMode !== undefined) {
+        if (profile.preferences.darkMode) {
+          themeContext.setDarkTheme();
+        } else {
+          themeContext.setLightTheme();
+        }
+      }
     } catch (error) {
       console.error('Error saving profile:', error);
     }
@@ -116,6 +172,21 @@ export const AppProvider = ({ children }) => {
     setOnboardingComplete(true);
   };
 
+  // Update specific preference
+  const updatePreference = async (key, value) => {
+    const updatedPreferences = {
+      ...userProfile.preferences,
+      [key]: value
+    };
+    
+    const updatedProfile = {
+      ...userProfile,
+      preferences: updatedPreferences
+    };
+    
+    await saveUserProfile(updatedProfile);
+  };
+
   const value = {
     session,
     userProfile,
@@ -123,6 +194,7 @@ export const AppProvider = ({ children }) => {
     chatHistory,
     isOnline,
     saveUserProfile,
+    updatePreference,
     addMessage,
     clearChatHistory,
     saveChatHistory,
