@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import MentalHealthAssessment from './MentalHealthAssessment';
 import { HealthRecommendations, Quiz, MoodTracker, MedicationReminders, FeedbackForm } from './Features';
-import { Achievements, PersonalitySettings, ProfileSettings, CommunityForum, MediaLibrary, AppointmentBooking } from './AdditionalFeatures';
+import { Achievements, PersonalitySettings, ProfileSettings, CommunityForum, MediaLibrary, AppointmentBooking, IdentityManager } from './AdditionalFeatures';
 import { PeriodTracker, STIRiskCalculator, RelationshipChecker, MedicationChecker, VoiceDiary } from './AdvancedFeatures';
 import { ClinicFinder, EmergencyContacts } from './LocationFeatures';
 import { InteractiveScenarios, LearningPaths } from './InteractiveFeatures';
@@ -998,6 +998,7 @@ const Chat = () => {
       case 'nutrition': return <NutritionWellness onClose={closeFeature} />;
       case 'telemed': return <Telemedicine onClose={closeFeature} />;
       case 'cultural': return <CulturalSettings onClose={closeFeature} />;
+      case 'identity': return <IdentityManager onClose={closeFeature} />;
       default: return null;
     }
   };
@@ -1334,6 +1335,9 @@ const Chat = () => {
               </button>
               <button onClick={() => { setActiveFeature('profile'); setShowMenu(false); }}>
                 <User size={18} /> {t('menu.profileSettings')}
+              </button>
+              <button onClick={() => { setActiveFeature('identity'); setShowMenu(false); }}>
+                <Shield size={18} /> Identity Management
               </button>
               <button
                 onClick={() => {

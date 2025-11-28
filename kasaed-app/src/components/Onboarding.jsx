@@ -25,6 +25,7 @@ const Onboarding = () => {
     voiceEnabled: false,
     highContrast: false
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -44,27 +45,57 @@ const Onboarding = () => {
     { id: 8, emoji: '✨', name: 'Sparkles' }
   ];
 
-  // Load existing user preferences when component mounts
+  // Check for existing user data on component mount
   useEffect(() => {
-    if (userProfile && userProfile.preferences) {
-      setPreferences({
-        fontSize: userProfile.preferences.fontSize || 'medium',
-        darkMode: userProfile.preferences.darkMode || false,
-        voiceEnabled: userProfile.preferences.voiceEnabled || false,
-        highContrast: userProfile.preferences.highContrast || false
-      });
-    }
+    const checkExistingUserData = async () => {
+      try {
+        // Check if user already has a profile with required data
+        if (userProfile && userProfile.ageGroup && userProfile.language) {
+          // User has completed onboarding before, automatically complete onboarding
+          completeOnboarding(userProfile);
+          return;
+        }
 
-    // Set language if user already has one
-    if (userProfile && userProfile.language) {
-      setSelectedLanguage(userProfile.language);
-    }
+        // Load existing user preferences when component mounts
+        if (userProfile && userProfile.preferences) {
+          setPreferences({
+            fontSize: userProfile.preferences.fontSize || 'medium',
+            darkMode: userProfile.preferences.darkMode || false,
+            voiceEnabled: userProfile.preferences.voiceEnabled || false,
+            highContrast: userProfile.preferences.highContrast || false
+          });
+        }
 
-    // Set age group if user already has one
-    if (userProfile && userProfile.ageGroup) {
-      setSelectedAge(userProfile.ageGroup);
-    }
-  }, [userProfile]);
+        // Set language if user already has one
+        if (userProfile && userProfile.language) {
+          setSelectedLanguage(userProfile.language);
+        }
+
+        // Set age group if user already has one
+        if (userProfile && userProfile.ageGroup) {
+          setSelectedAge(userProfile.ageGroup);
+        }
+
+        // Set nickname if user already has one
+        if (userProfile && userProfile.nickname) {
+          setNickname(userProfile.nickname);
+        }
+
+        // Set avatar if user already has one
+        if (userProfile && userProfile.avatar) {
+          setSelectedAvatar(userProfile.avatar);
+        }
+
+        // If we get here, it means the user is either new or doesn't have complete profile data
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error checking existing user data:', error);
+        setIsLoading(false);
+      }
+    };
+
+    checkExistingUserData();
+  }, [userProfile, completeOnboarding]);
 
   // Update preferences and save immediately
   const updatePreferenceLocal = async (key, value) => {
@@ -153,6 +184,20 @@ const Onboarding = () => {
       opacity: 0
     })
   };
+
+  // Show loading state while checking for existing user data
+  if (isLoading) {
+    return (
+      <div className="onboarding-container">
+        <div className="onboarding-card glass-panel uniform-card welcome-card">
+          <div className="loading-content">
+            <div className="spinner"></div>
+            <p>Loading your profile...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const renderWelcomeScreen = () => (
     <motion.div

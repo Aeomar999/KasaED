@@ -495,6 +495,231 @@ input:checked + .slider:before {
   transform: translateX(0);
 }
 
+/* Loading Spinner */
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1.5rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--border-medium);
+  border-top: 5px solid var(--primary-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-content p {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Personalization Screen Styles */
+.personalization-card {
+  gap: 1.25rem;
+}
+
+.personalization-header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.personalization-header .header-icon {
+  color: #4285f4;
+  margin: 0 auto 0.75rem;
+  display: block;
+}
+
+.personalization-header h2 {
+  margin-bottom: 0.5rem;
+}
+
+.personalization-header .subtitle {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+}
+
+.privacy-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.privacy-notice svg {
+  color: var(--primary-500);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.privacy-notice p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.privacy-notice strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.personalization-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.input-section label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.input-section label svg {
+  color: var(--primary-500);
+}
+
+.nickname-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-subtle);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.nickname-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.nickname-input:focus {
+  border-color: var(--primary-500);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.input-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.avatar-section label {
+  display: block;
+  margin-bottom: 0.875rem;
+}
+
+.avatar-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.avatar-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-subtle);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.75rem;
+}
+
+.avatar-option:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--primary-500);
+  transform: scale(1.05);
+}
+
+.avatar-option.selected {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-200);
+}
+
+.avatar-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.avatar-option .check-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--primary-500);
+  color: white;
+  border-radius: 50%;
+  padding: 2px;
+  box-shadow: var(--shadow-sm);
+}
+
+.personalization-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.personalization-actions .btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .onboarding-container {

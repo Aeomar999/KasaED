@@ -1,5 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { encryptMessage, decryptMessage } from "./encryption";
+import {
+  encryptMessage,
+  decryptMessage,
+  createSession,
+  getUserIdentifiers,
+  resetUserIdentity,
+} from "./encryption";
 
 const STORAGE_KEYS = {
   MESSAGES: "chat_messages",
@@ -8,6 +14,38 @@ const STORAGE_KEYS = {
   VOICE_DIARY: "voice_diary",
   LEARNING_PROGRESS: "learning_progress",
   FAVORITES: "favorites",
+  SESSION: "user_session", // New session storage key
+};
+
+// Session Storage
+export const saveSession = async (session) => {
+  try {
+    await AsyncStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(session));
+    return true;
+  } catch (error) {
+    console.error("Error saving session:", error);
+    return false;
+  }
+};
+
+export const loadSession = async () => {
+  try {
+    const session = await AsyncStorage.getItem(STORAGE_KEYS.SESSION);
+    return session ? JSON.parse(session) : null;
+  } catch (error) {
+    console.error("Error loading session:", error);
+    return null;
+  }
+};
+
+export const clearSession = async () => {
+  try {
+    await AsyncStorage.removeItem(STORAGE_KEYS.SESSION);
+    return true;
+  } catch (error) {
+    console.error("Error clearing session:", error);
+    return false;
+  }
 };
 
 // Message Storage
@@ -149,6 +187,31 @@ export const removeData = async (key) => {
   }
 };
 
+// Reset user identity (allows user to get a new anonymous identity)
+export const resetUserIdentityStorage = async () => {
+  try {
+    // Clear session
+    await clearSession();
+
+    // Clear user profile
+    await AsyncStorage.removeItem(STORAGE_KEYS.USER_PROFILE);
+
+    // Clear other user-specific data
+    await AsyncStorage.removeItem(STORAGE_KEYS.PERIOD_CYCLES);
+    await AsyncStorage.removeItem(STORAGE_KEYS.VOICE_DIARY);
+    await AsyncStorage.removeItem(STORAGE_KEYS.LEARNING_PROGRESS);
+    await AsyncStorage.removeItem(STORAGE_KEYS.FAVORITES);
+
+    // Call the encryption utility reset function
+    await resetUserIdentity();
+
+    return true;
+  } catch (error) {
+    console.error("Error resetting user identity:", error);
+    return false;
+  }
+};
+
 export default {
   saveMessages,
   loadMessages,
@@ -162,4 +225,8 @@ export default {
   saveData,
   loadData,
   removeData,
+  saveSession,
+  loadSession,
+  clearSession,
+  resetUserIdentityStorage,
 };

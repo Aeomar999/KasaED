@@ -1,5 +1,10 @@
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
+import {
+  generateDeviceFingerprint,
+  generateUserKeyPair,
+  generateRotatingIdentifier,
+} from "./fingerprint";
 
 // Generate encryption key for the session
 const generateEncryptionKey = () => {
@@ -38,9 +43,21 @@ export const createSession = () => {
   const encryptionKey = generateEncryptionKey();
   const timestamp = new Date().toISOString();
 
+  // Generate device fingerprint for user identification
+  const deviceFingerprint = generateDeviceFingerprint();
+
+  // Generate cryptographic user identifier
+  const userKeyPair = generateUserKeyPair();
+
+  // Generate rotating identifier
+  const rotatingId = generateRotatingIdentifier(deviceFingerprint, Date.now());
+
   const session = {
     sessionId,
     encryptionKey,
+    deviceFingerprint,
+    userIdentifier: userKeyPair ? userKeyPair.userId : null,
+    rotatingIdentifier: rotatingId,
     createdAt: timestamp,
     lastActivity: timestamp,
   };
@@ -72,6 +89,13 @@ export const getSession = () => {
 
     // Update last activity
     session.lastActivity = now.toISOString();
+
+    // Update rotating identifier
+    session.rotatingIdentifier = generateRotatingIdentifier(
+      session.deviceFingerprint,
+      Date.now()
+    );
+
     sessionStorage.setItem("kasaed_session", JSON.stringify(session));
 
     return session;
@@ -86,6 +110,22 @@ export const clearSession = () => {
   sessionStorage.removeItem("kasaed_session");
   sessionStorage.removeItem("kasaed_preferences");
   sessionStorage.removeItem("kasaed_temp_chat");
+};
+
+// Reset user identification (allows user to get a new anonymous identity)
+export const resetUserIdentity = () => {
+  // Clear session which will force generation of new identifiers on next session creation
+  clearSession();
+
+  // Also clear any stored user preferences that might link to previous identity
+  sessionStorage.removeItem("kasaed_preferences");
+  localStorage.removeItem("userNickname");
+  localStorage.removeItem("botPersonality");
+
+  // For mobile app equivalent
+  localStorage.removeItem("kasaed_user_profile");
+
+  return true;
 };
 
 // Clear all app data (panic mode)
@@ -103,6 +143,19 @@ export const panicClear = () => {
 
   // Redirect to blank page
   window.location.href = "about:blank";
+};
+
+// Get user identification information without revealing personal data
+export const getUserIdentifiers = () => {
+  const session = getSession();
+  if (!session) return null;
+
+  return {
+    sessionId: session.sessionId,
+    deviceFingerprint: session.deviceFingerprint,
+    userIdentifier: session.userIdentifier,
+    rotatingIdentifier: session.rotatingIdentifier,
+  };
 };
 
 // Auto-logout after 15 minutes of inactivity

@@ -50,6 +50,7 @@ const ChatScreen = () => {
   const [showClinicFinder, setShowClinicFinder] = useState(false);
   const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
   const [showVoiceChat, setShowVoiceChat] = useState(false);
+  const [showIdentityManagement, setShowIdentityManagement] = useState(false);
 
   useEffect(() => {
     initializeChat();
@@ -138,6 +139,10 @@ const ChatScreen = () => {
       case "voiceChat":
         setShowVoiceChat(true);
         break;
+      case "identityManagement":
+        setShowIdentityManagement(true);
+        break;
+
       default:
         addUserMessage(option);
     }
@@ -341,6 +346,10 @@ const ChatScreen = () => {
                   title={t("voiceChat")}
                   onPress={() => handleMenuOption("voiceChat")}
                 />
+                <MenuOption
+                  title="Identity Management"
+                  onPress={() => handleMenuOption("identityManagement")}
+                />
               </ScrollView>
             </View>
           </View>
@@ -404,6 +413,49 @@ const ChatScreen = () => {
                     </TouchableOpacity>
                   </Card>
                 ))}
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Identity Management Modal */}
+        <Modal
+          visible={showIdentityManagement}
+          animationType="slide"
+          transparent
+          onRequestClose={() => setShowIdentityManagement(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.menuModal}>
+              <View style={styles.menuHeader}>
+                <Text style={styles.menuTitle}>Identity Management</Text>
+                <TouchableOpacity
+                  onPress={() => setShowIdentityManagement(false)}
+                >
+                  <Text style={styles.closeButton}>✕</Text>
+                </TouchableOpacity>
+              </View>
+              <ScrollView style={styles.menuOptions}>
+                <View style={styles.identityInfo}>
+                  <Text style={styles.infoText}>
+                    You are currently using an anonymous session. Your identity
+                    is protected and no personal information is collected.
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.resetButton}
+                    onPress={() => {
+                      // In a real implementation, you would call the reset identity function
+                      alert(
+                        "Identity reset functionality would be implemented here"
+                      );
+                      setShowIdentityManagement(false);
+                    }}
+                  >
+                    <Text style={styles.resetButtonText}>
+                      Reset My Identity
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </ScrollView>
             </View>
           </View>
@@ -652,6 +704,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   callButtonText: {
+    fontSize: typography.base,
+    fontWeight: typography.semibold,
+    color: colors.white,
+  },
+  identityInfo: {
+    padding: spacing.lg,
+  },
+  infoText: {
+    fontSize: typography.base,
+    color: colors.gray700,
+    marginBottom: spacing.lg,
+    lineHeight: typography.relaxed * typography.base,
+  },
+  resetButton: {
+    backgroundColor: colors.error,
+    padding: spacing.md,
+    borderRadius: borderRadius.lg,
+    alignItems: "center",
+  },
+  resetButtonText: {
     fontSize: typography.base,
     fontWeight: typography.semibold,
     color: colors.white,
