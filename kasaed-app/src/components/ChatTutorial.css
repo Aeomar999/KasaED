@@ -1,0 +1,255 @@
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  pointer-events: auto;
+  /* Blocks interaction with underlying app */
+}
+
+.tutorial-tooltip {
+  position: fixed;
+  width: 300px;
+  background: var(--bg-elevated);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+  z-index: 10000;
+  /* Ensure smooth movement */
+  transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
+}
+
+.tutorial-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.tutorial-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+.tutorial-content h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.tutorial-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.tutorial-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.tutorial-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.tutorial-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.tutorial-dots .dot.active {
+  background-color: var(--primary-color);
+  transform: scale(1.2);
+}
+
+.tutorial-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tutorial-actions .btn.small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.btn-icon-only.small {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.btn-icon-only.small:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Arrow Styles - Enhanced for visibility */
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  animation: pulse-arrow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-arrow {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Arrow pointing UP (Tooltip is below target) */
+.tooltip-arrow.top {
+  border-width: 0 14px 16px 14px;
+  border-color: transparent transparent var(--primary-color) transparent;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-arrow.top::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: -12px;
+  border-width: 0 12px 14px 12px;
+  border-color: transparent transparent var(--bg-elevated) transparent;
+}
+
+/* Arrow pointing DOWN (Tooltip is above target) */
+.tooltip-arrow.bottom {
+  border-width: 16px 14px 0 14px;
+  border-color: var(--primary-color) transparent transparent transparent;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-arrow.bottom::after {
+  content: '';
+  position: absolute;
+  top: -17px;
+  left: -12px;
+  border-width: 14px 12px 0 12px;
+  border-color: var(--bg-elevated) transparent transparent transparent;
+}
+
+/* Arrow pointing LEFT (Tooltip is right of target) */
+.tooltip-arrow.left {
+  border-width: 14px 16px 14px 0;
+  border-color: transparent var(--primary-color) transparent transparent;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-arrow.left::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 2px;
+  border-width: 12px 14px 12px 0;
+  border-color: transparent var(--bg-elevated) transparent transparent;
+}
+
+/* Arrow pointing RIGHT (Tooltip is left of target) */
+.tooltip-arrow.right {
+  border-width: 14px 0 14px 16px;
+  border-color: transparent transparent transparent var(--primary-color);
+  right: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-arrow.right::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: -17px;
+  border-width: 12px 0 12px 14px;
+  border-color: transparent transparent transparent var(--bg-elevated);
+}
+
+/* Highlight target element */
+.tutorial-highlight {
+  position: relative;
+  z-index: 10001;
+  /* Above overlay */
+  box-shadow: 0 0 0 4px var(--primary-color), 0 0 0 1000px rgba(0, 0, 0, 0.6);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Spotlight effect for target element */
+.tutorial-spotlight {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  border: 4px solid var(--primary-500);
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 2px rgba(66, 133, 244, 0.3),
+    0 0 30px 10px rgba(66, 133, 244, 0.6),
+    0 0 60px 20px rgba(66, 133, 244, 0.3),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  animation: spotlight-pulse 2s ease-in-out infinite;
+}
+
+@keyframes spotlight-pulse {
+
+  0%,
+  100% {
+    border-color: var(--primary-500);
+    box-shadow:
+      0 0 0 2px rgba(66, 133, 244, 0.3),
+      0 0 30px 10px rgba(66, 133, 244, 0.6),
+      0 0 60px 20px rgba(66, 133, 244, 0.3),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+    transform: scale(1);
+  }
+
+  50% {
+    border-color: var(--primary-400);
+    box-shadow:
+      0 0 0 4px rgba(66, 133, 244, 0.5),
+      0 0 40px 15px rgba(66, 133, 244, 0.8),
+      0 0 80px 30px rgba(66, 133, 244, 0.4),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+    transform: scale(1.01);
+  }
+}

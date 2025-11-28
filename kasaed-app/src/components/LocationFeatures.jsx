@@ -7,10 +7,13 @@ import {
   Search, Filter, CheckCircle
 } from 'lucide-react';
 import './LocationFeatures.css';
+import { useApp } from '../contexts/AppContext';
+import TutorialOverlay from './TutorialOverlay';
 
 // Feature 2: Nearby Clinics Finder
 export const ClinicFinder = ({ onClose }) => {
   const { t } = useTranslation();
+  const { userProfile, markTutorialSeen } = useApp();
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [clinics, setClinics] = useState([]);
@@ -159,6 +162,34 @@ export const ClinicFinder = ({ onClose }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: '100%' }}
     >
+      {/* Tutorial Overlay */}
+      {!userProfile?.seenTutorials?.includes('clinic_finder') && (
+        <TutorialOverlay
+          steps={[
+            {
+              target: 'body',
+              title: t('tutorial.cf.welcome.title', 'Find Help Nearby'),
+              content: t('tutorial.cf.welcome.content', 'Locate youth-friendly clinics and health services near you.'),
+              position: 'center'
+            },
+            {
+              target: '#cf-filters',
+              title: t('tutorial.cf.filters.title', 'Filter Results'),
+              content: t('tutorial.cf.filters.content', 'Looking for something specific? Filter by youth-friendly or free services.'),
+              position: 'bottom'
+            },
+            {
+              target: '#cf-list',
+              title: t('tutorial.cf.list.title', 'View Details'),
+              content: t('tutorial.cf.list.content', 'Tap on any clinic to see more details like opening hours and services.'),
+              position: 'top'
+            }
+          ]}
+          onComplete={() => markTutorialSeen('clinic_finder')}
+          onSkip={() => markTutorialSeen('clinic_finder')}
+        />
+      )}
+
       <div className="finder-header">
         <h2>{t('clinicFinder.title')}</h2>
         <button className="close-btn" onClick={onClose}><X size={24} /></button>
@@ -171,7 +202,7 @@ export const ClinicFinder = ({ onClose }) => {
         </div>
       ) : (
         <>
-          <div className="finder-filters">
+          <div id="cf-filters" className="finder-filters">
             <button className="filter-btn active">{t('clinicFinder.allClinics')}</button>
             <button className="filter-btn" onClick={() => setClinics(clinics.filter(c => c.youthFriendly))}>
               {t('clinicFinder.youthFriendly')}
@@ -181,7 +212,7 @@ export const ClinicFinder = ({ onClose }) => {
             </button>
           </div>
 
-          <div className="clinics-list">
+          <div id="cf-list" className="clinics-list">
             {clinics.map(clinic => (
               <motion.div
                 key={clinic.id}

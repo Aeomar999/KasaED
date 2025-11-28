@@ -23,11 +23,12 @@ import { ClinicFinder, EmergencyContacts } from './LocationFeatures';
 import { InteractiveScenarios, LearningPaths } from './InteractiveFeatures';
 import { NutritionWellness, Telemedicine, CulturalSettings } from './WellnessFeatures';
 import OfflineMode from './OfflineMode';
+import ChatTutorial from './ChatTutorial';
 import './Chat.css';
 
 const Chat = () => {
   const { t, i18n } = useTranslation();
-  const { userProfile, chatHistory, addMessage, isOnline, clearChatHistory, saveChatHistory, saveUserProfile } = useApp();
+  const { userProfile, chatHistory, addMessage, isOnline, clearChatHistory, saveChatHistory, saveUserProfile, markTutorialSeen } = useApp();
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showEmergency, setShowEmergency] = useState(false);
@@ -51,7 +52,7 @@ const Chat = () => {
   const [grokAvailable, setGrokAvailable] = useState(false);
   const [showFirstTimeWarning, setShowFirstTimeWarning] = useState(false);
   const [showOfflineMode, setShowOfflineMode] = useState(false);
-  
+
   // Debug: Log when showFirstTimeWarning changes
   useEffect(() => {
     console.log('🚨 showFirstTimeWarning state changed to:', showFirstTimeWarning);
@@ -132,7 +133,7 @@ const Chat = () => {
         // Check if timer has been explicitly disabled
         const timerDisabled = localStorage.getItem('timerDisabled');
         console.log('⏲️ Timer disabled flag:', timerDisabled);
-        
+
         if (timerDisabled === 'true') {
           console.log('⏸️ Timer is disabled by user preference - skipping timer setup');
           // Don't set up any timer, but continue with other initialization
@@ -142,7 +143,7 @@ const Chat = () => {
         // Check if this is a first-time user
         const hasSeenWarning = localStorage.getItem('hasSeenTimerWarning');
         const savedTimer = localStorage.getItem('autoDeleteTimer');
-        
+
         console.log('🔍 Checking first-time user status:');
         console.log('  - hasSeenTimerWarning:', hasSeenWarning);
         console.log('  - savedTimer:', savedTimer);
@@ -152,7 +153,7 @@ const Chat = () => {
           console.log('👋 ✅ FIRST-TIME USER DETECTED - SHOWING WARNING!');
           console.log('🎯 Setting showFirstTimeWarning to TRUE');
           setShowFirstTimeWarning(true);
-          
+
           const defaultDuration = 10080 * 60 * 1000; // 7 days in milliseconds
           const timerData = {
             duration: defaultDuration,
@@ -164,7 +165,7 @@ const Chat = () => {
           console.log('⏱️ Default 7-day timer started');
         } else {
           console.log('ℹ️ Not a first-time user (warning seen or timer exists)');
-          
+
           if (savedTimer) {
             // Load existing timer
             console.log('🔄 Loading existing timer');
@@ -400,7 +401,7 @@ const Chat = () => {
   // Generate descriptive title from user message
   const generateChatTitle = (message) => {
     const text = message.toLowerCase().trim();
-    
+
     // Common question patterns and their titles
     const patterns = [
       { keywords: ['contraception', 'birth control', 'prevent pregnancy'], title: 'Contraception Info' },
@@ -486,18 +487,18 @@ const Chat = () => {
 
     // Remove the disabled flag since user is re-enabling timer
     localStorage.removeItem('timerDisabled');
-    
+
     localStorage.setItem('autoDeleteTimer', JSON.stringify(timerData));
     setAutoDeleteTimer(duration);
     startAutoDeleteCountdown(duration);
     setShowTimerModal(false);
-    
+
     console.log(`⏱️ Timer set for ${minutes} minutes`);
   };
 
   const handleCancelTimer = () => {
     console.log('🚫 Cancelling auto-delete timer...');
-    
+
     // 1. Clear the countdown interval
     if (countdownInterval) {
       clearInterval(countdownInterval);
@@ -508,17 +509,17 @@ const Chat = () => {
     // 2. Remove timer from localStorage
     localStorage.removeItem('autoDeleteTimer');
     console.log('✅ Timer removed from localStorage');
-    
+
     // 3. Reset all timer-related state
     setAutoDeleteTimer(null);
     setTimerCountdown(null);
-    
+
     // 4. Close timer modal if open
     setShowTimerModal(false);
-    
+
     // 5. Mark timer as explicitly disabled
     localStorage.setItem('timerDisabled', 'true');
-    
+
     console.log('✅ Auto-delete timer fully disabled');
   };
 
@@ -673,9 +674,9 @@ const Chat = () => {
 
             // Detect intent for suggestions
             const intent = detectIntent(messageText);
-            
+
             // Generate appropriate suggestions based on mental health concern
-            const followUpSuggestions = isMentalHealthConcern 
+            const followUpSuggestions = isMentalHealthConcern
               ? generateFollowUpSuggestions(intent, 'mentalHealth')
               : generateFollowUpSuggestions(intent);
 
@@ -1005,6 +1006,15 @@ const Chat = () => {
     return renderFeature();
   }
 
+  // Tutorial completion handler
+  const handleTutorialComplete = () => {
+    markTutorialSeen('chat');
+  };
+
+  const handleTutorialSkip = () => {
+    markTutorialSeen('chat');
+  };
+
   if (showOfflineMode) {
     return <OfflineMode onClose={() => setShowOfflineMode(false)} />;
   }
@@ -1060,6 +1070,11 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
+      {/* Tutorial Overlay */}
+      {!userProfile?.seenTutorials?.includes('chat') && !userProfile?.tutorialSeen && (
+        <ChatTutorial onComplete={handleTutorialComplete} onSkip={handleTutorialSkip} />
+      )}
+
       {/* Left Sidebar - Always Visible */}
       <div className={`left-sidebar ${leftSidebarExpanded ? 'expanded' : ''}`}>
         {/* Collapsed View - Icon Buttons */}
@@ -1080,10 +1095,10 @@ const Chat = () => {
           >
             <MessageSquarePlus size={20} />
           </button>
-        </div>
+        </div >
 
         {/* Expanded View - Full Sidebar */}
-        <div className="sidebar-expanded-content">
+        < div className="sidebar-expanded-content" >
           <div className="sidebar-header">
             <h3 className="sidebar-title">{t('menu.history')}</h3>
             <div className="sidebar-header-actions">
@@ -1202,10 +1217,10 @@ const Chat = () => {
               </>
             )}
           </div>
-        </div>
+        </div >
 
         {/* Panic Button Footer */}
-        <div className={`sidebar-panic-footer ${!leftSidebarExpanded ? 'collapsed' : ''}`}>
+        < div className={`sidebar-panic-footer ${!leftSidebarExpanded ? 'collapsed' : ''}`}>
           <button
             className={`panic-btn-sidebar ${!leftSidebarExpanded ? 'icon-only' : ''}`}
             onClick={handlePanicButton}
@@ -1215,13 +1230,13 @@ const Chat = () => {
             <AlertTriangle size={leftSidebarExpanded ? 18 : 20} />
             {leftSidebarExpanded && <span>{t('menu.quickExit')}</span>}
           </button>
-        </div>
-      </div>
+        </div >
+      </div >
 
       {/* Main Chat Area */}
-      <div className="chat-main">
+      < div className="chat-main" >
         {/* Minimal Header with Logo and Actions */}
-        <div className="chat-header-minimal">
+        < div className="chat-header-minimal" >
           <h1 className="logo-text">KasaEd</h1>
           <div className="header-actions">
             <button
@@ -1245,6 +1260,7 @@ const Chat = () => {
               <Trash2 size={20} />
             </button>
             <button
+              id="panic-button"
               className="icon-btn danger-btn"
               onClick={handlePanicButton}
               aria-label={t('menu.quickExit')}
@@ -1253,6 +1269,7 @@ const Chat = () => {
               <AlertTriangle size={20} />
             </button>
             <button
+              id="chat-menu-btn"
               className="icon-btn header-menu-btn menu-button"
               onClick={() => setShowMenu(!showMenu)}
               aria-label={t('menu.settings')}
@@ -1261,10 +1278,10 @@ const Chat = () => {
               <MoreHorizontal size={24} />
             </button>
           </div>
-        </div>
+        </div >
 
         {/* Main Menu Dropdown */}
-        <AnimatePresence>
+        < AnimatePresence >
           {showMenu && (
             <motion.div
               className="dropdown-menu main-menu"
@@ -1302,10 +1319,10 @@ const Chat = () => {
               <button onClick={() => { setActiveFeature('clinic'); setShowMenu(false); }}>
                 <MapPin size={18} /> {t('menu.findNearbyClinics')}
               </button>
-              <button onClick={() => { 
+              <button onClick={() => {
                 console.log('🕐 Auto-Delete Timer clicked, setting showTimerModal to true');
-                setShowTimerModal(true); 
-                setShowMenu(false); 
+                setShowTimerModal(true);
+                setShowMenu(false);
               }}>
                 <Timer size={18} /> {t('menu.autoDeleteTimer')}
               </button>
@@ -1362,46 +1379,50 @@ const Chat = () => {
               </button>
             </motion.div>
           )}
-        </AnimatePresence>
+        </AnimatePresence >
 
         {/* Offline Banner */}
-        {!isOnline && (
-          <div className="offline-banner">
-            {t('offline.banner')}
-            <button className="btn-primary" onClick={() => setShowOfflineMode(true)} style={{ marginLeft: '1rem' }}>
-              {t('offline.faq')}
-            </button>
-          </div>
-        )}
+        {
+          !isOnline && (
+            <div className="offline-banner">
+              {t('offline.banner')}
+              <button className="btn-primary" onClick={() => setShowOfflineMode(true)} style={{ marginLeft: '1rem' }}>
+                {t('offline.faq')}
+              </button>
+            </div>
+          )
+        }
 
         {/* Timer Countdown Banner */}
-        {timerCountdown && (
-          <div className="timer-banner">
-            <div className="timer-banner-content">
-              <div className="timer-banner-icon">
-                <Clock size={16} />
+        {
+          timerCountdown && (
+            <div className="timer-banner">
+              <div className="timer-banner-content">
+                <div className="timer-banner-icon">
+                  <Clock size={16} />
+                </div>
+                <div className="timer-banner-text">
+                  {t('timer.active')}
+                  <span className="timer-countdown">
+                    {formatCountdown(timerCountdown)} {t('timer.remaining')}
+                  </span>
+                </div>
               </div>
-              <div className="timer-banner-text">
-                {t('timer.active')} 
-                <span className="timer-countdown">
-                  {formatCountdown(timerCountdown)} {t('timer.remaining')}
-                </span>
-              </div>
+              <button
+                className="btn-cancel-timer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('🖱️ Cancel button clicked!');
+                  handleCancelTimer();
+                }}
+                type="button"
+              >
+                <X size={14} /> {t('timer.cancel')}
+              </button>
             </div>
-            <button 
-              className="btn-cancel-timer" 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('🖱️ Cancel button clicked!');
-                handleCancelTimer();
-              }}
-              type="button"
-            >
-              <X size={14} /> {t('timer.cancel')}
-            </button>
-          </div>
-        )}
+          )
+        }
 
         {/* Timer Modal */}
         <AnimatePresence>
@@ -1524,36 +1545,40 @@ const Chat = () => {
         </div>
 
         {/* Quick Replies */}
-        {currentSuggestions.length > 0 && !isTyping && (
-          <div className="quick-replies">
-            {currentSuggestions.map((suggestion, index) => (
-              <button
-                key={index}
-                className="quick-reply-btn"
-                onClick={() => handleQuickReply(suggestion)}
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-        )}
+        {
+          currentSuggestions.length > 0 && !isTyping && (
+            <div className="quick-replies">
+              {currentSuggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  className="quick-reply-btn"
+                  onClick={() => handleQuickReply(suggestion)}
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          )
+        }
 
         {/* Stop Button */}
-        {isTyping && (
-          <div className="stop-response-container">
-            <button
-              className="stop-response-btn"
-              onClick={handleStopResponse}
-              aria-label="Stop response"
-            >
-              <X size={18} />
-              {t('chat.stopGenerating')}
-            </button>
-          </div>
-        )}
+        {
+          isTyping && (
+            <div className="stop-response-container">
+              <button
+                className="stop-response-btn"
+                onClick={handleStopResponse}
+                aria-label="Stop response"
+              >
+                <X size={18} />
+                {t('chat.stopGenerating')}
+              </button>
+            </div>
+          )
+        }
 
         {/* Centered Input Area */}
-        <div className="input-area-centered">
+        <div id="chat-input-area" className="input-area-centered">
           <div className="input-wrapper-centered">
             <input
               ref={inputRef}
@@ -1576,6 +1601,7 @@ const Chat = () => {
               </div>
             )}
             <button
+              id="voice-input-btn"
               className={`mic-btn-centered ${isListening ? 'active' : ''}`}
               onClick={toggleListening}
               aria-label={isListening ? 'Stop recording' : 'Start voice input'}

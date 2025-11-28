@@ -18,6 +18,7 @@ export const AppProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState({
     ageGroup: null,
     language: 'en',
+    seenTutorials: [], // Array of tutorial IDs
     preferences: {
       fontSize: 'medium',
       darkMode: false,
@@ -67,10 +68,10 @@ export const AppProvider = ({ children }) => {
       const savedProfile = await localforage.getItem('userProfile');
       if (savedProfile) {
         setUserProfile(savedProfile);
-        
+
         // Apply saved preferences to DOM immediately
         applyPreferencesToDOM(savedProfile.preferences);
-        
+
         // Sync with theme context if available
         if (themeContext && savedProfile.preferences?.darkMode !== undefined) {
           if (savedProfile.preferences.darkMode) {
@@ -79,7 +80,7 @@ export const AppProvider = ({ children }) => {
             themeContext.setLightTheme();
           }
         }
-        
+
         // setOnboardingComplete(true); // Always start onboarding on reload for dev
       }
 
@@ -95,12 +96,12 @@ export const AppProvider = ({ children }) => {
   // Apply preferences to DOM
   const applyPreferencesToDOM = (preferences) => {
     if (!preferences) return;
-    
+
     // Apply font size
     if (preferences.fontSize) {
       document.documentElement.setAttribute('data-font-size', preferences.fontSize);
     }
-    
+
     // Apply high contrast
     if (preferences.highContrast !== undefined) {
       document.documentElement.setAttribute('data-high-contrast', preferences.highContrast ? 'true' : 'false');
@@ -119,10 +120,10 @@ export const AppProvider = ({ children }) => {
     try {
       await localforage.setItem('userProfile', profile);
       setUserProfile(profile);
-      
+
       // Apply preferences to DOM immediately
       applyPreferencesToDOM(profile.preferences);
-      
+
       // Sync with theme context if available
       if (themeContext && profile.preferences?.darkMode !== undefined) {
         if (profile.preferences.darkMode) {
@@ -178,12 +179,19 @@ export const AppProvider = ({ children }) => {
       ...userProfile.preferences,
       [key]: value
     };
-    
     const updatedProfile = {
       ...userProfile,
       preferences: updatedPreferences
     };
-    
+    await saveUserProfile(updatedProfile);
+  };
+
+  // Mark tutorial as seen
+  const markTutorialSeen = async (tutorialId) => {
+    const updatedProfile = {
+      ...userProfile,
+      seenTutorials: [...(userProfile.seenTutorials || []), tutorialId]
+    };
     await saveUserProfile(updatedProfile);
   };
 
@@ -198,7 +206,8 @@ export const AppProvider = ({ children }) => {
     addMessage,
     clearChatHistory,
     saveChatHistory,
-    completeOnboarding
+    completeOnboarding,
+    markTutorialSeen
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

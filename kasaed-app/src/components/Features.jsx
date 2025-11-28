@@ -7,11 +7,13 @@ import {
   Frown, Meh, ThumbsUp, ThumbsDown, Check, TrendingUp
 } from 'lucide-react';
 import './Features.css';
+import { useApp } from '../contexts/AppContext';
+import TutorialOverlay from './TutorialOverlay';
 
 // Feature 21: Personalized Health Recommendations
 export const HealthRecommendations = ({ userProfile, chatHistory }) => {
   const { t } = useTranslation();
-  
+
   const getRecommendations = () => {
     const topics = chatHistory.filter(m => m.sender === 'user')
       .map(m => m.text.toLowerCase());
@@ -234,6 +236,7 @@ export const Quiz = ({ onClose }) => {
 // Feature 25: Mood Tracking
 export const MoodTracker = ({ onClose }) => {
   const { t } = useTranslation();
+  const { userProfile, markTutorialSeen } = useApp();
   const [activeTab, setActiveTab] = useState('log');
   const [mood, setMood] = useState(null);
   const [note, setNote] = useState('');
@@ -244,42 +247,42 @@ export const MoodTracker = ({ onClose }) => {
   });
 
   const moods = [
-    { 
-      icon: '😄', 
-      label: 'Amazing', 
-      value: 5, 
+    {
+      icon: '😄',
+      label: 'Amazing',
+      value: 5,
       color: '#10b981',
       gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
       description: 'Feeling great!'
     },
-    { 
-      icon: '🙂', 
-      label: 'Good', 
-      value: 4, 
+    {
+      icon: '🙂',
+      label: 'Good',
+      value: 4,
       color: '#3b82f6',
       gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
       description: 'Pretty good day'
     },
-    { 
-      icon: '😐', 
-      label: 'Okay', 
-      value: 3, 
+    {
+      icon: '😐',
+      label: 'Okay',
+      value: 3,
       color: '#f59e0b',
       gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
       description: 'Just okay'
     },
-    { 
-      icon: '😔', 
-      label: 'Low', 
-      value: 2, 
+    {
+      icon: '😔',
+      label: 'Low',
+      value: 2,
       color: '#f97316',
       gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
       description: 'Not so good'
     },
-    { 
-      icon: '😢', 
-      label: 'Very Low', 
-      value: 1, 
+    {
+      icon: '😢',
+      label: 'Very Low',
+      value: 1,
       color: '#ef4444',
       gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
       description: 'Really struggling'
@@ -307,7 +310,7 @@ export const MoodTracker = ({ onClose }) => {
 
     const totalMood = history.reduce((sum, entry) => sum + entry.mood, 0);
     const avgMood = totalMood / history.length;
-    
+
     const moodCounts = {};
     history.forEach(entry => {
       moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
@@ -319,7 +322,7 @@ export const MoodTracker = ({ onClose }) => {
     let streak = 0;
     const today = new Date().toISOString().split('T')[0];
     let currentDate = today;
-    
+
     for (let i = 0; i < sortedDates.length; i++) {
       if (sortedDates[i] === currentDate) {
         streak++;
@@ -362,14 +365,14 @@ export const MoodTracker = ({ onClose }) => {
   // Render mood trend chart
   const renderMoodChart = () => {
     const maxHeight = 120;
-    
+
     return (
       <div className="mood-chart">
         <div className="chart-bars">
           {trendData.map((day, index) => {
             const moodData = moods.find(m => m.value === day.mood);
             const height = day.mood ? (day.mood / 5) * maxHeight : 0;
-            
+
             return (
               <motion.div
                 key={index}
@@ -412,6 +415,34 @@ export const MoodTracker = ({ onClose }) => {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
+      {/* Tutorial Overlay */}
+      {!userProfile?.seenTutorials?.includes('mood_tracker') && (
+        <TutorialOverlay
+          steps={[
+            {
+              target: 'body',
+              title: t('tutorial.mt.welcome.title', 'Track Your Mood'),
+              content: t('tutorial.mt.welcome.content', 'Keep track of how you feel over time to understand your emotional patterns.'),
+              position: 'center'
+            },
+            {
+              target: '#mt-mood-select',
+              title: t('tutorial.mt.select.title', 'Log Your Mood'),
+              content: t('tutorial.mt.select.content', 'Select the emoji that best represents how you feel right now.'),
+              position: 'top'
+            },
+            {
+              target: '#mt-tabs',
+              title: t('tutorial.mt.analytics.title', 'View Insights'),
+              content: t('tutorial.mt.analytics.content', 'Switch tabs to see your mood history and helpful analytics.'),
+              position: 'bottom'
+            }
+          ]}
+          onComplete={() => markTutorialSeen('mood_tracker')}
+          onSkip={() => markTutorialSeen('mood_tracker')}
+        />
+      )}
+
       <div className="mood-container">
         <div className="mood-header">
           <div className="header-content">
@@ -422,7 +453,7 @@ export const MoodTracker = ({ onClose }) => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="mood-tabs">
+        <div id="mt-tabs" className="mood-tabs">
           {[
             { id: 'log', label: t('moodTracker.tabs.log'), icon: '📝' },
             { id: 'analytics', label: t('moodTracker.tabs.analytics'), icon: '📊' },
@@ -465,8 +496,8 @@ export const MoodTracker = ({ onClose }) => {
 
                 <h3>{t('moodTracker.log.howAreYouFeeling')}</h3>
                 <p className="mood-subtitle">{t('moodTracker.log.selectEmoji')}</p>
-                
-                <div className="mood-options">
+
+                <div id="mt-mood-select" className="mood-options">
                   {moods.map(m => {
                     const isSelected = mood === m.value;
                     return (
@@ -697,12 +728,12 @@ export const MoodTracker = ({ onClose }) => {
                       const date = new Date(entry.date);
                       const isToday = entry.date === new Date().toISOString().split('T')[0];
                       const isYesterday = entry.date === new Date(Date.now() - 86400000).toISOString().split('T')[0];
-                      
-                      let dateLabel = date.toLocaleDateString('en-US', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
+
+                      let dateLabel = date.toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
                       });
                       if (isToday) dateLabel = t('moodTracker.history.today');
                       if (isYesterday) dateLabel = t('moodTracker.history.yesterday');

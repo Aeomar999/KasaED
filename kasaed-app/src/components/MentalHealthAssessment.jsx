@@ -7,10 +7,13 @@ import {
   ArrowRight, Calendar, Activity
 } from 'lucide-react';
 import { MdArrowBack } from 'react-icons/md';
+import { useApp } from '../contexts/AppContext';
+import TutorialOverlay from './TutorialOverlay';
 import './MentalHealthAssessment.css';
 
 const MentalHealthAssessment = ({ onClose }) => {
   const { t } = useTranslation();
+  const { userProfile, markTutorialSeen } = useApp();
   const [view, setView] = useState('welcome'); // welcome, selection, assessment, results, history
   const [assessmentType, setAssessmentType] = useState(null); // 'depression' or 'anxiety'
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -268,7 +271,7 @@ const MentalHealthAssessment = ({ onClose }) => {
   };
 
   const getInterpretation = (score) => {
-    return assessmentType === 'depression' 
+    return assessmentType === 'depression'
       ? getDepressionInterpretation(score)
       : getAnxietyInterpretation(score);
   };
@@ -301,7 +304,7 @@ const MentalHealthAssessment = ({ onClose }) => {
     const maxHeight = 120;
 
     return (
-      <motion.div 
+      <motion.div
         className="progress-chart"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -312,12 +315,12 @@ const MentalHealthAssessment = ({ onClose }) => {
           {filteredHistory.map((entry, index) => {
             const height = (entry.score / maxScore) * maxHeight;
             const interpretation = getInterpretation(entry.score);
-            
+
             return (
               <div key={index} className="chart-bar-wrapper">
-                <div 
-                  className="chart-bar" 
-                  style={{ 
+                <div
+                  className="chart-bar"
+                  style={{
                     height: `${height}px`,
                     backgroundColor: interpretation.color
                   }}
@@ -338,6 +341,27 @@ const MentalHealthAssessment = ({ onClose }) => {
 
   // Welcome View
   if (view === 'welcome') {
+    const tutorialSteps = [
+      {
+        target: 'body',
+        title: t('tutorial.mh.welcome.title', 'Mental Health Check-in'),
+        content: t('tutorial.mh.welcome.content', 'Welcome to your private mental health check-in. This tool helps you understand your feelings better.'),
+        position: 'center'
+      },
+      {
+        target: '#mh-privacy',
+        title: t('tutorial.mh.privacy.title', 'Private & Secure'),
+        content: t('tutorial.mh.privacy.content', 'Your answers are completely private. No one else can see them.'),
+        position: 'top'
+      },
+      {
+        target: '#mh-start-btn',
+        title: t('tutorial.mh.start.title', 'Start Assessment'),
+        content: t('tutorial.mh.start.content', 'Ready to begin? Click here to choose a check-in type.'),
+        position: 'bottom'
+      }
+    ];
+
     return (
       <motion.div
         className="assessment-container"
@@ -345,80 +369,92 @@ const MentalHealthAssessment = ({ onClose }) => {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
       >
+        {/* Tutorial Overlay */}
+        {!userProfile?.seenTutorials?.includes('mental_health') && (
+          <TutorialOverlay
+            steps={tutorialSteps}
+            onComplete={() => markTutorialSeen('mental_health')}
+            onSkip={() => markTutorialSeen('mental_health')}
+          />
+        )}
+
         <div>
           <div className="assessment-header">
             <h2><Brain size={28} /> {t('mentalHealth.checkIn.title')}</h2>
-            <button className="close-btn" onClick={onClose}><X size={24} /></button>
+            <button className="close-btn" onClick={onClose} title="Close Mental Health Check-in"><X size={24} /></button>
           </div>
 
           <div className="welcome-content">
-          <div className="welcome-icon">
-            <Heart size={64} className="pulse-icon" />
-          </div>
-
-          <h3>{t('mentalHealth.checkIn.welcome.title')}</h3>
-          <p className="welcome-text">
-            {t('mentalHealth.checkIn.welcome.text')}
-          </p>
-
-          <div className="info-cards">
-            <div className="info-card">
-              <Shield size={24} />
-              <h4>{t('mentalHealth.checkIn.welcome.safeConfidential')}</h4>
-              <p>{t('mentalHealth.checkIn.welcome.clinicallyValidated')}</p>
+            <div className="welcome-icon">
+              <Heart size={64} className="pulse-icon" />
             </div>
-            <div className="info-card">
-              <Activity size={24} />
-              <h4>{t('mentalHealth.checkIn.welcome.clinicallyValidated')}</h4>
-              <p>Based on PHQ-9 and GAD-7 screening tools used by healthcare professionals.</p>
-            </div>
-            <div className="info-card">
-              <Info size={24} />
-              <h4>{t('mentalHealth.checkIn.welcome.notDiagnosis')}</h4>
-              <p>This is a screening tool. For professional evaluation, consult a mental health provider.</p>
-            </div>
-          </div>
 
-          <div className="connection-info">
-            <h4><Heart size={20} /> {t('mentalHealth.checkIn.welcome.whyMatters')}</h4>
-            <div className="connection-points">
-              <div className="connection-point">
-                <CheckCircle size={18} />
-                <p><strong>{t('mentalHealth.checkIn.welcome.healthyRelationships')}:</strong> Good mental health helps you communicate better, set boundaries, and build trust in relationships.</p>
+            <h3>{t('mentalHealth.checkIn.welcome.title')}</h3>
+            <p className="welcome-text">
+              {t('mentalHealth.checkIn.welcome.text')}
+            </p>
+
+            <div className="info-cards">
+              <div id="mh-privacy" className="info-card">
+                <Shield size={24} />
+                <h4>{t('mentalHealth.checkIn.welcome.safeConfidential')}</h4>
+                <p>{t('mentalHealth.checkIn.welcome.clinicallyValidated')}</p>
               </div>
-              <div className="connection-point">
-                <CheckCircle size={18} />
-                <p><strong>{t('mentalHealth.checkIn.welcome.betterDecisionMaking')}:</strong> When you feel emotionally balanced, you're more likely to make informed, safe choices about sexual health.</p>
+              <div className="info-card">
+                <Activity size={24} />
+                <h4>{t('mentalHealth.checkIn.welcome.clinicallyValidated')}</h4>
+                <p>Based on PHQ-9 and GAD-7 screening tools used by healthcare professionals.</p>
               </div>
-              <div className="connection-point">
-                <CheckCircle size={18} />
-                <p><strong>{t('mentalHealth.checkIn.welcome.physicalWellness')}:</strong> Depression and anxiety can affect hormone levels, sexual desire, and physical intimacy.</p>
-              </div>
-              <div className="connection-point">
-                <CheckCircle size={18} />
-                <p><strong>{t('mentalHealth.checkIn.welcome.selfCare')}:</strong> Mental wellness empowers you to prioritize protection, consent, and overall health.</p>
+              <div className="info-card">
+                <Info size={24} />
+                <h4>{t('mentalHealth.checkIn.welcome.notDiagnosis')}</h4>
+                <p>This is a screening tool. For professional evaluation, consult a mental health provider.</p>
               </div>
             </div>
-          </div>
 
-          <motion.button
-            className="btn-primary btn-large"
-            onClick={() => setView('selection')}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {t('mentalHealth.checkIn.welcome.startCheckIn')} <ArrowRight size={20} />
-          </motion.button>
+            <div className="connection-info">
+              <h4><Heart size={20} /> {t('mentalHealth.checkIn.welcome.whyMatters')}</h4>
+              <div className="connection-points">
+                <div className="connection-point">
+                  <CheckCircle size={18} />
+                  <p><strong>{t('mentalHealth.checkIn.welcome.healthyRelationships')}:</strong> Good mental health helps you communicate better, set boundaries, and build trust in relationships.</p>
+                </div>
+                <div className="connection-point">
+                  <CheckCircle size={18} />
+                  <p><strong>{t('mentalHealth.checkIn.welcome.betterDecisionMaking')}:</strong> When you feel emotionally balanced, you're more likely to make informed, safe choices about sexual health.</p>
+                </div>
+                <div className="connection-point">
+                  <CheckCircle size={18} />
+                  <p><strong>{t('mentalHealth.checkIn.welcome.physicalWellness')}:</strong> Depression and anxiety can affect hormone levels, sexual desire, and physical intimacy.</p>
+                </div>
+                <div className="connection-point">
+                  <CheckCircle size={18} />
+                  <p><strong>{t('mentalHealth.checkIn.welcome.selfCare')}:</strong> Mental wellness empowers you to prioritize protection, consent, and overall health.</p>
+                </div>
+              </div>
+            </div>
 
-          {history.length > 0 && (
-            <button 
-              className="btn-text"
-              onClick={() => setView('history')}
+            <motion.button
+              id="mh-start-btn"
+              className="btn-primary btn-large"
+              onClick={() => setView('selection')}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              title="Begin your mental health check-in"
             >
-              <Calendar size={18} /> {t('mentalHealth.checkIn.welcome.viewHistory')}
-            </button>
-          )}
-        </div>
+              {t('mentalHealth.checkIn.welcome.startCheckIn')} <ArrowRight size={20} />
+            </motion.button>
+
+            {history.length > 0 && (
+              <button
+                className="btn-text"
+                onClick={() => setView('history')}
+                title="View your previous mental health check-in results"
+              >
+                <Calendar size={18} /> {t('mentalHealth.checkIn.welcome.viewHistory')}
+              </button>
+            )}
+          </div>
         </div>
       </motion.div>
     );
@@ -435,59 +471,61 @@ const MentalHealthAssessment = ({ onClose }) => {
       >
         <div>
           <div className="assessment-header">
-          <button className="back-btn" onClick={() => setView('welcome')}>
-            <MdArrowBack size={20} />
-          </button>
-          <h2>{t('mentalHealth.checkIn.selection.title')}</h2>
-          <button className="close-btn" onClick={onClose}><X size={24} /></button>
-        </div>
+            <button className="back-btn" onClick={() => setView('welcome')} title="Go back to welcome screen">
+              <MdArrowBack size={20} />
+            </button>
+            <h2>{t('mentalHealth.checkIn.selection.title')}</h2>
+            <button className="close-btn" onClick={onClose} title="Close Mental Health Check-in"><X size={24} /></button>
+          </div>
 
-        <div className="selection-cards">
-          <motion.div
-            className="selection-card depression-card"
-            onClick={() => startAssessment('depression')}
-            whileHover={{ scale: 1.02, y: -4 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="selection-icon">
-              <Brain size={40} />
-            </div>
-            <h3>{t('mentalHealth.checkIn.selection.depression.title')}</h3>
-            <p>{t('mentalHealth.checkIn.selection.depression.description')}</p>
-            <div className="selection-info">
-              <Info size={16} />
-              <span>{t('mentalHealth.checkIn.selection.depression.info')}</span>
-            </div>
-            <div className="selection-arrow">
-              <ArrowRight size={24} />
-            </div>
-          </motion.div>
+          <div className="selection-cards">
+            <motion.div
+              className="selection-card depression-card"
+              onClick={() => startAssessment('depression')}
+              whileHover={{ scale: 1.02, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              title="Start Depression Screening (PHQ-9) - 9 questions"
+            >
+              <div className="selection-icon">
+                <Brain size={40} />
+              </div>
+              <h3>{t('mentalHealth.checkIn.selection.depression.title')}</h3>
+              <p>{t('mentalHealth.checkIn.selection.depression.description')}</p>
+              <div className="selection-info">
+                <Info size={16} />
+                <span>{t('mentalHealth.checkIn.selection.depression.info')}</span>
+              </div>
+              <div className="selection-arrow">
+                <ArrowRight size={24} />
+              </div>
+            </motion.div>
 
-          <motion.div
-            className="selection-card anxiety-card"
-            onClick={() => startAssessment('anxiety')}
-            whileHover={{ scale: 1.02, y: -4 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="selection-icon">
-              <AlertCircle size={40} />
-            </div>
-            <h3>{t('mentalHealth.checkIn.selection.anxiety.title')}</h3>
-            <p>{t('mentalHealth.checkIn.selection.anxiety.description')}</p>
-            <div className="selection-info">
-              <Info size={16} />
-              <span>{t('mentalHealth.checkIn.selection.anxiety.info')}</span>
-            </div>
-            <div className="selection-arrow">
-              <ArrowRight size={24} />
-            </div>
-          </motion.div>
-        </div>
+            <motion.div
+              className="selection-card anxiety-card"
+              onClick={() => startAssessment('anxiety')}
+              whileHover={{ scale: 1.02, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              title="Start Anxiety Screening (GAD-7) - 7 questions"
+            >
+              <div className="selection-icon">
+                <AlertCircle size={40} />
+              </div>
+              <h3>{t('mentalHealth.checkIn.selection.anxiety.title')}</h3>
+              <p>{t('mentalHealth.checkIn.selection.anxiety.description')}</p>
+              <div className="selection-info">
+                <Info size={16} />
+                <span>{t('mentalHealth.checkIn.selection.anxiety.info')}</span>
+              </div>
+              <div className="selection-arrow">
+                <ArrowRight size={24} />
+              </div>
+            </motion.div>
+          </div>
 
-        <div className="privacy-reminder">
-          <Lock size={18} />
-          <p>{t('chat.assessment.confidentialNote')}</p>
-        </div>
+          <div className="privacy-reminder">
+            <Lock size={18} />
+            <p>{t('chat.assessment.confidentialNote')}</p>
+          </div>
         </div>
       </motion.div>
     );
@@ -505,66 +543,67 @@ const MentalHealthAssessment = ({ onClose }) => {
       >
         <div>
           <div className="assessment-header">
-          <h2>
-            {assessmentType === 'depression' ? (
-              <><Brain size={24} /> {t('mentalHealth.checkIn.assessment.depressionTitle')}</>
-            ) : (
-              <><AlertCircle size={24} /> {t('mentalHealth.checkIn.assessment.anxietyTitle')}</>
-            )}
-          </h2>
-          <button className="close-btn" onClick={onClose}><X size={24} /></button>
-        </div>
+            <h2>
+              {assessmentType === 'depression' ? (
+                <><Brain size={24} /> {t('mentalHealth.checkIn.assessment.depressionTitle')}</>
+              ) : (
+                <><AlertCircle size={24} /> {t('mentalHealth.checkIn.assessment.anxietyTitle')}</>
+              )}
+            </h2>
+            <button className="close-btn" onClick={onClose} title="Close Mental Health Check-in"><X size={24} /></button>
+          </div>
 
-        <div className="progress-bar">
-          <motion.div 
-            className="progress-fill" 
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
+          <div className="progress-bar">
+            <motion.div
+              className="progress-fill"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
 
-        <div className="question-counter">
-          {t('mentalHealth.checkIn.assessment.questionCounter', { current: currentQuestion + 1, total: currentQuestions.length })}
-        </div>
+          <div className="question-counter">
+            {t('mentalHealth.checkIn.assessment.questionCounter', { current: currentQuestion + 1, total: currentQuestions.length })}
+          </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentQuestion}
-            className="question-section"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="question-category">
-              {currentQuestions[currentQuestion].category}
-            </div>
-            <div className="question-text">
-              {currentQuestions[currentQuestion].question}
-            </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentQuestion}
+              className="question-section"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="question-category">
+                {currentQuestions[currentQuestion].category}
+              </div>
+              <div className="question-text">
+                {currentQuestions[currentQuestion].question}
+              </div>
 
-            <div className="answer-options">
-              {options.map((option) => (
-                <motion.button
-                  key={option.value}
-                  className="answer-btn"
-                  onClick={() => handleAnswer(option.value)}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <span className="answer-emoji">{option.emoji}</span>
-                  <span className="answer-label">{option.label}</span>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+              <div className="answer-options">
+                {options.map((option) => (
+                  <motion.button
+                    key={option.value}
+                    className="answer-btn"
+                    onClick={() => handleAnswer(option.value)}
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    title={`Select: ${option.label}`}
+                  >
+                    <span className="answer-emoji">{option.emoji}</span>
+                    <span className="answer-label">{option.label}</span>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
-        <div className="assessment-info">
-          <Lock size={14} />
-          <small>{t('mentalHealth.checkIn.assessment.confidentialNote')}</small>
-        </div>
+          <div className="assessment-info">
+            <Lock size={14} />
+            <small>{t('mentalHealth.checkIn.assessment.confidentialNote')}</small>
+          </div>
         </div>
       </motion.div>
     );
@@ -585,110 +624,110 @@ const MentalHealthAssessment = ({ onClose }) => {
       >
         <div>
           <div className="assessment-header">
-          <h2>{t('mentalHealth.checkIn.results.title')}</h2>
-          <button className="close-btn" onClick={onClose}><X size={24} /></button>
-        </div>
-
-        <motion.div 
-          className="assessment-results"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="result-type-badge" style={{ backgroundColor: `${interpretation.color}20`, color: interpretation.color }}>
-            {assessmentType === 'depression' ? t('mentalHealth.checkIn.results.depressionScreening') : t('mentalHealth.checkIn.results.anxietyScreening')}
+            <h2>{t('mentalHealth.checkIn.results.title')}</h2>
+            <button className="close-btn" onClick={onClose} title="Close Mental Health Check-in"><X size={24} /></button>
           </div>
 
-          {/* Circular Progress */}
-          <div className="score-circle">
-            <svg viewBox="0 0 200 200" className="score-svg">
-              <circle 
-                cx="100" 
-                cy="100" 
-                r="80" 
-                fill="none" 
-                stroke="var(--border-medium)" 
-                strokeWidth="16" 
-              />
-              <motion.circle 
-                cx="100" 
-                cy="100" 
-                r="80" 
-                fill="none" 
-                stroke={interpretation.color}
-                strokeWidth="16"
-                strokeDasharray={`${percentage * 5.02} 502`}
-                strokeLinecap="round"
-                transform="rotate(-90 100 100)"
-                initial={{ strokeDasharray: "0 502" }}
-                animate={{ strokeDasharray: `${percentage * 5.02} 502` }}
-                transition={{ duration: 1, ease: "easeOut" }}
-              />
-            </svg>
-            <div className="score-center">
-              <div className="score-number" style={{ color: interpretation.color }}>
-                {score}
-              </div>
-              <div className="score-max">{t('mentalHealth.checkIn.results.outOf', { max: maxScore })}</div>
+          <motion.div
+            className="assessment-results"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <div className="result-type-badge" style={{ backgroundColor: `${interpretation.color}20`, color: interpretation.color }}>
+              {assessmentType === 'depression' ? t('mentalHealth.checkIn.results.depressionScreening') : t('mentalHealth.checkIn.results.anxietyScreening')}
             </div>
-          </div>
 
-          <div className="score-level" style={{ color: interpretation.color }}>
-            {interpretation.level}
-          </div>
-
-          <div className="interpretation">
-            <p>{interpretation.message}</p>
-          </div>
-
-          {interpretation.severity === 'severe' && (
-            <motion.div 
-              className="crisis-banner"
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              <PhoneCall size={24} />
-              <div>
-                <strong>{t('mentalHealth.checkIn.results.needSupport')}</strong>
-                <p>{t('mentalHealth.checkIn.results.mentalHealthCrisisLine', { number: '0553456789' })}</p>
+            {/* Circular Progress */}
+            <div className="score-circle">
+              <svg viewBox="0 0 200 200" className="score-svg">
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="none"
+                  stroke="var(--border-medium)"
+                  strokeWidth="16"
+                />
+                <motion.circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="none"
+                  stroke={interpretation.color}
+                  strokeWidth="16"
+                  strokeDasharray={`${percentage * 5.02} 502`}
+                  strokeLinecap="round"
+                  transform="rotate(-90 100 100)"
+                  initial={{ strokeDasharray: "0 502" }}
+                  animate={{ strokeDasharray: `${percentage * 5.02} 502` }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                />
+              </svg>
+              <div className="score-center">
+                <div className="score-number" style={{ color: interpretation.color }}>
+                  {score}
+                </div>
+                <div className="score-max">{t('mentalHealth.checkIn.results.outOf', { max: maxScore })}</div>
               </div>
-            </motion.div>
-          )}
+            </div>
 
-          <div className="resources">
-            <h3>{t('mentalHealth.checkIn.results.recommendations')}</h3>
-            <ul>
-              {interpretation.recommendations.map((rec, idx) => (
-                <motion.li 
-                  key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  {rec}
-                </motion.li>
-              ))}
-            </ul>
-          </div>
+            <div className="score-level" style={{ color: interpretation.color }}>
+              {interpretation.level}
+            </div>
 
-          {renderProgressChart()}
+            <div className="interpretation">
+              <p>{interpretation.message}</p>
+            </div>
 
-          <div className="assessment-actions">
-            <button className="btn-secondary" onClick={restart}>
-              {t('mentalHealth.checkIn.results.takeAnother')}
-            </button>
-            <button className="btn-primary" onClick={onClose}>
-              <MessageCircle size={18} /> {t('mentalHealth.checkIn.results.returnToChat')}
-            </button>
-          </div>
+            {interpretation.severity === 'severe' && (
+              <motion.div
+                className="crisis-banner"
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                <PhoneCall size={24} />
+                <div>
+                  <strong>{t('mentalHealth.checkIn.results.needSupport')}</strong>
+                  <p>{t('mentalHealth.checkIn.results.mentalHealthCrisisLine', { number: '0553456789' })}</p>
+                </div>
+              </motion.div>
+            )}
 
-          <div className="disclaimer">
-            <AlertCircle size={16} />
-            <small>
-              {t('mentalHealth.checkIn.results.disclaimer')}
-            </small>
-          </div>
-        </motion.div>
+            <div className="resources">
+              <h3>{t('mentalHealth.checkIn.results.recommendations')}</h3>
+              <ul>
+                {interpretation.recommendations.map((rec, idx) => (
+                  <motion.li
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    {rec}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            {renderProgressChart()}
+
+            <div className="assessment-actions">
+              <button className="btn-secondary" onClick={restart} title="Take another mental health assessment">
+                {t('mentalHealth.checkIn.results.takeAnother')}
+              </button>
+              <button className="btn-primary" onClick={onClose} title="Return to chat interface">
+                <MessageCircle size={18} /> {t('mentalHealth.checkIn.results.returnToChat')}
+              </button>
+            </div>
+
+            <div className="disclaimer">
+              <AlertCircle size={16} />
+              <small>
+                {t('mentalHealth.checkIn.results.disclaimer')}
+              </small>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     );
@@ -704,69 +743,69 @@ const MentalHealthAssessment = ({ onClose }) => {
       >
         <div>
           <div className="assessment-header">
-          <button className="back-btn" onClick={() => setView('welcome')}>
-            <MdArrowBack size={20} />
-          </button>
-          <h2><Calendar size={24} /> {t('mentalHealth.checkIn.history.title')}</h2>
-          <button className="close-btn" onClick={onClose}><X size={24} /></button>
-        </div>
-
-        <div className="history-list">
-          {history.map((entry, index) => {
-            const interpretation = entry.type === 'depression' 
-              ? getDepressionInterpretation(entry.score)
-              : getAnxietyInterpretation(entry.score);
-            
-            return (
-              <motion.div 
-                key={index}
-                className="history-item"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="history-header">
-                  <div className="history-type" style={{ color: interpretation.color }}>
-                    {entry.type === 'depression' ? (
-                      <><Brain size={18} /> {t('mentalHealth.checkIn.history.depression')}</>
-                    ) : (
-                      <><AlertCircle size={18} /> {t('mentalHealth.checkIn.history.anxiety')}</>
-                    )}
-                  </div>
-                  <div className="history-date">
-                    {new Date(entry.date).toLocaleDateString('en-US', { 
-                      month: 'long', 
-                      day: 'numeric', 
-                      year: 'numeric' 
-                    })}
-                  </div>
-                </div>
-                <div className="history-score">
-                  <div className="history-bar">
-                    <div 
-                      className="history-bar-fill" 
-                      style={{ 
-                        width: `${(entry.score / (entry.type === 'depression' ? 27 : 21)) * 100}%`,
-                        backgroundColor: interpretation.color
-                      }}
-                    />
-                  </div>
-                  <span style={{ color: interpretation.color }}>
-                    {entry.score}/{entry.type === 'depression' ? 27 : 21} - {interpretation.level}
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {history.length === 0 && (
-          <div className="empty-history">
-            <BarChart3 size={64} className="empty-icon" />
-            <h3>{t('mentalHealth.checkIn.history.noHistory')}</h3>
-            <p>{t('mentalHealth.checkIn.history.noHistoryText')}</p>
+            <button className="back-btn" onClick={() => setView('welcome')} title="Go back to welcome screen">
+              <MdArrowBack size={20} />
+            </button>
+            <h2><Calendar size={24} /> {t('mentalHealth.checkIn.history.title')}</h2>
+            <button className="close-btn" onClick={onClose} title="Close Mental Health Check-in"><X size={24} /></button>
           </div>
-        )}
+
+          <div className="history-list">
+            {history.map((entry, index) => {
+              const interpretation = entry.type === 'depression'
+                ? getDepressionInterpretation(entry.score)
+                : getAnxietyInterpretation(entry.score);
+
+              return (
+                <motion.div
+                  key={index}
+                  className="history-item"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="history-header">
+                    <div className="history-type" style={{ color: interpretation.color }}>
+                      {entry.type === 'depression' ? (
+                        <><Brain size={18} /> {t('mentalHealth.checkIn.history.depression')}</>
+                      ) : (
+                        <><AlertCircle size={18} /> {t('mentalHealth.checkIn.history.anxiety')}</>
+                      )}
+                    </div>
+                    <div className="history-date">
+                      {new Date(entry.date).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </div>
+                  </div>
+                  <div className="history-score">
+                    <div className="history-bar">
+                      <div
+                        className="history-bar-fill"
+                        style={{
+                          width: `${(entry.score / (entry.type === 'depression' ? 27 : 21)) * 100}%`,
+                          backgroundColor: interpretation.color
+                        }}
+                      />
+                    </div>
+                    <span style={{ color: interpretation.color }}>
+                      {entry.score}/{entry.type === 'depression' ? 27 : 21} - {interpretation.level}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {history.length === 0 && (
+            <div className="empty-history">
+              <BarChart3 size={64} className="empty-icon" />
+              <h3>{t('mentalHealth.checkIn.history.noHistory')}</h3>
+              <p>{t('mentalHealth.checkIn.history.noHistoryText')}</p>
+            </div>
+          )}
         </div>
       </motion.div>
     );
